@@ -14,6 +14,7 @@ import Footer from '../Footer/Footer';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 import AboutPage from '../AboutPage/AboutPage';
+import CreateProfilePage from '../CreateProfilePage/CreateProfilePage';
 import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
@@ -64,6 +65,14 @@ function App() {
             path="/info"
           >
             <InfoPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows CreateProfilePage else shows LoginPage
+            exact
+            path="/createProfile"
+          >
+            <CreateProfilePage />
           </ProtectedRoute>
 
           {/* When a value is supplied for the authRedirect prop the user will
