@@ -20,6 +20,12 @@ const handleChange = (event) => {
 } 
 
 const coinsSort = coinsFromGecko.filter(coins => 
+
+  /**
+   * Coins come back from the api lowercase, 
+   * this ensures that we can find a match
+   * if it exist, no match === nothing shown!
+   */
   coins.name.toLowerCase().includes(resultsSearch.toLowerCase())
   )
 
