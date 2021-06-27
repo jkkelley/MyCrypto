@@ -60,13 +60,6 @@ function CreateProfilePage() {
     });
   };
 
-  const handleProfileImageChange = (event) => {
-    event.preventDefault();
-    dispatch({
-      type: "SET_PROFILE_IMAGE_CREATE_PROFILE",
-      payload: event.target.value,
-    });
-  };
 
   const handleFirstNameChange = (event) => {
     event.preventDefault();
@@ -99,13 +92,8 @@ function CreateProfilePage() {
       payload: event.target.value,
     });
   };
-  const handlePhoneNumberChange = (event) => {
-    event.preventDefault();
-    dispatch({
-      type: "SET_PHONE_NUMBER_CREATE_PROFILE",
-      payload: event.target.value,
-    });
-  };
+
+
 
   return (
     <>
@@ -113,11 +101,6 @@ function CreateProfilePage() {
         <div className="create-form">
           <p>Create Profile Page</p>
           <form className="create-profile-page-form-container">
-            <TextField
-              placeholder="Add an Image"
-              onChange={handleProfileImageChange}
-              value={formSubmission.image}
-            />
             <TextField
               required
               placeholder="First Name"
@@ -140,11 +123,6 @@ function CreateProfilePage() {
               placeholder="email"
               onChange={handleEmailChange}
               value={formSubmission.email}
-            />
-            <TextField
-              placeholder="Phone #"
-              onChange={handlePhoneNumberChange}
-              value={formSubmission.phone_number}
             />
 
             <Button variant="outlined" onClick={handleCreateProfile}>
