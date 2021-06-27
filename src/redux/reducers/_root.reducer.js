@@ -1,4 +1,6 @@
 import { combineReducers } from 'redux';
+
+import { formSubmission } from './form.submission.reducer';
 import errors from './errors.reducer';
 import user from './user.reducer';
 
@@ -9,6 +11,7 @@ import user from './user.reducer';
 // Lets make a bigger object for our store, with the objects from our reducers.
 // This is what we get when we use 'state' inside of 'mapStateToProps'
 const rootReducer = combineReducers({
+  formSubmission, // contains form for creating a user_profile
   errors, // contains registrationMessage and loginMessage
   user, // will have an id and username if someone is logged in
 });
