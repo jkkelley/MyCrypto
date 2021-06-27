@@ -51,12 +51,13 @@ function CreateProfilePage() {
       allowOutsideClick: true,
       allowEnterKey: true,
       backdrop: true,
-    }).then(result => {
-        console.log(result)
-        if(result.isConfirmed) {
-            console.log(formSubmission)
-        }
-    })
+    }).then((result) => {
+      console.log(result);
+      if (result.isConfirmed) {
+        console.log(formSubmission);
+        dispatch({ type: "POST_CREATE_PROFILE", payload: formSubmission });
+      }
+    });
   };
 
   const handleProfileImageChange = (event) => {
@@ -79,7 +80,7 @@ function CreateProfilePage() {
     event.preventDefault();
     dispatch({
       type: "SET_LAST_NAME_CREATE_PROFILE",
-      payload:  event.target.value
+      payload: event.target.value,
     });
   };
 
@@ -87,7 +88,7 @@ function CreateProfilePage() {
     event.preventDefault();
     dispatch({
       type: "SET_NICKNAME_CREATE_PROFILE",
-      payload: event.target.value 
+      payload: event.target.value,
     });
   };
 
@@ -95,14 +96,14 @@ function CreateProfilePage() {
     event.preventDefault();
     dispatch({
       type: "SET_EMAIL_CREATE_PROFILE",
-      payload: event.target.value 
+      payload: event.target.value,
     });
   };
   const handlePhoneNumberChange = (event) => {
     event.preventDefault();
     dispatch({
       type: "SET_PHONE_NUMBER_CREATE_PROFILE",
-      payload: event.target.value 
+      payload: event.target.value,
     });
   };
 
