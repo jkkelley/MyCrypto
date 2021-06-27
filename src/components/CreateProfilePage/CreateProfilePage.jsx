@@ -26,6 +26,8 @@ function CreateProfilePage() {
      // Custom CSS
     const classes = useStyles();
 
+    
+
     return (
         <>
             <div className="create-profile-container">
@@ -33,13 +35,32 @@ function CreateProfilePage() {
                 <div className="create-form">
                     <p>Create Profile Page</p>
                     <form className="create-profile-page-form-container">
-                        <TextField />
-                        <TextField />
-                        <TextField />
-                        <TextField />
-                        <TextField />
-                        <TextField />
+                        <TextField 
+                            placeholder="Add an Image"
+                        />
+                        <TextField 
+                            required
+                            placeholder="First Name"
+                        />
+                        <TextField 
+                            placeholder="Last Name"
+                        />
+                        <TextField 
+                            required
+                            placeholder="Nickname"
+                        />
+                        <TextField 
+                            required
+                            placeholder="email"
+                        />
+                        <TextField 
+                            placeholder="Phone #"
+                        />
 
+                        <Button variant="outlined" >
+                            Add
+                        </Button>
+                        
                     </form>
                 </div>
             </div>
