@@ -10,6 +10,7 @@ function* postCreateForm(action) {
 }
 
 function* createFormSaga() {
+  // Post Route to server.
   yield takeLatest("POST_CREATE_PROFILE", postCreateForm);
 }
 
