@@ -144,6 +144,22 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
         res.sendStatus(500);
       });
   }
+  if ("phone_number" in req.body) {
+    console.log("in phone_number update");
+    const queryText = `
+      UPDATE user_profile SET phone_number=$1
+      WHERE users_id=$2
+    `;
+    pool
+      .query(queryText, [phone_number, req.user.id])
+      .then((results) => {
+        res.send(results.rows);
+      })
+      .catch((error) => {
+        console.log(`We had an error with phone_number UPDATE`, error);
+        res.sendStatus(500);
+      });
+  }
 });
 
 module.exports = router;
