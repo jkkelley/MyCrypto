@@ -30,6 +30,7 @@ function* loginUser(action) {
     } else {
       // Got an error that wasn't a 401
       // Could be anything, but most common cause is the server is not started
+      // yield put({type: })
       yield put({ type: "LOGIN_FAILED_NO_CODE" });
     }
   }

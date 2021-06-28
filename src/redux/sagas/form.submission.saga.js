@@ -6,6 +6,7 @@ function* postCreateProfile(action) {
   // console.log(action.user.id);
   try {
     yield axios.post(`/api/createProfile`, action.payload);
+    yield put({type: "CLEAR_FORM_SUBMISSION"})
   } catch (error) {
     console.log(
       `We had an postCreateForm error, /api/createProfile ... `,
