@@ -3,31 +3,14 @@ import { useDispatch, useSelector } from "react-redux";
 import {  useParams } from "react-router-dom";
 
 // Material-ui Imports
-import { makeStyles } from "@material-ui/core/styles";
-
 import TextField from "@material-ui/core/TextField";
 
 import Swal from "sweetalert2";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  },
-}));
 
 export const UsersFirstName = () => {
   const params = useParams();
 
-  // Material-ui CSS
-  const classes = useStyles();
   // Hey store, we need a profile.
   const profileData = useSelector((store) => store.profileData);
   // Bring in dispatch

@@ -14,6 +14,7 @@ import Swal from "sweetalert2";
 // ProfilePageComponents
 import { UsersFirstName } from "./ProfilePageComponents/users.first.name";
 import { UsersLastName } from "./ProfilePageComponents/users.last.name";
+import { UsersNickName } from "./ProfilePageComponents/users.nickname";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,15 +81,9 @@ function ProfilePage() {
         <div className="create-form">
           <p>Profile Page</p>
           <form className="create-profile-page-form-container">
-            
             <UsersFirstName />
             <UsersLastName />
-            <TextField
-              required
-              placeholder="Nickname"
-              //   onChange={handleNicknameChange}
-              value={profileData[0]?.users_nickname}
-            />
+            <UsersNickName />
             <TextField
               required
               placeholder="email"
