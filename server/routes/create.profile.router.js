@@ -35,7 +35,7 @@ router.get("/", rejectUnauthenticated, (req, res) => {
 // POST routes
 router.post("/", rejectUnauthenticated, (req, res) => {
   const values = ({ first, last, nickname, email } = req.body);
-
+  const profileTrue = true;
   console.log(`line 10`, values);
   console.log(first, last, nickname, email);
   console.log(`You've arrived at /api/createProfile`, req.body);
@@ -47,14 +47,22 @@ router.post("/", rejectUnauthenticated, (req, res) => {
         users_last_name,
         users_nickname,
         email,
+        users_profile,
         users_id
         )
     VALUES 
-        ($1, $2, $3, $4, $5);
+        ($1, $2, $3, $4, $5, $6);
   `;
   if (req.isAuthenticated) {
     pool
-      .query(queryText, [first, last, nickname, email, req.user.id])
+      .query(queryText, [
+        first,
+        last,
+        nickname,
+        email,
+        profileTrue,
+        req.user.id,
+      ])
       .then((results) => {
         res.sendStatus(201);
       })
@@ -65,6 +73,32 @@ router.post("/", rejectUnauthenticated, (req, res) => {
   } else {
     // Forbidden
     res.sendStatus(403);
+  }
+});
+
+// PUT routes
+router.put("/:id", rejectUnauthenticated, (req, res) => {
+  // console.log(req.body);
+  const { first, last, nickname, email, image, phone_number } = req.body;
+  console.log(req.body);
+  console.log(req.user);
+  console.log(req.body["first"]);
+
+  if ("first" in req.body) {
+    console.log("hello");
+    const queryText = `
+      UPDATE user_profile SET users_first_name=$1
+      WHERE users_id=$2
+    `;
+    pool
+      .query(queryText, [first, req.user.id])
+      .then((results) => {
+        res.send(results.rows);
+      })
+      .catch((error) => {
+        console.log(`We had an error with first name UPDATE`, error);
+        res.sendStatus(500);
+      });
   }
 });
 
