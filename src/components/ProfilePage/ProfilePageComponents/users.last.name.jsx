@@ -22,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const UsersFirstName = () => {
+export const UsersLastName = () => {
   const params = useParams();
 
   // Material-ui CSS
@@ -32,19 +32,11 @@ export const UsersFirstName = () => {
   // Bring in dispatch
   const dispatch = useDispatch();
 
-  const handleFirstNameChange = (event) => {
-    event.preventDefault();
-    dispatch({
-      type: "SET_FIRST_NAME_CREATE_PROFILE",
-      payload: event.target.value,
-    });
-  };
-
-  const handleFirstName = async () => {
+  const handleLastName = async () => {
     const { value: lastName } = await Swal.fire({
       title: "Last Name",
       input: "text",
-      inputValue: profileData[0]?.users_first_name,
+      inputValue: profileData[0]?.users_last_name,
       showCancelButton: true,
       allowOutsideClick: true,
       allowEnterKey: true,
@@ -58,10 +50,10 @@ export const UsersFirstName = () => {
     // firstName shows message showing name change.
     if (lastName) {
       Swal.fire({
-        text: `First Name Changed to ${lastName}`,
+        text: `Last Name Changed to ${lastName}`,
       });
       // Dispatch Users First name and their id to Saga.
-      dispatch({ type: "UPDATE_PROFILE_PAGE", payload: { id: Number(params.id), first: lastName } });
+      dispatch({ type: "UPDATE_PROFILE_PAGE", payload: { id: Number(params.id), last: lastName } });
       // Show Updated name after User changes name.
       dispatch({type: "GET_CREATE_PROFILE"})
 
@@ -73,7 +65,7 @@ export const UsersFirstName = () => {
       <TextField
         required
         placeholder="First Name"
-        onClick={handleFirstName}
+        onClick={handleLastName}
         value={profileData[0]?.users_last_name}
       />
     </>
