@@ -1,10 +1,9 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // Material-ui Imports
 import { makeStyles } from "@material-ui/core/styles";
-
 import TextField from "@material-ui/core/TextField";
 
 import Swal from "sweetalert2";
@@ -42,8 +41,8 @@ export const UsersFirstName = () => {
   };
 
   const handleFirstName = async () => {
-    const { value: firstName } = await Swal.fire({
-      title: "First Name",
+    const { value: lastName } = await Swal.fire({
+      title: "Last Name",
       input: "text",
       inputValue: profileData[0]?.users_first_name,
       showCancelButton: true,
@@ -57,12 +56,12 @@ export const UsersFirstName = () => {
       },
     });
     // firstName shows message showing name change.
-    if (firstName) {
+    if (lastName) {
       Swal.fire({
-        text: `First Name Changed to ${firstName}`,
+        text: `First Name Changed to ${lastName}`,
       });
       // Dispatch Users First name and their id to Saga.
-      dispatch({ type: "UPDATE_PROFILE_PAGE", payload: { id: Number(params.id), first: firstName } });
+      dispatch({ type: "UPDATE_PROFILE_PAGE", payload: { id: Number(params.id), first: lastName } });
       // Show Updated name after User changes name.
       dispatch({type: "GET_CREATE_PROFILE"})
 
@@ -75,7 +74,7 @@ export const UsersFirstName = () => {
         required
         placeholder="First Name"
         onClick={handleFirstName}
-        value={profileData[0]?.users_first_name}
+        value={profileData[0]?.users_last_name}
       />
     </>
   );
