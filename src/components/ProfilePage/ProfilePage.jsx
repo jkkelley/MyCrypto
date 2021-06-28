@@ -2,9 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 
-import "./CreateProfilePage.css";
-import axios from "axios";
-
 // Material-ui Imports
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -27,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-function CreateProfilePage() {
+function ProfilePage() {
   // Bring in useHistory
   const history = useHistory();
   // Bring in dispatch
@@ -37,7 +34,7 @@ function CreateProfilePage() {
 
   const formSubmission = useSelector((store) => store.formSubmission);
   const params = useParams();
-console.log(params.id)
+  console.log(params.id);
   // Function to handle creation of profile
   // Sweet Alert to ask for confirmation
   const handleCreateProfile = () => {
@@ -61,7 +58,7 @@ console.log(params.id)
         console.log(formSubmission);
         dispatch({ type: "POST_CREATE_PROFILE", payload: formSubmission });
         dispatch({ type: "CLEAR_FORM_SUBMISSION" });
-        history.push(`/profile/${Number(params.id)}`)
+        history.push(`/profile/${Number(params.id)}`);
       }
     });
   };
@@ -138,4 +135,4 @@ console.log(params.id)
   );
 }
 
-export default CreateProfilePage;
+export default ProfilePage;

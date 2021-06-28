@@ -19,11 +19,14 @@ import UserPage from '../UserPage/UserPage';
 import InfoPage from '../InfoPage/InfoPage';
 import LandingPage from '../LandingPage/LandingPage';
 import LoginPage from '../LoginPage/LoginPage';
+import ProfilePage from '../ProfilePage/ProfilePage';
 import RegisterPage from '../RegisterPage/RegisterPage';
+import userSaga from '../../redux/sagas/user.saga';
 
 import './App.css';
 
 function App() {
+  console.log(userSaga)
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -70,11 +73,18 @@ function App() {
           <ProtectedRoute
             // logged in shows CreateProfilePage else shows LoginPage
             exact
-            path="/createProfile"
+            path="/createProfile/:id"
+            // /${user.id} </Switch>
           >
             <CreateProfilePage />
           </ProtectedRoute>
-
+            <ProtectedRoute
+            
+            exact
+            path="/profile/:id"
+            >
+              <ProfilePage />
+            </ProtectedRoute>
           {/* When a value is supplied for the authRedirect prop the user will
             be redirected to the path supplied when logged in, otherwise they will
             be taken to the component and path supplied. */}

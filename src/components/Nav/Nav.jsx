@@ -33,15 +33,16 @@ function Nav() {
               Info Page
             </Link>
             <LogOutButton className="navLink" />
+            <Link className="navLink" to={`/createProfile/${user.id}`}>
+              Create Profile
+            </Link>
           </>
         )}
 
         <Link className="navLink" to="/about">
           About
         </Link>
-        <Link className="navLink" to="/createProfile">
-          Create Profile
-        </Link>
+        
       </div>
     </div>
   );

@@ -13,6 +13,8 @@ export const formSubmission = (state = [], action) => {
       return { ...state, email: action.payload };
     case "SET_PHONE_NUMBER_CREATE_PROFILE":
       return { ...state, phone_number: action.payload };
+    case "CLEAR_FORM_SUBMISSION":
+      return {};
     default:
       return state;
   }

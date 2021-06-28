@@ -2,6 +2,7 @@ import { put, takeLatest, takeEvery } from "redux-saga/effects";
 import axios from "axios";
 
 function* postCreateForm(action) {
+  console.log(action.user.id);
   try {
     yield axios.post(`/api/createProfile`, action.payload);
   } catch (error) {
