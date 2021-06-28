@@ -60,7 +60,7 @@ console.log(params.id)
       if (result.isConfirmed) {
         console.log(formSubmission);
         dispatch({ type: "POST_CREATE_PROFILE", payload: formSubmission });
-        dispatch({ type: "CLEAR_FORM_SUBMISSION" });
+       
         history.push(`/profile/${Number(params.id)}`)
       }
     });
@@ -108,24 +108,24 @@ console.log(params.id)
               required
               placeholder="First Name"
               onChange={handleFirstNameChange}
-              value={formSubmission.first}
+              value={formSubmission?.first}
             />
             <TextField
               placeholder="Last Name"
               onChange={handleLastNameChange}
-              value={formSubmission.last}
+              value={formSubmission?.last}
             />
             <TextField
               required
               placeholder="Nickname"
               onChange={handleNicknameChange}
-              value={formSubmission.nickname}
+              value={formSubmission?.nickname}
             />
             <TextField
               required
               placeholder="email"
               onChange={handleEmailChange}
-              value={formSubmission.email}
+              value={formSubmission?.email}
             />
 
             <Button variant="outlined" onClick={handleCreateProfile}>

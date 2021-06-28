@@ -7,7 +7,7 @@ import TextField from "@material-ui/core/TextField";
 
 import Swal from "sweetalert2";
 
-export const UsersLastName = () => {
+export const UsersPhoneNumber = () => {
   const params = useParams();
 
   // Hey store, we need a profile.
@@ -15,11 +15,11 @@ export const UsersLastName = () => {
   // Bring in dispatch
   const dispatch = useDispatch();
 
-  const handleLastName = async () => {
-    const { value: lastName } = await Swal.fire({
-      title: "Last Name",
+  const handlePhoneNumber = async () => {
+    const { value: phone_number } = await Swal.fire({
+      title: "Phone Number",
       input: "text",
-      inputValue: profileData[0]?.users_last_name,
+      inputValue: profileData[0]?.phone_number,
       showCancelButton: true,
       allowOutsideClick: true,
       allowEnterKey: true,
@@ -30,16 +30,15 @@ export const UsersLastName = () => {
         }
       },
     });
-    // lastName shows message showing name change.
-    if (lastName) {
+    // phone_number shows message showing name change.
+    if (phone_number) {
       Swal.fire({
-        text: `Last Name Changed to ${lastName}`,
+        text: `Phone number Changed to ${phone_number}`,
       });
-      // Dispatch Users last name and their id to Saga.
-      dispatch({ type: "UPDATE_PROFILE_PAGE", payload: { id: Number(params.id), last: lastName } });
-      // Show Updated name after User changes name.
+      // Dispatch Users phone number and their id to Saga.
+      dispatch({ type: "UPDATE_PROFILE_PAGE", payload: { id: Number(params.id), phone_number: phone_number } });
+      // Show Updated phone number after User changes name.
       dispatch({type: "GET_CREATE_PROFILE"})
-
     }
   };
   useEffect(() => {
@@ -49,9 +48,9 @@ export const UsersLastName = () => {
     <>
       <TextField
         required
-        placeholder="Last Name"
-        onClick={handleLastName}
-        value={profileData[0]?.users_last_name}
+        placeholder="Phone Number"
+        onClick={handlePhoneNumber}
+        value={profileData[0]?.phone_number}
       />
     </>
   );

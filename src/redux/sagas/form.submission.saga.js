@@ -3,7 +3,7 @@ import axios from "axios";
 
 // POST request to server
 function* postCreateProfile(action) {
-  console.log(action.user.id);
+  // console.log(action.user.id);
   try {
     yield axios.post(`/api/createProfile`, action.payload);
   } catch (error) {
