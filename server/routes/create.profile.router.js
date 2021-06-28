@@ -5,6 +5,34 @@ const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
 
+// GET routes
+router.get("/", rejectUnauthenticated, (req, res) => {
+  console.log(`You got to /api/createProfile GET`, req.user.id);
+  // Wash you're hands please
+  const queryText = `
+        SELECT * FROM user_profile
+        WHERE users_id=$1
+    `;
+  // Do you belong in this realm???
+  if (req.isAuthenticated) {
+    // Ok, You can jump in.
+    pool
+      .query(queryText, [req.user.id])
+      .then((results) => {
+        res.send(results.rows);
+      })
+      .catch((error) => {
+        console.log(`Hey Profile Driver, We have a GET error... ${error}`);
+        // Send back a lost in space code
+        res.sendStatus(500);
+      });
+  } else {
+    // Must be FORBIDDEN to get this code
+    res.sendStatus(403);
+  }
+});
+
+// POST routes
 router.post("/", rejectUnauthenticated, (req, res) => {
   const values = ({ first, last, nickname, email } = req.body);
 

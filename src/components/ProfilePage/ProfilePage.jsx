@@ -99,34 +99,36 @@ function ProfilePage() {
     <>
       <div className="create-profile-container">
         <div className="create-form">
-          <p>Create Profile Page</p>
+          <p>Profile Page</p>
           <form className="create-profile-page-form-container">
+            <TextField placeholder="Image" />
             <TextField
               required
               placeholder="First Name"
-              onChange={handleFirstNameChange}
-              value={formSubmission.first}
+            //   onChange={handleFirstNameChange}
+              value={}
             />
             <TextField
               placeholder="Last Name"
-              onChange={handleLastNameChange}
-              value={formSubmission.last}
+            //   onChange={handleLastNameChange}
+              value={}
             />
             <TextField
               required
               placeholder="Nickname"
-              onChange={handleNicknameChange}
-              value={formSubmission.nickname}
+            //   onChange={handleNicknameChange}
+              value={}
             />
             <TextField
               required
               placeholder="email"
-              onChange={handleEmailChange}
-              value={formSubmission.email}
+            //   onChange={handleEmailChange}
+              value={}
             />
+            <TextField placeholder="Phone #" />
 
             <Button variant="outlined" onClick={handleCreateProfile}>
-              Add
+              Delete Profile
             </Button>
           </form>
         </div>
