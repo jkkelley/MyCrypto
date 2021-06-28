@@ -14,11 +14,11 @@ function* postCreateProfile(action) {
   }
 }
 
-// GET Request to server
+// Profile GET Request to server
 function* getCreateProfile(action) {
   try {
     const response = yield axios.get("/api/createProfile");
-    console.log(`Server Says... ${response}`);
+    console.log(`Server Says... ${response.data}`);
     // Set profile to reducer
     yield put({ type: "SET_PROFILE_INFO", payload: response.data });
   } catch (error) {
