@@ -17,6 +17,7 @@ function* updateProfilePage(action) {
 function* deleteProfileSaga(action) {
   try{
     yield axios.delete(`/api/createProfile/${action.payload.id}`, action.payload)
+    
   } catch(error) {
     console.log(`We had a problem with your DELETE request ${error}`)
   }

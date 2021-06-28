@@ -20,6 +20,8 @@ function ProfilePage() {
   const params = useParams();
   // Bring in dispatch
   const dispatch = useDispatch();
+  // Bring in history
+  const history = useHistory();
 
   // Function to handle Delete Profile
   const handleDeleteProfile = () => {
@@ -40,6 +42,8 @@ function ProfilePage() {
         if (result.isConfirmed) {
           Swal.fire("Deleted!", "Your Profile has been deleted.", "success");
           dispatch({ type: "DELETE_USERS_PROFILE", payload: params.id });
+          dispatch({type: "CLEAR_PROFILE_INFO"})
+          history.push(`/createProfile/${params.id}`);
         }
       })
       .catch((error) => {

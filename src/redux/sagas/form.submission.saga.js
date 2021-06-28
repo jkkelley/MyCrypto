@@ -19,7 +19,7 @@ function* postCreateProfile(action) {
 function* getCreateProfile(action) {
   try {
     const response = yield axios.get("/api/createProfile");
-    console.log(`Server Says... ${response.data}`);
+    console.log(`Server Says...`, response);
     // Set profile to reducer
     yield put({ type: "SET_PROFILE_INFO", payload: response.data });
   } catch (error) {
