@@ -8,7 +8,12 @@ import Button from "@material-ui/core/Button";
 import Paper from "@material-ui/core/Paper";
 import TextField from "@material-ui/core/TextField";
 
+// SweetAlert2
 import Swal from "sweetalert2";
+
+// ProfilePageComponents
+import { UsersFirstName } from "./ProfilePageComponents/user.first.name";
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -63,13 +68,7 @@ function ProfilePage() {
     });
   };
 
-  const handleFirstNameChange = (event) => {
-    event.preventDefault();
-    dispatch({
-      type: "SET_FIRST_NAME_CREATE_PROFILE",
-      payload: event.target.value,
-    });
-  };
+  
 
   const handleLastNameChange = (event) => {
     event.preventDefault();
@@ -95,37 +94,51 @@ function ProfilePage() {
     });
   };
 
+  const profileData = useSelector((store) => store.profileData);
+  console.log(profileData);
+
+  useEffect(() => {
+    dispatch({ type: "GET_CREATE_PROFILE" });
+  }, []);
+
   return (
     <>
       <div className="create-profile-container">
         <div className="create-form">
           <p>Profile Page</p>
           <form className="create-profile-page-form-container">
+            {/* Need conditional Rendering,
             <TextField placeholder="Image" />
-            <TextField
+
+              Show image, if clicked, sweetalert popup */}
+              <UsersFirstName />
+            {/* <TextField
               required
               placeholder="First Name"
-            //   onChange={handleFirstNameChange}
-              value={}
-            />
+              //   onChange={handleFirstNameChange}
+              value={profileData[0]?.users_first_name}
+            /> */}
             <TextField
               placeholder="Last Name"
-            //   onChange={handleLastNameChange}
-              value={}
+              //   onChange={handleLastNameChange}
+              value={profileData[0]?.users_last_name}
             />
             <TextField
               required
               placeholder="Nickname"
-            //   onChange={handleNicknameChange}
-              value={}
+              //   onChange={handleNicknameChange}
+              value={profileData[0]?.users_nickname}
             />
             <TextField
               required
               placeholder="email"
-            //   onChange={handleEmailChange}
-              value={}
+              //   onChange={handleEmailChange}
+              value={profileData[0]?.email}
             />
-            <TextField placeholder="Phone #" />
+            <TextField
+              placeholder="Phone #"
+              value={profileData[0]?.phone_number}
+            />
 
             <Button variant="outlined" onClick={handleCreateProfile}>
               Delete Profile
