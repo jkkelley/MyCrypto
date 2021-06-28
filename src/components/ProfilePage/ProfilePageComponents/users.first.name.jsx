@@ -33,14 +33,6 @@ export const UsersFirstName = () => {
   // Bring in dispatch
   const dispatch = useDispatch();
 
-  const handleFirstNameChange = (event) => {
-    event.preventDefault();
-    dispatch({
-      type: "SET_FIRST_NAME_CREATE_PROFILE",
-      payload: event.target.value,
-    });
-  };
-
   const handleFirstName = async () => {
     const { value: firstName } = await Swal.fire({
       title: "First Name",

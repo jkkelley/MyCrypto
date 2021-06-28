@@ -12,8 +12,8 @@ import TextField from "@material-ui/core/TextField";
 import Swal from "sweetalert2";
 
 // ProfilePageComponents
-import { UsersFirstName } from "./ProfilePageComponents/user.first.name";
-
+import { UsersFirstName } from "./ProfilePageComponents/users.first.name";
+import { UsersLastName } from "./ProfilePageComponents/users.last.name";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -36,8 +36,10 @@ function ProfilePage() {
   const dispatch = useDispatch();
   // Custom CSS
   const classes = useStyles();
-
+  // Store area
+  const profileData = useSelector((store) => store.profileData);
   const formSubmission = useSelector((store) => store.formSubmission);
+  // Bring in params
   const params = useParams();
   console.log(params.id);
   // Function to handle creation of profile
@@ -68,35 +70,6 @@ function ProfilePage() {
     });
   };
 
-  
-
-  const handleLastNameChange = (event) => {
-    event.preventDefault();
-    dispatch({
-      type: "SET_LAST_NAME_CREATE_PROFILE",
-      payload: event.target.value,
-    });
-  };
-
-  const handleNicknameChange = (event) => {
-    event.preventDefault();
-    dispatch({
-      type: "SET_NICKNAME_CREATE_PROFILE",
-      payload: event.target.value,
-    });
-  };
-
-  const handleEmailChange = (event) => {
-    event.preventDefault();
-    dispatch({
-      type: "SET_EMAIL_CREATE_PROFILE",
-      payload: event.target.value,
-    });
-  };
-
-  const profileData = useSelector((store) => store.profileData);
-  console.log(profileData);
-
   useEffect(() => {
     dispatch({ type: "GET_CREATE_PROFILE" });
   }, []);
@@ -107,22 +80,9 @@ function ProfilePage() {
         <div className="create-form">
           <p>Profile Page</p>
           <form className="create-profile-page-form-container">
-            {/* Need conditional Rendering,
-            <TextField placeholder="Image" />
-
-              Show image, if clicked, sweetalert popup */}
-              <UsersFirstName />
-            {/* <TextField
-              required
-              placeholder="First Name"
-              //   onChange={handleFirstNameChange}
-              value={profileData[0]?.users_first_name}
-            /> */}
-            <TextField
-              placeholder="Last Name"
-              //   onChange={handleLastNameChange}
-              value={profileData[0]?.users_last_name}
-            />
+            
+            <UsersFirstName />
+            <UsersLastName />
             <TextField
               required
               placeholder="Nickname"

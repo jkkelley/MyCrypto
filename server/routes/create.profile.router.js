@@ -100,6 +100,22 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
         res.sendStatus(500);
       });
   }
+  if ("last" in req.body) {
+    console.log("hello");
+    const queryText = `
+      UPDATE user_profile SET users_last_name=$1
+      WHERE users_id=$2
+    `;
+    pool
+      .query(queryText, [last, req.user.id])
+      .then((results) => {
+        res.send(results.rows);
+      })
+      .catch((error) => {
+        console.log(`We had an error with first name UPDATE`, error);
+        res.sendStatus(500);
+      });
+  }
 });
 
 module.exports = router;
