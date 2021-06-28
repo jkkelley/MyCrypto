@@ -12,6 +12,7 @@ import TextField from "@material-ui/core/TextField";
 import Swal from "sweetalert2";
 
 // ProfilePageComponents
+import { UsersEmail } from "./ProfilePageComponents/users.email";
 import { UsersFirstName } from "./ProfilePageComponents/users.first.name";
 import { UsersLastName } from "./ProfilePageComponents/users.last.name";
 import { UsersNickName } from "./ProfilePageComponents/users.nickname";
@@ -84,12 +85,7 @@ function ProfilePage() {
             <UsersFirstName />
             <UsersLastName />
             <UsersNickName />
-            <TextField
-              required
-              placeholder="email"
-              //   onChange={handleEmailChange}
-              value={profileData[0]?.email}
-            />
+            <UsersEmail />
             <TextField
               placeholder="Phone #"
               value={profileData[0]?.phone_number}

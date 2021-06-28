@@ -78,11 +78,10 @@ router.post("/", rejectUnauthenticated, (req, res) => {
 
 // PUT routes
 router.put("/:id", rejectUnauthenticated, (req, res) => {
-
   const { first, last, nickname, email, image, phone_number } = req.body;
 
   if ("first" in req.body) {
-    console.log('in first name update')
+    console.log("in first name update");
     const queryText = `
       UPDATE user_profile SET users_first_name=$1
       WHERE users_id=$2
@@ -98,7 +97,7 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
       });
   }
   if ("last" in req.body) {
-    console.log('in last name update')
+    console.log("in last name update");
     const queryText = `
       UPDATE user_profile SET users_last_name=$1
       WHERE users_id=$2
@@ -112,8 +111,9 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
         console.log(`We had an error with last name UPDATE`, error);
         res.sendStatus(500);
       });
-  } if ("nickname" in req.body) {
-    console.log('in nickname update')
+  }
+  if ("nickname" in req.body) {
+    console.log("in nickname update");
     const queryText = `
       UPDATE user_profile SET users_nickname=$1
       WHERE users_id=$2
@@ -125,6 +125,22 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
       })
       .catch((error) => {
         console.log(`We had an error with nickname UPDATE`, error);
+        res.sendStatus(500);
+      });
+  }
+  if ("email" in req.body) {
+    console.log("in email update");
+    const queryText = `
+      UPDATE user_profile SET email=$1
+      WHERE users_id=$2
+    `;
+    pool
+      .query(queryText, [email, req.user.id])
+      .then((results) => {
+        res.send(results.rows);
+      })
+      .catch((error) => {
+        console.log(`We had an error with email UPDATE`, error);
         res.sendStatus(500);
       });
   }
