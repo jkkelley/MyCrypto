@@ -3,30 +3,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 
 // Material-ui Imports
-import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
 import Swal from "sweetalert2";
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  },
-}));
-
 export const UsersLastName = () => {
   const params = useParams();
 
-  // Material-ui CSS
-  const classes = useStyles();
   // Hey store, we need a profile.
   const profileData = useSelector((store) => store.profileData);
   // Bring in dispatch
@@ -47,12 +30,12 @@ export const UsersLastName = () => {
         }
       },
     });
-    // firstName shows message showing name change.
+    // lastName shows message showing name change.
     if (lastName) {
       Swal.fire({
         text: `Last Name Changed to ${lastName}`,
       });
-      // Dispatch Users First name and their id to Saga.
+      // Dispatch Users last name and their id to Saga.
       dispatch({ type: "UPDATE_PROFILE_PAGE", payload: { id: Number(params.id), last: lastName } });
       // Show Updated name after User changes name.
       dispatch({type: "GET_CREATE_PROFILE"})

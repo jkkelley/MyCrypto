@@ -6,7 +6,8 @@ function* updateProfilePage(action) {
   console.log(action);
 
   try {
-      yield axios.put(`/api/createProfile/${action.payload.id}`, action.payload)
+    yield axios.put(`/api/createProfile/${action.payload.id}`, action.payload);
+    dispatch({ type: "GET_CREATE_PROFILE" });
   } catch (error) {
     console.log(`We had a problem updating you're profile ${error}`);
   }
