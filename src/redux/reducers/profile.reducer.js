@@ -3,6 +3,8 @@ export const profileData = (state = [], action) => {
   switch (action.type) {
     case "SET_PROFILE_INFO":
       return action.payload;
+    case "CLEAR_PROFILE_INFO":
+      return [];
     default:
       return state;
   }

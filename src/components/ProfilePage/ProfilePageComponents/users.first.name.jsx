@@ -1,6 +1,7 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  useParams } from "react-router-dom";
+
+import { useHistory, useParams } from "react-router-dom";
 
 // Material-ui Imports
 import TextField from "@material-ui/core/TextField";
@@ -43,7 +44,9 @@ export const UsersFirstName = () => {
 
     }
   };
-
+  useEffect(() => {
+    dispatch({ type: "GET_CREATE_PROFILE" });
+  }, []);
   return (
     <>
       <TextField

@@ -13,9 +13,20 @@ function* updateProfilePage(action) {
   }
 }
 
+// Profile Delete Request to server
+function* deleteProfileSaga(action) {
+  try{
+    yield axios.delete(`/api/createProfile/${action.payload.id}`, action.payload)
+  } catch(error) {
+    console.log(`We had a problem with your DELETE request ${error}`)
+  }
+}
+
 function* profilePageSaga() {
-  // Sage to watch UPDATE Route to server
+  // Saga to watch UPDATE Route to server
   yield takeLatest("UPDATE_PROFILE_PAGE", updateProfilePage);
+  // Saga to watch DELETE Route to server
+  yield takeLatest("DELETE_USERS_PROFILE", deleteProfileSaga)
 }
 
 // Export listeners to the root

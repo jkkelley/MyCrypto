@@ -3,10 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 
 // Material-ui Imports
-import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
-import Paper from "@material-ui/core/Paper";
-import TextField from "@material-ui/core/TextField";
 
 // SweetAlert2
 import Swal from "sweetalert2";
@@ -16,60 +13,38 @@ import { UsersEmail } from "./ProfilePageComponents/users.email";
 import { UsersFirstName } from "./ProfilePageComponents/users.first.name";
 import { UsersLastName } from "./ProfilePageComponents/users.last.name";
 import { UsersNickName } from "./ProfilePageComponents/users.nickname";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    flexGrow: 1,
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
-  paper: {
-    padding: theme.spacing(2),
-    textAlign: "center",
-    color: theme.palette.text.secondary,
-  },
-}));
+import { UsersPhoneNumber } from "./ProfilePageComponents/users.phone.number";
 
 function ProfilePage() {
-  // Bring in useHistory
-  const history = useHistory();
-  // Bring in dispatch
-  const dispatch = useDispatch();
-  // Custom CSS
-  const classes = useStyles();
-  // Store area
-  const profileData = useSelector((store) => store.profileData);
-  const formSubmission = useSelector((store) => store.formSubmission);
   // Bring in params
   const params = useParams();
-  console.log(params.id);
-  // Function to handle creation of profile
-  // Sweet Alert to ask for confirmation
-  const handleCreateProfile = () => {
-    console.log(`You've clicked handleCreateProfile`);
+  // Bring in dispatch
+  const dispatch = useDispatch();
 
-    // Ask them nicely if they want to create Profile.
+  // Function to handle Delete Profile
+  const handleDeleteProfile = () => {
+    console.log(`You've clicked handleDeleteProfile`);
     Swal.fire({
-      title: "Create Profile",
-      text: `${formSubmission.first}`,
-      icon: "question",
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes",
       allowOutsideClick: true,
       allowEnterKey: true,
       backdrop: true,
-    }).then((result) => {
-      console.log(result);
-      if (result.isConfirmed) {
-        console.log(formSubmission);
-        dispatch({ type: "POST_CREATE_PROFILE", payload: formSubmission });
-        dispatch({ type: "CLEAR_FORM_SUBMISSION" });
-        history.push(`/profile/${Number(params.id)}`);
-      }
-    });
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    })
+      .then((result) => {
+        if (result.isConfirmed) {
+          Swal.fire("Deleted!", "Your Profile has been deleted.", "success");
+          dispatch({ type: "DELETE_USERS_PROFILE", payload: params.id });
+        }
+      })
+      .catch((error) => {
+        console.log(`Sorry we had a problem handling you're request.`, error);
+      });
   };
 
   useEffect(() => {
@@ -86,12 +61,8 @@ function ProfilePage() {
             <UsersLastName />
             <UsersNickName />
             <UsersEmail />
-            <TextField
-              placeholder="Phone #"
-              value={profileData[0]?.phone_number}
-            />
-
-            <Button variant="outlined" onClick={handleCreateProfile}>
+            <UsersPhoneNumber />
+            <Button variant="outlined" onClick={handleDeleteProfile}>
               Delete Profile
             </Button>
           </form>
