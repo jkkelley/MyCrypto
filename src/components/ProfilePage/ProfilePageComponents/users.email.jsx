@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 
@@ -14,6 +14,12 @@ export const UsersEmail = () => {
   const profileData = useSelector((store) => store.profileData);
   // Bring in dispatch
   const dispatch = useDispatch();
+  // Function to check for valid email address.
+  function validateEmail(email) {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(email);
+  }
 
   const handleEmail = async () => {
     const { value: email } = await Swal.fire({
@@ -25,8 +31,9 @@ export const UsersEmail = () => {
       allowEnterKey: true,
       backdrop: true,
       inputValidator: (value) => {
-        if (!value) {
-          return "You need to write something!";
+        if (!validateEmail(value)) {
+          console.log(value);
+          return "Need a Valid Email Address!";
         }
       },
     });
@@ -36,9 +43,12 @@ export const UsersEmail = () => {
         text: `Email Changed to ${email}`,
       });
       // Dispatch Users email and their id to Saga.
-      dispatch({ type: "UPDATE_PROFILE_PAGE", payload: { id: Number(params.id), email: email } });
+      dispatch({
+        type: "UPDATE_PROFILE_PAGE",
+        payload: { id: Number(params.id), email: email },
+      });
       // Show Updated name after User changes name.
-      dispatch({type: "GET_CREATE_PROFILE"})
+      dispatch({ type: "GET_CREATE_PROFILE" });
     }
   };
 

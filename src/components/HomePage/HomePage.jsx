@@ -14,22 +14,28 @@ function HomePage() {
   const profileData = useSelector((store) => store.profileData);
   return (
     <>
-      <div className="home-page-container">
-        <div className="home-page-welcome-container">
-          <h3>Welcome</h3>
-          <p className="home-page-nickname">{profileData[0]?.users_nickname}</p>
+      {!profileData.length ? (
+        <Redirect to="/createProfile" />
+      ) : (
+        <div className="home-page-container">
+          <div className="home-page-welcome-container">
+            <h3>Welcome</h3>
+            <p className="home-page-nickname">
+              {profileData[0]?.users_nickname}
+            </p>
+          </div>
+          <br></br>
+          <div>
+            <h3>Balance</h3>
+            <p className="home-page-nickname">
+              {Number(profileData[0]?.account_balance).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}
+            </p>
+          </div>
         </div>
-        <br></br>
-        <div>
-          <h3>Balance</h3>
-          <p className="home-page-nickname">
-            {Number(profileData[0]?.account_balance).toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
-          </p>
-        </div>
-      </div>
+      )}
     </>
   );
 }
