@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, Redirect } from "react-router-dom";
 
 // Material-ui Imports
 import Button from "@material-ui/core/Button";
@@ -16,6 +16,8 @@ import { UsersNickName } from "./ProfilePageComponents/users.nickname";
 import { UsersPhoneNumber } from "./ProfilePageComponents/users.phone.number";
 
 function ProfilePage() {
+  const profileData = useSelector((store) => store.profileData);
+
   // Bring in params
   const params = useParams();
   // Bring in dispatch
@@ -42,7 +44,7 @@ function ProfilePage() {
         if (result.isConfirmed) {
           Swal.fire("Deleted!", "Your Profile has been deleted.", "success");
           dispatch({ type: "DELETE_USERS_PROFILE", payload: params.id });
-          dispatch({type: "CLEAR_PROFILE_INFO"})
+          dispatch({ type: "CLEAR_PROFILE_INFO" });
           history.push(`/createProfile/${params.id}`);
         }
       })
@@ -72,6 +74,7 @@ function ProfilePage() {
           </form>
         </div>
       </div>
+      {/* {profileData.length ? 0 : <Redirect to="/createProfile" />} */}
     </>
   );
 }

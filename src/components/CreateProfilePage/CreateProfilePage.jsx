@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useParams, Redirect } from "react-router-dom";
 
 import "./CreateProfilePage.css";
 import axios from "axios";
@@ -36,8 +36,11 @@ function CreateProfilePage() {
   const classes = useStyles();
 
   const formSubmission = useSelector((store) => store.formSubmission);
+  const profileData = useSelector((store) => store.profileData);
+  console.log(profileData);
+  console.log(formSubmission);
   const params = useParams();
-console.log(params.id)
+  console.log(params.id);
   // Function to handle creation of profile
   // Sweet Alert to ask for confirmation
   const handleCreateProfile = () => {
@@ -60,8 +63,8 @@ console.log(params.id)
       if (result.isConfirmed) {
         console.log(formSubmission);
         dispatch({ type: "POST_CREATE_PROFILE", payload: formSubmission });
-       
-        history.push(`/profile/${Number(params.id)}`)
+
+        history.push(`/profile/${Number(params.id)}`);
       }
     });
   };
@@ -133,6 +136,8 @@ console.log(params.id)
             </Button>
           </form>
         </div>
+        {/* if profile data doesn't come back empty, shoot the user to /profile */}
+        {!profileData.length ? 0 : <Redirect to="/profile" />}
       </div>
     </>
   );

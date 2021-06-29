@@ -1,20 +1,26 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import LogOutButton from '../LogOutButton/LogOutButton';
-import './Nav.css';
-import {useSelector} from 'react-redux';
+import React from "react";
+import { Link } from "react-router-dom";
+import LogOutButton from "../LogOutButton/LogOutButton";
+import "./Nav.css";
+import { useSelector } from "react-redux";
 
 function Nav() {
   const user = useSelector((store) => store.user);
-
+  const formSubmission = useSelector(store => store.formSubmission)
+  console.log(formSubmission)
   let loginLinkData = {
-    path: '/login',
-    text: 'Login / Register',
+    path: "/login",
+    text: "Login / Register",
   };
 
   if (user.id != null) {
-    loginLinkData.path = '/user';
-    loginLinkData.text = 'Home';
+    loginLinkData.path = "/user";
+    loginLinkData.text = "Home";
+  }
+
+  if (formSubmission.length === 0) {
+    loginLinkData.path = "/createProfile";
+    loginLinkData.text = "Create Profile";
   }
 
   return (
@@ -23,26 +29,27 @@ function Nav() {
         <h2 className="nav-title">MyCrypto</h2>
       </Link>
       <div>
-        <Link className="navLink" to={loginLinkData.path}>
-          {loginLinkData.text}
-        </Link>
-
-        {user.id && (
+      {user.id && formSubmission.length === 0 && (
+        <LogOutButton className="navLink" />
+      )}
+        {user.id && formSubmission.length > 0 && (
           <>
-            <Link className="navLink" to="/info">
+            {/* <Link className="navLink" to="/info">
               Info Page
-            </Link>
+            </Link> */}
             <LogOutButton className="navLink" />
-            <Link className="navLink" to={`/createProfile/${user.id}`}>
-              Create Profile
+            <Link className="navLink" to={`/profile/${user.id}`}>
+              Profile
             </Link>
           </>
         )}
+        {/* <Link className="navLink" to={loginLinkData.path}>
+          {loginLinkData.text}
+        </Link> */}
 
-        <Link className="navLink" to="/about">
+        {/* <Link className="navLink" to="/about">
           About
-        </Link>
-        
+        </Link> */}
       </div>
     </div>
   );
