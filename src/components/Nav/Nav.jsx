@@ -30,10 +30,10 @@ function Nav() {
         <h2 className="nav-title">MyCrypto</h2>
       </Link>
       <div>
-      {user.id && formSubmission.length === 0 && (
+      {user.id && profileData?.length === 0 && (
         <LogOutButton className="navLink" />
       )}
-        {user.id && profileData.length > 0 && (
+        {user.id && profileData?.length > 0 && (
           <>
             {/* <Link className="navLink" to="/info">
               Info Page

@@ -103,42 +103,44 @@ function CreateProfilePage() {
 
   return (
     <>
-      <div className="create-profile-container">
-        <div className="create-form">
-          <p>Create Profile Page</p>
-          <form className="create-profile-page-form-container">
-            <TextField
-              required
-              placeholder="First Name"
-              onChange={handleFirstNameChange}
-              value={formSubmission?.first}
-            />
-            <TextField
-              placeholder="Last Name"
-              onChange={handleLastNameChange}
-              value={formSubmission?.last}
-            />
-            <TextField
-              required
-              placeholder="Nickname"
-              onChange={handleNicknameChange}
-              value={formSubmission?.nickname}
-            />
-            <TextField
-              required
-              placeholder="email"
-              onChange={handleEmailChange}
-              value={formSubmission?.email}
-            />
+      {!profileData.length ? (
+        <div className="create-profile-container">
+          <div className="create-form">
+            <p>Create Profile Page</p>
+            <form className="create-profile-page-form-container">
+              <TextField
+                required
+                placeholder="First Name"
+                onChange={handleFirstNameChange}
+                value={formSubmission?.first}
+              />
+              <TextField
+                placeholder="Last Name"
+                onChange={handleLastNameChange}
+                value={formSubmission?.last}
+              />
+              <TextField
+                required
+                placeholder="Nickname"
+                onChange={handleNicknameChange}
+                value={formSubmission?.nickname}
+              />
+              <TextField
+                required
+                placeholder="email"
+                onChange={handleEmailChange}
+                value={formSubmission?.email}
+              />
 
-            <Button variant="outlined" onClick={handleCreateProfile}>
-              Add
-            </Button>
-          </form>
+              <Button variant="outlined" onClick={handleCreateProfile}>
+                Add
+              </Button>
+            </form>
+          </div>
         </div>
-        {/* if profile data doesn't come back empty, shoot the user to /profile */}
-        {!profileData.length ? 0 : <Redirect to="/homePage" />}
-      </div>
+      ) : (
+        <Redirect to="/homePage" />
+      )}
     </>
   );
 }
