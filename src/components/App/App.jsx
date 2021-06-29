@@ -14,6 +14,7 @@ import Footer from "../Footer/Footer";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 import AboutPage from "../AboutPage/AboutPage";
+import CoinDetailsPage from "../CoinDetailsPage/CoinDetailsPage";
 import CreateProfilePage from "../CreateProfilePage/CreateProfilePage";
 import HomePage from "../HomePage/HomePage";
 import InfoPage from "../InfoPage/InfoPage";
@@ -64,6 +65,14 @@ function App() {
           >
             <CreateProfilePage />
           </ProtectedRoute>
+
+            <ProtectedRoute
+            exact
+            path="/coinDetails/:id"
+            >
+              <CoinDetailsPage />
+            </ProtectedRoute>
+
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
             exact
