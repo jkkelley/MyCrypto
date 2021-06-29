@@ -1,7 +1,7 @@
-import React, {useEffect} from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 // Material-ui Imports
 import TextField from "@material-ui/core/TextField";
