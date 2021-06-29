@@ -15,12 +15,13 @@ import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
 import AboutPage from "../AboutPage/AboutPage";
 import CreateProfilePage from "../CreateProfilePage/CreateProfilePage";
-import UserPage from "../UserPage/UserPage";
+import HomePage from "../HomePage/HomePage";
 import InfoPage from "../InfoPage/InfoPage";
 import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginPage/LoginPage";
 import ProfilePage from "../ProfilePage/ProfilePage";
 import RegisterPage from "../RegisterPage/RegisterPage";
+import UserPage from "../UserPage/UserPage";
 import userSaga from "../../redux/sagas/user.saga";
 
 import "./App.css";
@@ -60,7 +61,6 @@ function App() {
             exact
             path="/createProfile"
             // authRedirect="/profile"
-
           >
             <CreateProfilePage />
           </ProtectedRoute>
@@ -79,6 +79,14 @@ function App() {
             path="/info"
           >
             <InfoPage />
+          </ProtectedRoute>
+
+          <ProtectedRoute
+            // logged in shows HomePage else shows LoginPage
+            exact
+            path="/homePage"
+          >
+            <HomePage />
           </ProtectedRoute>
 
           <ProtectedRoute exact path="/profile">

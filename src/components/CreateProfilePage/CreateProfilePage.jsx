@@ -137,7 +137,7 @@ function CreateProfilePage() {
           </form>
         </div>
         {/* if profile data doesn't come back empty, shoot the user to /profile */}
-        {!profileData.length ? 0 : <Redirect to="/profile" />}
+        {!profileData.length ? 0 : <Redirect to="/homePage" />}
       </div>
     </>
   );
