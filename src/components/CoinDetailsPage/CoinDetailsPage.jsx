@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import BuyCoinButton from "./CoinDetailsPageComponents/BuyCoinButton";
 import DeleteCoinButton from "./CoinDetailsPageComponents/DeleteCoinButton";
-import NotesFromServer from "./CoinDetailsPageComponents/NotesFromServer"
+import NotesFromServer from "./CoinDetailsPageComponents/NotesFromServer";
 import SellCoinButton from "./CoinDetailsPageComponents/SellCoinButton";
 
 const useStyles = makeStyles({
@@ -40,12 +40,12 @@ const useStyles = makeStyles({
 import Button from "@material-ui/core/Button";
 // Sweetalert2
 import Swal from "sweetalert2";
-import { TextField } from "@material-ui/core";
+import { TextField, useRadioGroup } from "@material-ui/core";
 
 function CoinDetailsPage() {
   // Set our coin info from coingecko api
   const [coinsFromGecko, setCoinsFromGecko] = useState([]);
-  //
+  // Timer to update price from coin gecko api
   const [timer, setTimer] = useState(false);
   // Bring in Custom CSS classes
   const classes = useStyles();
@@ -58,7 +58,7 @@ function CoinDetailsPage() {
   const dispatch = useDispatch();
   // We need to bring the store in.
   const profileData = useSelector((store) => store.profileData);
-
+  const user = useSelector(store => store.user)
   // Function to handleSell click
   const handleSell = () => {
     console.log(`You clicked handleSell`);
@@ -101,39 +101,48 @@ function CoinDetailsPage() {
     }
   }, []);
 
+  useEffect(() => {
+    dispatch({ type: "FETCH_COIN_INFO", payload: user.id });
+  }, []);
   return (
     <>
-      <h2>Coin Details Page</h2>
-      <div className="account-balance-container">
-        <h5>Balance</h5>
-        <p>
-          {Number(profileData[0]?.account_balance).toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-          })}
-        </p>
-      </div>
+      {!profileData ? (
+        <Redirect to="/createProfile" />
+      ) : (
+        <div>
+          <h2>Coin Details Page</h2>
+          <div className="account-balance-container">
+            <h5>Balance</h5>
+            <p>
+              {Number(profileData[0]?.account_balance).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}
+            </p>
+          </div>
 
-      <h3>{coinsFromGecko[0]?.name}</h3>
-      <p>
-        {coinsFromGecko[0]?.current_price.toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-        })}
-      </p>
-      <div className="buy-sell-delete-options-container">
-        <BuyCoinButton useStyles={useStyles} Button={Button} />
-        <SellCoinButton useStyles={useStyles} Button={Button} />
-        <DeleteCoinButton useStyles={useStyles} Button={Button} />
-      </div>
+          <h3>{coinsFromGecko[0]?.name}</h3>
+          <p>
+            {coinsFromGecko[0]?.current_price.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </p>
+          <div className="buy-sell-delete-options-container">
+            <BuyCoinButton useStyles={useStyles} Button={Button} />
+            <SellCoinButton useStyles={useStyles} Button={Button} />
+            <DeleteCoinButton useStyles={useStyles} Button={Button} />
+          </div>
 
-      <div>
-        <p>{coinsFromGecko[0]?.name}</p>
-      </div>
+          <div>
+            <p>{coinsFromGecko[0]?.name}</p>
+          </div>
 
-      <div className="notes-container">
-          <NotesFromServer />
-      </div>
+          <div className="notes-container">
+            <NotesFromServer />
+          </div>
+        </div>
+      )}
     </>
   );
 }

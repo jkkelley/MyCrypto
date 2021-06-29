@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import InfoPage2 from "./InfoPage2";
 import "./CreateProfilePage.css";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 // This is one of our simplest components
 // It doesn't have local state
 // It doesn't dispatch any redux actions or display any part of redux state
@@ -12,6 +14,9 @@ function InfoPage() {
   const [coinsFromGecko, setCoinsFromGecko] = useState([]);
   const [resultsSearch, setResultsSearch] = useState("");
   //#endregion
+
+  // Bring the store in
+  const profileData = useSelector((store) => store.profileData);
 
   const handleChange = (event) => {
     setResultsSearch(event.target.value);
@@ -25,7 +30,6 @@ function InfoPage() {
      */
     coins.name.toLowerCase().includes(resultsSearch.toLowerCase())
   );
-
 
   //#region useEffect Area
   useEffect(() => {
@@ -44,32 +48,38 @@ function InfoPage() {
   }, []);
 
   return (
-    <div className="create-profile-container">
-      <div className="create-form">
-        <div className="coin-container">
-          <h3>Looking for a Coin?</h3>
-          <div className="coin-results">
-            <form>
-              <input
-                placeholder="..."
-                className="coin-search-input"
-                onChange={handleChange}
-              ></input>
-            </form>
+    <>
+      {!profileData ? (
+        <Redirect to="/createProfile" />
+      ) : (
+        <div className="create-profile-container">
+          <div className="create-form">
+            <div className="coin-container">
+              <h3>Looking for a Coin?</h3>
+              <div className="coin-results">
+                <form>
+                  <input
+                    placeholder="..."
+                    className="coin-search-input"
+                    onChange={handleChange}
+                  ></input>
+                </form>
+              </div>
+              {coinsSort.map((coins) => {
+                return (
+                  <InfoPage2
+                    key={coins.id}
+                    name={coins.name}
+                    price={coins.current_price}
+                    coins={coins}
+                  />
+                );
+              })}
+            </div>
           </div>
-          {coinsSort.map((coins) => {
-            return (
-              <InfoPage2
-                key={coins.id}
-                name={coins.name}
-                price={coins.current_price}
-                coins={coins}
-              />
-            );
-          })}
         </div>
-      </div>
-    </div>
+      )}
+    </>
   );
 }
 

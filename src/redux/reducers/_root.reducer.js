@@ -1,8 +1,10 @@
-import { combineReducers } from 'redux';
 
+import { coinInfoReducer } from './coin.page.reducer';
+import { combineReducers } from 'redux';
 import { formSubmission } from './form.submission.reducer';
-import errors from './errors.reducer';
 import { profileData } from './profile.reducer';
+
+import errors from './errors.reducer';
 import user from './user.reducer';
 
 // rootReducer is the primary reducer for our entire project
@@ -12,6 +14,7 @@ import user from './user.reducer';
 // Lets make a bigger object for our store, with the objects from our reducers.
 // This is what we get when we use 'state' inside of 'mapStateToProps'
 const rootReducer = combineReducers({
+  coinInfoReducer,
   formSubmission, // contains form for creating a user_profile
   errors, // contains registrationMessage and loginMessage
   profileData, // contains profile data from table user_profile
