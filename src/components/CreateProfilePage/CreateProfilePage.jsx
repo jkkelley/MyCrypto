@@ -1,9 +1,11 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams, Redirect } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
+// Custom CSS
 import "./CreateProfilePage.css";
 
+// Components import Area
 import { UsersFirstName } from "./CreateProfilePageComponents/users.first.name";
 import { UsersLastName } from "./CreateProfilePageComponents/users.last.name";
 import { UsersEmail } from "./CreateProfilePageComponents/users.email";
