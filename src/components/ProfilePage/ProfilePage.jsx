@@ -45,7 +45,7 @@ function ProfilePage() {
           Swal.fire("Deleted!", "Your Profile has been deleted.", "success");
           dispatch({ type: "DELETE_USERS_PROFILE", payload: params.id });
           dispatch({ type: "CLEAR_PROFILE_INFO" });
-          history.push(`/createProfile/${params.id}`);
+          history.push(`/createProfile`);
         }
       })
       .catch((error) => {
@@ -74,7 +74,6 @@ function ProfilePage() {
           </form>
         </div>
       </div>
-      {/* {profileData.length ? 0 : <Redirect to="/createProfile" />} */}
     </>
   );
 }

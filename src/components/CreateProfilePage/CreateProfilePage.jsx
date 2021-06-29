@@ -64,7 +64,7 @@ function CreateProfilePage() {
         console.log(formSubmission);
         dispatch({ type: "POST_CREATE_PROFILE", payload: formSubmission });
 
-        history.push(`/profile/${Number(params.id)}`);
+        history.push(`/profile`);
       }
     });
   };
