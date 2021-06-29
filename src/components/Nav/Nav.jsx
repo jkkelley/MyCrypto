@@ -6,6 +6,7 @@ import { useSelector } from "react-redux";
 
 function Nav() {
   const user = useSelector((store) => store.user);
+  const profileData = useSelector(store => store.profileData)
   const formSubmission = useSelector(store => store.formSubmission)
   console.log(formSubmission)
   let loginLinkData = {
@@ -32,13 +33,13 @@ function Nav() {
       {user.id && formSubmission.length === 0 && (
         <LogOutButton className="navLink" />
       )}
-        {user.id && formSubmission.length > 0 && (
+        {user.id && profileData.length > 0 && (
           <>
             {/* <Link className="navLink" to="/info">
               Info Page
             </Link> */}
             <LogOutButton className="navLink" />
-            <Link className="navLink" to={`/profile/${user.id}`}>
+            <Link className="navLink" to={`/profile`}>
               Profile
             </Link>
           </>

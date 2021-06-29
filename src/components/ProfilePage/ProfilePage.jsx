@@ -43,7 +43,7 @@ function ProfilePage() {
       .then((result) => {
         if (result.isConfirmed) {
           Swal.fire("Deleted!", "Your Profile has been deleted.", "success");
-          dispatch({ type: "DELETE_USERS_PROFILE", payload: params.id });
+          dispatch({ type: "DELETE_USERS_PROFILE", payload: Number(profileData[0].users_id) });
           dispatch({ type: "CLEAR_PROFILE_INFO" });
           history.push(`/createProfile`);
         }
