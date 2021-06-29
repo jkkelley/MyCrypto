@@ -40,12 +40,12 @@ const useStyles = makeStyles({
 import Button from "@material-ui/core/Button";
 // Sweetalert2
 import Swal from "sweetalert2";
-import { TextField } from "@material-ui/core";
+import { TextField, useRadioGroup } from "@material-ui/core";
 
 function CoinDetailsPage() {
   // Set our coin info from coingecko api
   const [coinsFromGecko, setCoinsFromGecko] = useState([]);
-  //
+  // Timer to update price from coin gecko api
   const [timer, setTimer] = useState(false);
   // Bring in Custom CSS classes
   const classes = useStyles();
@@ -58,7 +58,7 @@ function CoinDetailsPage() {
   const dispatch = useDispatch();
   // We need to bring the store in.
   const profileData = useSelector((store) => store.profileData);
-
+  const user = useSelector(store => store.user)
   // Function to handleSell click
   const handleSell = () => {
     console.log(`You clicked handleSell`);
@@ -101,6 +101,9 @@ function CoinDetailsPage() {
     }
   }, []);
 
+  useEffect(() => {
+    dispatch({ type: "FETCH_COIN_INFO", payload: user.id });
+  }, []);
   return (
     <>
       {!profileData ? (
