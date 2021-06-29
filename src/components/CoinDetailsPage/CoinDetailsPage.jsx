@@ -6,7 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import BuyCoinButton from "./CoinDetailsPageComponents/BuyCoinButton";
 import DeleteCoinButton from "./CoinDetailsPageComponents/DeleteCoinButton";
-import NotesFromServer from "./CoinDetailsPageComponents/NotesFromServer"
+import NotesFromServer from "./CoinDetailsPageComponents/NotesFromServer";
 import SellCoinButton from "./CoinDetailsPageComponents/SellCoinButton";
 
 const useStyles = makeStyles({
@@ -103,37 +103,43 @@ function CoinDetailsPage() {
 
   return (
     <>
-      <h2>Coin Details Page</h2>
-      <div className="account-balance-container">
-        <h5>Balance</h5>
-        <p>
-          {Number(profileData[0]?.account_balance).toLocaleString("en-US", {
-            style: "currency",
-            currency: "USD",
-          })}
-        </p>
-      </div>
+      {!profileData ? (
+        <Redirect to="/createProfile" />
+      ) : (
+        <div>
+          <h2>Coin Details Page</h2>
+          <div className="account-balance-container">
+            <h5>Balance</h5>
+            <p>
+              {Number(profileData[0]?.account_balance).toLocaleString("en-US", {
+                style: "currency",
+                currency: "USD",
+              })}
+            </p>
+          </div>
 
-      <h3>{coinsFromGecko[0]?.name}</h3>
-      <p>
-        {coinsFromGecko[0]?.current_price.toLocaleString("en-US", {
-          style: "currency",
-          currency: "USD",
-        })}
-      </p>
-      <div className="buy-sell-delete-options-container">
-        <BuyCoinButton useStyles={useStyles} Button={Button} />
-        <SellCoinButton useStyles={useStyles} Button={Button} />
-        <DeleteCoinButton useStyles={useStyles} Button={Button} />
-      </div>
+          <h3>{coinsFromGecko[0]?.name}</h3>
+          <p>
+            {coinsFromGecko[0]?.current_price.toLocaleString("en-US", {
+              style: "currency",
+              currency: "USD",
+            })}
+          </p>
+          <div className="buy-sell-delete-options-container">
+            <BuyCoinButton useStyles={useStyles} Button={Button} />
+            <SellCoinButton useStyles={useStyles} Button={Button} />
+            <DeleteCoinButton useStyles={useStyles} Button={Button} />
+          </div>
 
-      <div>
-        <p>{coinsFromGecko[0]?.name}</p>
-      </div>
+          <div>
+            <p>{coinsFromGecko[0]?.name}</p>
+          </div>
 
-      <div className="notes-container">
-          <NotesFromServer />
-      </div>
+          <div className="notes-container">
+            <NotesFromServer />
+          </div>
+        </div>
+      )}
     </>
   );
 }

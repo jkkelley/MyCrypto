@@ -1,14 +1,15 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-
+import { useHistory } from "react-router-dom";
 
 function LogOutButton(props) {
+  const history = useHistory();
   const dispatch = useDispatch();
   const handleLogoutClick = (event) => {
     // dispatch({ type: "CLEAR_PROFILE_INFO" });
     // dispatch({ type: "LOGOUT" });
     dispatch({ type: "CLEAR_PROFILE_INFO", type: "LOGOUT" });
-    // history.push("/")
+    history.push("/");
   };
   return (
     <button
