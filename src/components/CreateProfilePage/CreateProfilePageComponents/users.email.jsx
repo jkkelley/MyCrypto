@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 
 import Swal from "sweetalert2";
 
-export const UsersEmail = () => {
+export const UsersEmail = ({setAlertState}) => {
   // Hey store, we need formSubmission.
   const formSubmission = useSelector((store) => store.formSubmission);
 
@@ -39,6 +39,7 @@ export const UsersEmail = () => {
       Swal.fire({
         text: `Email: ${email}`,
       });
+      setAlertState(false);
       // Dispatch Users Email and their id to reducer.
       dispatch({ type: "SET_EMAIL_CREATE_PROFILE", payload: email });
     }
