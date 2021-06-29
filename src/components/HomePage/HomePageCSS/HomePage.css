@@ -1,0 +1,27 @@
+.create-profile-container {
+  width: 95%;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+@media (max-width: 375px) {
+  .home-page-container {
+    margin: 100px auto 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    width: 275px;
+  }
+
+  .home-page-welcome-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .home-page-nickname {
+      margin-top: -15px;
+  }
+}
