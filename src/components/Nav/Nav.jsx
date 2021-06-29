@@ -8,7 +8,7 @@ function Nav() {
   const user = useSelector((store) => store.user);
   const profileData = useSelector(store => store.profileData)
   const formSubmission = useSelector(store => store.formSubmission)
-  console.log(formSubmission)
+
   let loginLinkData = {
     path: "/login",
     text: "Login / Register",
@@ -35,22 +35,12 @@ function Nav() {
       )}
         {user.id && profileData?.length > 0 && (
           <>
-            {/* <Link className="navLink" to="/info">
-              Info Page
-            </Link> */}
             <LogOutButton className="navLink" />
             <Link className="navLink" to={`/profile`}>
               Profile
             </Link>
           </>
         )}
-        {/* <Link className="navLink" to={loginLinkData.path}>
-          {loginLinkData.text}
-        </Link> */}
-
-        {/* <Link className="navLink" to="/about">
-          About
-        </Link> */}
       </div>
     </div>
   );

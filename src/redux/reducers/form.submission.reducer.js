@@ -15,6 +15,8 @@ export const formSubmission = (state = [], action) => {
       return { ...state, phone_number: action.payload };
     case "CLEAR_FORM_SUBMISSION":
       return {};
+    case "GET_FORM_STATE":
+      return state;
     default:
       return state;
   }

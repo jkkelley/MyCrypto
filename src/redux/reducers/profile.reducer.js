@@ -5,6 +5,8 @@ export const profileData = (state = [], action) => {
       return action.payload;
     case "CLEAR_PROFILE_INFO":
       return [];
+    case "GET_PROFILE_INFO":
+      return state;
     default:
       return state;
   }
