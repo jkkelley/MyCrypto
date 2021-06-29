@@ -19,22 +19,22 @@ function CreateProfilePage() {
   const history = useHistory();
   // Bring in dispatch
   const dispatch = useDispatch();
-
+  // We need to bring the store in.
   const formSubmission = useSelector((store) => store.formSubmission);
   const profileData = useSelector((store) => store.profileData);
-  const params = useParams();
 
   function validateEmail(email) {
     const re =
       /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
   }
-  console.log(formSubmission.email);
+
   // Function to handle creation of profile
   // Sweet Alert to ask for confirmation
   const handleCreateProfile = () => {
     console.log(`You've clicked handleCreateProfile`);
 
+    // We need a Valid email, else alert them they need one on confirmation.
     if (validateEmail(formSubmission.email)) {
       // Ask them nicely if they want to create Profile.
       Swal.fire({
@@ -49,16 +49,15 @@ function CreateProfilePage() {
         allowEnterKey: true,
         backdrop: true,
       }).then((result) => {
-        console.log(result);
+        // If result is confirmed, post to the database user_profile table
         if (result.isConfirmed) {
           console.log(formSubmission);
           dispatch({ type: "POST_CREATE_PROFILE", payload: formSubmission });
-          // dispatch({type: "SET_PROFILE_INFO"})
           history.push(`/profile`);
         }
       });
     } else {
-      alert("Need a Valid Email Address!")
+      alert("Need a Valid Email Address!");
     }
   };
 
