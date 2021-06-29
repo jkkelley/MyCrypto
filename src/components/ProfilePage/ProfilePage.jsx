@@ -9,11 +9,11 @@ import Button from "@material-ui/core/Button";
 import Swal from "sweetalert2";
 
 // ProfilePageComponents
-import { UsersEmail } from "./ProfilePageComponents/users.email";
-import { UsersFirstName } from "./ProfilePageComponents/users.first.name";
-import { UsersLastName } from "./ProfilePageComponents/users.last.name";
-import { UsersNickName } from "./ProfilePageComponents/users.nickname";
-import { UsersPhoneNumber } from "./ProfilePageComponents/users.phone.number";
+import { UsersEmail } from "./ProfilePageComponents/profile.users.email";
+import { UsersFirstName } from "./ProfilePageComponents/profile.users.first.name";
+import { UsersLastName } from "./ProfilePageComponents/profile.users.last.name";
+import { UsersNickName } from "./ProfilePageComponents/profile.users.nickname";
+import { UsersPhoneNumber } from "./ProfilePageComponents/profile.users.phone.number";
 
 function ProfilePage() {
   const profileData = useSelector((store) => store.profileData);

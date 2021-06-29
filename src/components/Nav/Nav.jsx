@@ -6,8 +6,8 @@ import { useSelector } from "react-redux";
 
 function Nav() {
   const user = useSelector((store) => store.user);
-  const profileData = useSelector(store => store.profileData)
-  const formSubmission = useSelector(store => store.formSubmission)
+  const profileData = useSelector((store) => store.profileData);
+  const formSubmission = useSelector((store) => store.formSubmission);
 
   let loginLinkData = {
     path: "/login",
@@ -30,15 +30,18 @@ function Nav() {
         <h2 className="nav-title">MyCrypto</h2>
       </Link>
       <div>
-      {user.id && profileData?.length === 0 && (
-        <LogOutButton className="navLink" />
-      )}
+        {user.id && profileData?.length === 0 && (
+          <LogOutButton className="navLink" />
+        )}
         {user.id && profileData?.length > 0 && (
           <>
-            <LogOutButton className="navLink" />
             <Link className="navLink" to={`/profile`}>
               Profile
             </Link>
+            <Link className="navLink" to="/coinDetails">
+              Coin Details
+            </Link>
+            <LogOutButton className="navLink" />
           </>
         )}
       </div>

@@ -6,10 +6,10 @@ import { useHistory, Redirect } from "react-router-dom";
 import "./CreateProfilePage.css";
 
 // Components import Area
-import { UsersFirstName } from "./CreateProfilePageComponents/users.first.name";
-import { UsersLastName } from "./CreateProfilePageComponents/users.last.name";
-import { UsersEmail } from "./CreateProfilePageComponents/users.email";
-import { UsersNickname } from "./CreateProfilePageComponents/users.nickname";
+import { UsersFirstName } from "./CreateProfilePageComponents/create.profile.users.first.name";
+import { UsersLastName } from "./CreateProfilePageComponents/create.profile.users.last.name";
+import { UsersEmail } from "./CreateProfilePageComponents/create.profile.users.email";
+import { UsersNickname } from "./CreateProfilePageComponents/create.profile.users.nickname";
 
 // Material-ui Imports
 import Button from "@material-ui/core/Button";
