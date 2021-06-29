@@ -3,11 +3,14 @@ import axios from "axios";
 
 // POST request to server
 function* postCreateProfile(action) {
-  // console.log(action.user.id);
+
   try {
     yield axios.post(`/api/createProfile`, action.payload);
+    // Clear formSubmission
     yield put({ type: "CLEAR_FORM_SUBMISSION" });
-    yield put({ type: "GET_PROFILE_INFO" });
+    // Grab profileData reducer after post request to update
+    // the user has made a profile.
+    yield put({ type: "GET_CREATE_PROFILE" });
   } catch (error) {
     console.log(
       `We had an postCreateForm error, /api/createProfile ... `,
