@@ -26,6 +26,7 @@ function InfoPage() {
     coins.name.toLowerCase().includes(resultsSearch.toLowerCase())
   );
 
+
   //#region useEffect Area
   useEffect(() => {
     axios
@@ -41,6 +42,7 @@ function InfoPage() {
         alert(`We've had problem, sorry`);
       });
   }, []);
+
   return (
     <div className="create-profile-container">
       <div className="create-form">
@@ -61,6 +63,7 @@ function InfoPage() {
                 key={coins.id}
                 name={coins.name}
                 price={coins.current_price}
+                coins={coins}
               />
             );
           })}

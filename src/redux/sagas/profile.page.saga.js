@@ -7,7 +7,7 @@ function* updateProfilePage(action) {
 
   try {
     yield axios.put(`/api/CreateProfile/${action.payload.id}`, action.payload);
-    dispatch({ type: "GET_CREATE_PROFILE" });
+    yield put({ type: "GET_CREATE_PROFILE" });
   } catch (error) {
     console.log(`We had a problem updating you're profile ${error}`);
   }
@@ -18,7 +18,7 @@ function* deleteProfileSaga(action) {
   console.log(action)
   try{
     yield axios.delete(`/api/CreateProfile/${action.payload}`)
-    dispatch({ type: "GET_CREATE_PROFILE" });
+    yield put({ type: "GET_CREATE_PROFILE" });
   } catch(error) {
     console.log(`We had a problem with your DELETE request ${error}`)
   }

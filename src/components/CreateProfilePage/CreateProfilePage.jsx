@@ -1,9 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams, Redirect } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
+// Custom CSS
 import "./CreateProfilePage.css";
 
+// Components import Area
 import { UsersFirstName } from "./CreateProfilePageComponents/users.first.name";
 import { UsersLastName } from "./CreateProfilePageComponents/users.last.name";
 import { UsersEmail } from "./CreateProfilePageComponents/users.email";
@@ -11,10 +13,23 @@ import { UsersNickname } from "./CreateProfilePageComponents/users.nickname";
 
 // Material-ui Imports
 import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import Alert from "@material-ui/lab/Alert";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "100%",
+    "& > * + *": {
+      marginTop: theme.spacing(2),
+    },
+  },
+}));
+
 // Sweetalert2
 import Swal from "sweetalert2";
 
 function CreateProfilePage() {
+  const classes = useStyles();
   // Bring in useHistory
   const history = useHistory();
   // Bring in dispatch
@@ -22,7 +37,8 @@ function CreateProfilePage() {
   // We need to bring the store in.
   const formSubmission = useSelector((store) => store.formSubmission);
   const profileData = useSelector((store) => store.profileData);
-
+  const [alertState, setAlertState] = useState(false);
+  // Function to check valid email.
   function validateEmail(email) {
     const re =
       /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -57,7 +73,7 @@ function CreateProfilePage() {
         }
       });
     } else {
-      alert("Need a Valid Email Address!");
+      setAlertState(true);
     }
   };
 
@@ -67,12 +83,20 @@ function CreateProfilePage() {
       {!profileData.length ? (
         <div className="create-profile-container">
           <div className="create-form">
-            <p>Create Profile Page</p>
+            {!alertState ? (
+              <p>Create Profile Page</p>
+            ) : (
+              <div className={classes.root}>
+                <Alert severity="error">
+                  Need Valid Email
+                </Alert>
+              </div>
+            )}
             <form className="create-profile-page-form-container">
               <UsersFirstName />
               <UsersLastName />
               <UsersNickname />
-              <UsersEmail />
+              <UsersEmail setAlertState={setAlertState}/>
 
               <Button variant="outlined" onClick={handleCreateProfile}>
                 Add
