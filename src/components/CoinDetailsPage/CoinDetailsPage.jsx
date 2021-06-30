@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams, Redirect } from "react-router-dom";
+import { useLocation } from "react-router";
+// import { LOCATION_CHANGE } from "react-router-redux";
 import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -41,8 +43,12 @@ import Button from "@material-ui/core/Button";
 // Sweetalert2
 import Swal from "sweetalert2";
 import { TextField, useRadioGroup } from "@material-ui/core";
+import { History101 } from "react-router-dom";
 
 function CoinDetailsPage() {
+  
+  const location = useLocation();
+  console.log(location.pathname);
   // Set our coin info from coingecko api
   const [coinsFromGecko, setCoinsFromGecko] = useState([]);
   // Timer to update price from coin gecko api
@@ -58,7 +64,7 @@ function CoinDetailsPage() {
   const dispatch = useDispatch();
   // We need to bring the store in.
   const profileData = useSelector((store) => store.profileData);
-  const user = useSelector(store => store.user)
+  const user = useSelector((store) => store.user);
   // Function to handleSell click
   const handleSell = () => {
     console.log(`You clicked handleSell`);
@@ -69,6 +75,11 @@ function CoinDetailsPage() {
     console.log(`You clicked handleDelete`);
   };
 
+  // useEffect(() => {
+    // if ()
+  //   dispatch({ type: "CLEAR_COIN_INFO" });
+  // }, []);
+
   useEffect(() => {
     axios
       .get(
@@ -78,6 +89,7 @@ function CoinDetailsPage() {
         // console.log(`coingecko says response`, response.data);
         setCoinsFromGecko(response.data);
         setTimer(0);
+        dispatch({ type: "CLEAR_COIN_INFO" })
       })
       .catch((error) => {
         console.log(`Ohh No, coingecko failed me! ${error}`);
@@ -100,10 +112,14 @@ function CoinDetailsPage() {
       }, 10000);
     }
   }, []);
-
+  console.log(params);
   useEffect(() => {
-    dispatch({ type: "FETCH_COIN_INFO", payload: user.id });
+    dispatch({
+      type: "FETCH_COIN_INFO",
+      payload: { id: user.id, name: params.id },
+    });
   }, []);
+
   return (
     <>
       {!profileData ? (
