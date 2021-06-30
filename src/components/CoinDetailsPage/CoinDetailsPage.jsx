@@ -82,7 +82,7 @@ function CoinDetailsPage() {
       )
       .then((response) => {
         setCoinsFromGecko(response.data);
-        setTimer(0);
+        // setTimer(false);
         dispatch({ type: "CLEAR_COIN_INFO" });
       })
       .catch((error) => {
@@ -97,6 +97,7 @@ function CoinDetailsPage() {
           )
           .then((response) => {
             setCoinsFromGecko(response.data);
+            console.log(response.data)
           })
           .catch((error) => {
             console.log(`Ohh No, coingecko failed me! ${error}`);
@@ -105,7 +106,8 @@ function CoinDetailsPage() {
       }, 10000);
     }
   }, []);
-  console.log(params);
+  // console.log(params);
+  // console.log(location)
   useEffect(() => {
     dispatch({
       type: "FETCH_COIN_INFO",

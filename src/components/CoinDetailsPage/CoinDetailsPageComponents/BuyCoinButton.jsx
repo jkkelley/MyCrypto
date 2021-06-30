@@ -1,24 +1,30 @@
 import Swal from "sweetalert2";
 import { useHistory, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 // import "./CoinDetailsPageCSS/CoinDetailsPage.css"
 
 function BuyCoinButton({ useStyles, Button }) {
+  // Bring in dispatch
+  const dispatch = useDispatch();
+  // Bring in params
   const params = useParams();
+  const user = useSelector((store) => store.user);
 
   // Bring in Custom CSS classes
   const classes = useStyles();
 
   // Function to validate numbers and one decimal
   function validateCoinAmount(coinAmountToBuy) {
-    // const regex = /\d*\.?\d?/g;
-    // const regex = /^\d+([.]?\d{0,2})?$/g;
+    // We have a regex to check that there is only one ".",
+    // Also allows up to 8 digits past the decimal to the right.
     const regex = /^\d*(\.\d{1,8})?$/;
-    console.log(coinAmountToBuy.length);
+    console.log(coinAmountToBuy);
     return regex.test(coinAmountToBuy);
   }
   // Function to handleBuy click
   const handleBuy = async () => {
     console.log(`You clicked handleBuy`);
+    // We need to bring the store in.
 
     const { value: coinAmountToBuy } = await Swal.fire({
       title: `${params.id}`,
@@ -31,11 +37,21 @@ function BuyCoinButton({ useStyles, Button }) {
       allowEnterKey: true,
       backdrop: true,
       inputValidator: (value) => {
+        // No input, return them a message.
         if (!value) {
           return "You need to write something!";
         }
+        // If the user doesn't enter correct amount,
+        // They're greeted with a message.
         if (!validateCoinAmount(value)) {
           return "Need valid amount";
+        } else {
+          // We got a valid value, need to dispatch to saga.
+          console.log(Number(value));
+          dispatch({
+            type: "POST_COIN_AMOUNT",
+            payload: { amount: Number(value), name: params.id, id: user.id},
+          });
         }
       },
     });
