@@ -10,6 +10,7 @@ function* getCoinInfo(action) {
     );
     // Set reducer with our data from database
     yield put({ type: "SET_COIN_INFO", payload: response.data });
+    yield put({ type: "GET_COININFO_REDUCER" });
   } catch (error) {
     console.log(`Sorry we had a problem with GET coin info`, error);
   }
@@ -29,9 +30,10 @@ function* postAmountToBuy(action) {
       data
     );
     // Set reducer with our data from database
-    yield put({ type: "SET_COIN_INFO", payload: response.data });
+    yield put({ type: "SET_ACCOUNT_COIN_AMOUNT", payload: response.data });
+    yield put({ type: "GET_COININFO_REDUCER" });
     // profileData needs to update our DOM
-    yield put({type: "GET_CREATE_PROFILE"})
+    yield put({ type: "GET_CREATE_PROFILE" });
   } catch (error) {
     console.log(`Sorry, POST request error with coin buy`, error);
   }

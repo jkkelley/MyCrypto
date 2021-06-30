@@ -47,12 +47,11 @@ import { TextField, useRadioGroup } from "@material-ui/core";
 import { History101 } from "react-router-dom";
 
 function CoinDetailsPage() {
-  const location = useLocation();
-  console.log(location.pathname);
   // Set our coin info from coingecko api
   const [coinsFromGecko, setCoinsFromGecko] = useState([]);
   // Timer to update price from coin gecko api
   const [timer, setTimer] = useState(false);
+  const [amountUndefined, setAmountUndefined] = useState(false);
   // Bring in Custom CSS classes
   const classes = useStyles();
   // Bring in params
@@ -65,6 +64,8 @@ function CoinDetailsPage() {
   // We need to bring the store in.
   const profileData = useSelector((store) => store.profileData);
   const user = useSelector((store) => store.user);
+  const coinInfoReducer = useSelector((store) => store.coinInfoReducer);
+
   // Function to handleSell click
   const handleSell = () => {
     console.log(`You clicked handleSell`);
@@ -83,6 +84,7 @@ function CoinDetailsPage() {
       .then((response) => {
         setCoinsFromGecko(response.data);
         // setTimer(false);
+
         dispatch({ type: "CLEAR_COIN_INFO" });
       })
       .catch((error) => {
@@ -97,7 +99,13 @@ function CoinDetailsPage() {
           )
           .then((response) => {
             setCoinsFromGecko(response.data);
-            console.log(response.data)
+            setAmountUndefined(true);
+            dispatch({ type: "FETCH_COIN_INFO", payload: { id: user.id, name: params.id } });
+            console.log(`is this firing`);
+            try {
+            } catch (error) {
+              console.log(`We had a problem with you're request`);
+            }
           })
           .catch((error) => {
             console.log(`Ohh No, coingecko failed me! ${error}`);
@@ -106,9 +114,23 @@ function CoinDetailsPage() {
       }, 10000);
     }
   }, []);
-  // console.log(params);
-  // console.log(location)
+
+  const handleAsyncIssues = () => {
+    if (coinInfoReducer.coin_info == undefined) {
+      console.log(`It was undefined`);
+      setAmountUndefined(false);
+    } else {
+      setAmountUndefined(true);
+    }
+  };
+
   useEffect(() => {
+    handleAsyncIssues();
+  });
+
+  useEffect(() => {
+    dispatch({ type: "CLEAR_COIN_INFO" });
+
     dispatch({
       type: "FETCH_COIN_INFO",
       payload: { id: user.id, name: params.id },
@@ -135,7 +157,9 @@ function CoinDetailsPage() {
                 )}
               </p>
             </div>
-
+            <div>
+              <p>PLACE HOLDER FOR CHART</p>
+            </div>
             <h3>{coinsFromGecko[0]?.name}</h3>
             <p>
               {coinsFromGecko[0]?.current_price.toLocaleString("en-US", {
@@ -151,6 +175,15 @@ function CoinDetailsPage() {
 
             <div>
               <p>{coinsFromGecko[0]?.name}</p>
+              <p>
+                {amountUndefined
+                  ? (coinInfoReducer?.coin_info.toLocaleString("en-US", {
+                      style: "currency",
+                      currency: "USD",
+                    }))
+                  : (0)}
+              </p>
+              <p></p>
             </div>
 
             <div className="notes-container">

@@ -136,7 +136,7 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
                             req.body.id,
                           ])
                           .then((response) => {
-                            res.sendStatus(201);
+                            res.send([req.body.amount]);
                           })
                           .catch((error) => {
                             console.log(
