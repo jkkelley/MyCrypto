@@ -86,7 +86,7 @@ function CoinDetailsPage() {
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
       )
       .then((response) => {
-        // console.log(`coingecko says response`, response.data);
+
         setCoinsFromGecko(response.data);
         setTimer(0);
         dispatch({ type: "CLEAR_COIN_INFO" })
@@ -102,7 +102,6 @@ function CoinDetailsPage() {
             `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
           )
           .then((response) => {
-            // console.log(`coingecko says response`, response.data);
             setCoinsFromGecko(response.data);
           })
           .catch((error) => {
