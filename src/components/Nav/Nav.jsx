@@ -38,7 +38,7 @@ function Nav() {
             <Link className="navLink" to={`/profile`}>
               Profile
             </Link>
-            <Link className="navLink" to="/coinDetails">
+            <Link className="navLink" to="/info">
               Coin Details
             </Link>
             <LogOutButton className="navLink" />

@@ -6,7 +6,7 @@ function* getCoinInfo(action) {
     console.log(action.payload)
     try {
         // Set a response for our axios get promise
-        const response = yield axios.get(`/api/CoinPage/UpdatedAmount/${action.payload}`)
+        const response = yield axios.get(`/api/CoinPage/UpdatedAmount/${action.payload.name}/${action.payload.id}`)
         // Set reducer with our data from database
         yield put({type: "SET_COIN_INFO", payload: response.data})
     } catch(error) {

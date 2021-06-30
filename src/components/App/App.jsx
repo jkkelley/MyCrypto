@@ -6,7 +6,11 @@ import {
   Switch,
 } from "react-router-dom";
 
+// import createBrowserHistory from 'history/createBrowserHistory'
+// const History101 = createBrowserHistory()
+
 import { useDispatch } from "react-redux";
+// import { useLocation } from "react-router";
 
 import Nav from "../Nav/Nav";
 import Footer from "../Footer/Footer";
@@ -24,19 +28,20 @@ import ProfilePage from "../ProfilePage/ProfilePage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import UserPage from "../UserPage/UserPage";
 import userSaga from "../../redux/sagas/user.saga";
+import { useLocation } from "react-router";
 
 import "./App.css";
 
 function App() {
   console.log(userSaga);
   const dispatch = useDispatch();
-
   useEffect(() => {
     dispatch({ type: "FETCH_USER" });
   }, [dispatch]);
-
+  // const location = useLocation();
+  // console.log(location);
   return (
-    <Router>
+    <Router >
       <div>
         <Nav />
         <Switch>
@@ -66,12 +71,15 @@ function App() {
             <CreateProfilePage />
           </ProtectedRoute>
 
-            <ProtectedRoute
+          <ProtectedRoute
             exact
             path="/coinDetails/:id"
-            >
-              <CoinDetailsPage />
-            </ProtectedRoute>
+            
+            // onLeave={() => {console.log('hello')}}
+            // (dispatch({ type: "CLEAR_COIN_INFO" }))
+          >
+            <CoinDetailsPage />
+          </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows UserPage else shows LoginPage
@@ -85,7 +93,7 @@ function App() {
           <ProtectedRoute
             // logged in shows InfoPage else shows LoginPage
             exact
-            path="/coinDetails"
+            path="/info"
           >
             <InfoPage />
           </ProtectedRoute>
