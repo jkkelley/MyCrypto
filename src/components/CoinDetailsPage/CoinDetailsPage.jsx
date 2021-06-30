@@ -47,8 +47,6 @@ import { TextField, useRadioGroup } from "@material-ui/core";
 import { History101 } from "react-router-dom";
 
 function CoinDetailsPage() {
-  const location = useLocation();
-  console.log(location.pathname);
   // Set our coin info from coingecko api
   const [coinsFromGecko, setCoinsFromGecko] = useState([]);
   // Timer to update price from coin gecko api
@@ -97,7 +95,6 @@ function CoinDetailsPage() {
           )
           .then((response) => {
             setCoinsFromGecko(response.data);
-            console.log(response.data)
           })
           .catch((error) => {
             console.log(`Ohh No, coingecko failed me! ${error}`);
@@ -106,8 +103,7 @@ function CoinDetailsPage() {
       }, 10000);
     }
   }, []);
-  // console.log(params);
-  // console.log(location)
+
   useEffect(() => {
     dispatch({
       type: "FETCH_COIN_INFO",
