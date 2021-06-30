@@ -52,6 +52,7 @@ function CoinDetailsPage() {
   // Timer to update price from coin gecko api
   const [timer, setTimer] = useState(false);
   const [amountUndefined, setAmountUndefined] = useState(false);
+  const [amountOwned, setAmountOwned] = useState(false);
   // Bring in Custom CSS classes
   const classes = useStyles();
   // Bring in params
@@ -100,12 +101,18 @@ function CoinDetailsPage() {
           .then((response) => {
             setCoinsFromGecko(response.data);
             setAmountUndefined(true);
-            dispatch({ type: "FETCH_COIN_INFO", payload: { id: user.id, name: params.id } });
+            dispatch({
+              type: "FETCH_COIN_INFO",
+              payload: { id: user.id, name: params.id },
+            });
             console.log(`is this firing`);
-            try {
-            } catch (error) {
-              console.log(`We had a problem with you're request`);
-            }
+
+            console.log(amountOwned);
+            // try {
+
+            // } catch (error) {
+            //   console.log(`We had a problem with you're request`);
+            // }
           })
           .catch((error) => {
             console.log(`Ohh No, coingecko failed me! ${error}`);
@@ -116,7 +123,7 @@ function CoinDetailsPage() {
   }, []);
 
   const handleAsyncIssues = () => {
-    if (coinInfoReducer.coin_info == undefined) {
+    if (coinInfoReducer.value_of_amount_owned == undefined) {
       console.log(`It was undefined`);
       setAmountUndefined(false);
     } else {
@@ -124,7 +131,15 @@ function CoinDetailsPage() {
     }
   };
 
+  const handleCoinReducerIssues = () => {
+    if (coinInfoReducer.amount_owned == undefined) {
+      setAmountOwned(false);
+    } else {
+      setAmountOwned(true);
+    }
+  };
   useEffect(() => {
+    handleCoinReducerIssues();
     handleAsyncIssues();
   });
 
@@ -168,7 +183,7 @@ function CoinDetailsPage() {
               })}
             </p>
             <div className="buy-sell-delete-options-container">
-              <BuyCoinButton useStyles={useStyles} Button={Button} />
+              {!amountOwned ? (<BuyCoinButton useStyles={useStyles} Button={Button} />) : (<p>hello</p>)}
               <SellCoinButton useStyles={useStyles} Button={Button} />
               <DeleteCoinButton useStyles={useStyles} Button={Button} />
             </div>
@@ -177,11 +192,14 @@ function CoinDetailsPage() {
               <p>{coinsFromGecko[0]?.name}</p>
               <p>
                 {amountUndefined
-                  ? (coinInfoReducer?.coin_info.toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    }))
-                  : (0)}
+                  ? coinInfoReducer?.value_of_amount_owned.toLocaleString(
+                      "en-US",
+                      {
+                        style: "currency",
+                        currency: "USD",
+                      }
+                    )
+                  : 0}
               </p>
               <p></p>
             </div>

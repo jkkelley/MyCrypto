@@ -61,6 +61,29 @@ router.get("/UpdatedAmount/:name/:id", rejectUnauthenticated, (req, res) => {
   }
 });
 
+
+router.get("/coinPageCoinInfo/:name/:id", rejectUnauthenticated, (req, res) => {
+  console.log(`You got to /api/CoinPage/coinPageCoinInfo`)
+  const nameUpper = req.params.name.toUpperCase();
+  const getCoinInfoText = `
+  SELECT * FROM coin_page
+  WHERE user_profile_id=$1 and crypto_name=$2;
+  `
+  if (req.isAuthenticated) {
+    pool
+      .query(getCoinInfoText, [Number(req.params.id), nameUpper]).then(results => {
+        console.log(results.rows)
+        res.send(results.rows)
+      }).catch(error => {
+        console.log(`Sorry we couldn't get your coin info ${error}`)
+        res.sendStatus(500)
+      })
+  } else {
+    // FORBIDDEN
+    res.sendStatus(403);
+  }
+
+})
 // POST Area
 
 router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
