@@ -8,7 +8,7 @@ function LogOutButton(props) {
   const handleLogoutClick = (event) => {
     // dispatch({ type: "CLEAR_PROFILE_INFO" });
     // dispatch({ type: "LOGOUT" });
-    dispatch({ type: "CLEAR_PROFILE_INFO", type: "LOGOUT" });
+    dispatch({ type: "CLEAR_PROFILE_INFO",  type: "LOGOUT" });
     history.push("/");
   };
   return (
