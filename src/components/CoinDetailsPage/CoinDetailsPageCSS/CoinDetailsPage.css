@@ -1,24 +1,27 @@
-.create-profile-container {
-    width: 95%;
-    max-width: 850px;
-    margin: 0 auto;
+.coin-page-container {
+  width: 95%;
+  max-width: 850px;
+  margin: 0 auto;
 }
 
 @media (max-width: 375px) {
-    
-    .create-form {
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-items: center;
-        justify-content: center;
-        width: 275px;
-    }
-    
-    .create-profile-page-form-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
+  .coin-page-details-container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    width: 275px;
+  }
+
+  .buy-sell-delete-options-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+  input.swal2-input {
+    /* text-align: center; */
+  }
 }

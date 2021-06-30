@@ -2,8 +2,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams, Redirect } from "react-router-dom";
 import { useLocation } from "react-router";
-// import { LOCATION_CHANGE } from "react-router-redux";
+import "./CoinDetailsPageCSS/CoinDetailsPage.css";
 import axios from "axios";
+
 import { makeStyles } from "@material-ui/core/styles";
 
 import BuyCoinButton from "./CoinDetailsPageComponents/BuyCoinButton";
@@ -46,7 +47,6 @@ import { TextField, useRadioGroup } from "@material-ui/core";
 import { History101 } from "react-router-dom";
 
 function CoinDetailsPage() {
-  
   const location = useLocation();
   console.log(location.pathname);
   // Set our coin info from coingecko api
@@ -75,21 +75,15 @@ function CoinDetailsPage() {
     console.log(`You clicked handleDelete`);
   };
 
-  // useEffect(() => {
-    // if ()
-  //   dispatch({ type: "CLEAR_COIN_INFO" });
-  // }, []);
-
   useEffect(() => {
     axios
       .get(
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
       )
       .then((response) => {
-
         setCoinsFromGecko(response.data);
         setTimer(0);
-        dispatch({ type: "CLEAR_COIN_INFO" })
+        dispatch({ type: "CLEAR_COIN_INFO" });
       })
       .catch((error) => {
         console.log(`Ohh No, coingecko failed me! ${error}`);
@@ -124,37 +118,42 @@ function CoinDetailsPage() {
       {!profileData ? (
         <Redirect to="/createProfile" />
       ) : (
-        <div>
-          <h2>Coin Details Page</h2>
-          <div className="account-balance-container">
-            <h5>Balance</h5>
+        <div className="coin-page-container">
+          <div className="coin-page-details-container">
+            <h2>Coin Details Page</h2>
+            <div className="account-balance-container">
+              <h5>Balance</h5>
+              <p>
+                {Number(profileData[0]?.account_balance).toLocaleString(
+                  "en-US",
+                  {
+                    style: "currency",
+                    currency: "USD",
+                  }
+                )}
+              </p>
+            </div>
+
+            <h3>{coinsFromGecko[0]?.name}</h3>
             <p>
-              {Number(profileData[0]?.account_balance).toLocaleString("en-US", {
+              {coinsFromGecko[0]?.current_price.toLocaleString("en-US", {
                 style: "currency",
                 currency: "USD",
               })}
             </p>
-          </div>
+            <div className="buy-sell-delete-options-container">
+              <BuyCoinButton useStyles={useStyles} Button={Button} />
+              <SellCoinButton useStyles={useStyles} Button={Button} />
+              <DeleteCoinButton useStyles={useStyles} Button={Button} />
+            </div>
 
-          <h3>{coinsFromGecko[0]?.name}</h3>
-          <p>
-            {coinsFromGecko[0]?.current_price.toLocaleString("en-US", {
-              style: "currency",
-              currency: "USD",
-            })}
-          </p>
-          <div className="buy-sell-delete-options-container">
-            <BuyCoinButton useStyles={useStyles} Button={Button} />
-            <SellCoinButton useStyles={useStyles} Button={Button} />
-            <DeleteCoinButton useStyles={useStyles} Button={Button} />
-          </div>
+            <div>
+              <p>{coinsFromGecko[0]?.name}</p>
+            </div>
 
-          <div>
-            <p>{coinsFromGecko[0]?.name}</p>
-          </div>
-
-          <div className="notes-container">
-            <NotesFromServer />
+            <div className="notes-container">
+              <NotesFromServer />
+            </div>
           </div>
         </div>
       )}
