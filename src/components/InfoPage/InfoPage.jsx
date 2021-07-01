@@ -4,6 +4,8 @@ import InfoPage2 from "./InfoPage2";
 import "./CreateProfilePage.css";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
+import NavDrawer from "../NavDrawer/NavDrawer";
+
 // This is one of our simplest components
 // It doesn't have local state
 // It doesn't dispatch any redux actions or display any part of redux state
@@ -53,6 +55,7 @@ function InfoPage() {
         <Redirect to="/createProfile" />
       ) : (
         <div className="create-profile-container">
+          <NavDrawer props={true} />
           <div className="create-form">
             <div className="coin-container">
               <h3>Looking for a Coin?</h3>

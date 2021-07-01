@@ -19,6 +19,8 @@ import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
+import { useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 
 const drawerWidth = 240;
 
@@ -56,6 +58,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function NavDrawer({ props }) {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
@@ -64,11 +68,32 @@ function NavDrawer({ props }) {
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-
+  console.log(props);
   const handleNavClick = (event) => {
+    event.preventDefault;
     console.log(`You clicked a link on the nav bar`);
-    if (event === "Profile") {
-      console.log("Profile");
+    // Based on the event, travel to the corresponding path
+    switch (event) {
+      case "Profile":
+        try {
+          console.log(event);
+          dispatch({ type: "CLEAR_COIN_INFO" });
+          history.push("/profile");
+        } catch (error) {
+          console.log(`Had a Nav Error ${error}`);
+        }
+        break;
+      case "Coin Market":
+        try {
+          console.log(event);
+          dispatch({ type: "CLEAR_COIN_INFO" });
+          history.push("/info");
+        } catch (error) {
+          console.log(`Had a Nav Error ${error}`);
+        }
+        break;
+      case "Logout":
+        dispatch({ type: "LOGOUT" });
     }
   };
   const drawer = (
@@ -78,8 +103,7 @@ function NavDrawer({ props }) {
       <List>
         {["Profile", "Coin Market", "Logout"].map((text, index) => (
           <ListItem button key={text} onClick={() => handleNavClick(text)}>
-            <ListItemIcon >
-              {/* { % 2 === 0 ? <InboxIcon /> : <MailIcon />} */}
+            <ListItemIcon>
               {index === 0 ? <AccountBoxIcon value={0} /> : ""}
               {index === 1 ? <AccountBalanceIcon value={1} /> : ""}
               {index === 2 ? <ExitToAppIcon value={2} /> : ""}
@@ -110,7 +134,7 @@ function NavDrawer({ props }) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            Menu
+            MyCrypto
           </Typography>
         </Toolbar>
       </AppBar>

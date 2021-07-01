@@ -11,7 +11,7 @@ import BuyCoinButton from "./CoinDetailsPageComponents/BuyCoinButton";
 import DeleteCoinButton from "./CoinDetailsPageComponents/DeleteCoinButton";
 import NotesFromServer from "./CoinDetailsPageComponents/NotesFromServer";
 import SellCoinButton from "./CoinDetailsPageComponents/SellCoinButton";
-
+import NavDrawer from "../NavDrawer/NavDrawer";
 const useStyles = makeStyles({
   root1: {
     background: "linear-gradient(45deg, #003366 30%, #FF8E53 90%)",
@@ -55,11 +55,12 @@ function CoinDetailsPage() {
   const [timer, setTimer] = useState(false);
   const [amountUndefined, setAmountUndefined] = useState(false);
   const [amountOwned, setAmountOwned] = useState(false);
+
   // Bring in Custom CSS classes
   const classes = useStyles();
   // Bring in params
   const params = useParams();
-  //   console.log(params);
+  console.log(location);
   // Bring in useHistory
   const history = useHistory();
   // Bring in dispatch
@@ -80,49 +81,92 @@ function CoinDetailsPage() {
   };
 
   useEffect(() => {
-    dispatch({ type: "CLEAR_COIN_INFO" });
-    dispatch({
-      type: "FETCH_COIN_INFO",
-      payload: { id: user.id, name: params.id },
-    });
-    // axios
-    //   .get(
-    //     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
-    //   )
-    //   .then((response) => {
-
-    //     setCoinsFromGecko(response.data);
-    //     // setTimer(false);
-    //     // setAmountUndefined(true);
-    //     // dispatch({ type: "CLEAR_COIN_INFO" });
-    //   })
-
-    //   .catch((error) => {
-    //     console.log(`Ohh No, coingecko failed me! ${error}`);
-    //     alert(`We've had problem, sorry`);
-    //   });
-    if (timer == false && profileData == !undefined) {
+    if (location.pathname == `/coinDetails/${params.id}`) {
       setInterval(() => {
-        axios
-          .get(
-            `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
-          )
-          .then((response) => {
-            setCoinsFromGecko(response.data);
-            setAmountUndefined(true);
-            dispatch({
-              type: "FETCH_COIN_INFO",
-              payload: { id: user.id, name: params.id },
-            });
-            console.log(`is this firing`);
+        // try {
+        //   axios
+        //     .get(
+        //       `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+        //     )
+        //     .then((response) => {
+        //       setCoinsFromGecko(response.data);
+        //     })
 
-            console.log(amountOwned);
-          })
-          .catch((error) => {
-            console.log(`Ohh No, coingecko failed me! ${error}`);
-            // alert(`We've had problem, sorry`);
-          });
+        //     .catch((error) => {
+        //       console.log(`Ohh No, coingecko failed me! ${error}`);
+        //       alert(`We've had problem, sorry`);
+        //     });
+        // } catch (error) {
+        //   console.log(`Error`);
+        // }
+        try {
+          axios
+            .get(
+              `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+            )
+            .then((response) => {
+              setCoinsFromGecko(response.data);
+              setAmountUndefined(true);
+              console.log(`Line 112 Dispatched`);
+              dispatch({
+                type: "FETCH_COIN_INFO",
+                payload: { id: user.id, name: params.id },
+              });
+            })
+            .catch((error) => {
+              console.log(`Ohh No, coingecko failed me! ${error}`);
+              // alert(`We've had problem, sorry`);
+            });
+        } catch (error) {
+          console.log(`Error`);
+        }
       }, 10000);
+    } else {
+      clearInterval(() => {
+        dispatch({ type: "CLEAR_CURRENT_USER_LOCATION" });
+      });
+    }
+  }, []);
+
+  const [initialState, setInitialState] = useState(true);
+  useEffect(() => {
+    // dispatch({ type: "CURRENT_USER_LOCATION" , payload: });
+    if (initialState) {
+      axios
+        .get(
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+        )
+        .then((response) => {
+          setCoinsFromGecko(response.data);
+          setInitialState(!initialState);
+        })
+
+        .catch((error) => {
+          console.log(`Ohh No, coingecko failed me! ${error}`);
+          alert(`We've had problem, sorry`);
+        });
+
+      // axios
+      //   .get(
+      //     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+      //   )
+      //   .then((response) => {
+      //     setCoinsFromGecko(response.data);
+      //     setAmountUndefined(true);
+      //     console.log(`Line 112 Dispatched`);
+      //     dispatch({
+      //       type: "FETCH_COIN_INFO",
+      //       payload: { id: user.id, name: params.id },
+      //     });
+      //     console.log(`is this firing`);
+      //     console.log(coinInfoReducer?.value_of_amount_owned);
+
+      //     console.log(amountOwned);
+      //   })
+      //   .catch((error) => {
+      //     console.log(`Ohh No, coingecko failed me! ${error}`);
+      //     // alert(`We've had problem, sorry`);
+      //   });
     }
   }, []);
 
@@ -130,9 +174,9 @@ function CoinDetailsPage() {
     if (coinInfoReducer.value_of_amount_owned == undefined) {
       console.log(`It was undefined`);
       setAmountUndefined(false);
-    }// } else {
-    //   setAmountUndefined(true);
-    // }
+    } else {
+      setAmountUndefined(true);
+    }
   };
 
   const handleCoinReducerIssues = () => {
@@ -144,7 +188,7 @@ function CoinDetailsPage() {
   };
   useEffect(() => {
     handleCoinReducerIssues();
-    // handleAsyncIssues();
+    handleAsyncIssues();
   });
 
   // useEffect(() => {
@@ -162,15 +206,14 @@ function CoinDetailsPage() {
      */
     dispatch({ type: "CURRENT_USER_LOCATION", payload: location.pathname });
   }, []);
-
-// console.log(coinInfoReducer?.amount_owned)
-
+  console.log(coinInfoReducer?.amount_owned);
   return (
     <>
       {!profileData ? (
         <Redirect to="/createProfile" />
       ) : (
         <div className="coin-page-container">
+          <NavDrawer props={true} />
           <div className="coin-page-details-container">
             <h2>Coin Details Page</h2>
             <div className="account-balance-container">
@@ -208,17 +251,24 @@ function CoinDetailsPage() {
             <div>
               <p>{coinsFromGecko[0]?.name}</p>
               <p>
-                {amountUndefined
-                  ? (coinInfoReducer?.value_of_amount_owned.toLocaleString(
-                      "en-US",
-                      {
-                        style: "currency",
-                        currency: "USD",
-                      }
-                    ))
-                  : 0}
+                {coinInfoReducer?.value_of_amount_owned?.toLocaleString(
+                  "en-US",
+                  {
+                    style: "currency",
+                    currency: "USD",
+                  }
+                )}
               </p>
-              <p></p>
+              <p>
+                {Number(
+                  coinInfoReducer?.amount_owned[0]?.amount_owned.toLocaleString(
+                    {
+                      style: "currency",
+                      currency: "USD",
+                    }
+                  )
+                )}
+              </p>
             </div>
 
             <div className="notes-container">

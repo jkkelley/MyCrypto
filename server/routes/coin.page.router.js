@@ -61,29 +61,29 @@ router.get("/UpdatedAmount/:name/:id", rejectUnauthenticated, (req, res) => {
   }
 });
 
-
 router.get("/coinPageCoinInfo/:name/:id", rejectUnauthenticated, (req, res) => {
-  console.log(`You got to /api/CoinPage/coinPageCoinInfo`)
+  console.log(`You got to /api/CoinPage/coinPageCoinInfo`);
   const nameUpper = req.params.name.toUpperCase();
   const getCoinInfoText = `
   SELECT * FROM coin_page
   WHERE user_profile_id=$1 and crypto_name=$2;
-  `
+  `;
   if (req.isAuthenticated) {
     pool
-      .query(getCoinInfoText, [Number(req.params.id), nameUpper]).then(results => {
-        console.log(results.rows)
-        res.send(results.rows)
-      }).catch(error => {
-        console.log(`Sorry we couldn't get your coin info ${error}`)
-        res.sendStatus(500)
+      .query(getCoinInfoText, [Number(req.params.id), nameUpper])
+      .then((results) => {
+        console.log(results.rows);
+        res.send(results.rows);
       })
+      .catch((error) => {
+        console.log(`Sorry we couldn't get your coin info ${error}`);
+        res.sendStatus(500);
+      });
   } else {
     // FORBIDDEN
     res.sendStatus(403);
   }
-
-})
+});
 // POST Area
 
 router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
@@ -133,7 +133,10 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
                 // Amount user will be spending
                 let purchasePriceAmount =
                   req.body.amount * coin_current_market_price;
-                console.log(`amount you'll spend => `, purchasePriceAmount.toFixed(2));
+                console.log(
+                  `amount you'll spend => `,
+                  purchasePriceAmount.toFixed(2)
+                );
                 console.log(
                   `Can you buy this coin => `,
                   account_balance > purchasePriceAmount.toFixed(2)
@@ -147,7 +150,10 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
                   // The query we send Subtracts purchasePriceAmount
                   // from table user_profile, column account_balance.
                   pool
-                    .query(queryUpdateText, [Number(purchasePriceAmount).toFixed(2), req.body.id])
+                    .query(queryUpdateText, [
+                      Number(purchasePriceAmount).toFixed(2),
+                      req.body.id,
+                    ])
                     .then((response) => {
                       // console.log(response.data)
                       try {
@@ -199,6 +205,113 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
     } catch (error) {
       console.log(`We had a problem`);
     }
+  }
+});
+
+// PUT Area
+router.put("/sellCoin/:name/:id", rejectUnauthenticated, (req, res) => {
+  if (req.isAuthenticated) {
+    console.log(req.body);
+
+    // Users account balance from table user_profile
+    let account_balance = 0;
+    // Users coin amount_owned from table coin_page
+    let amount_owned = 0;
+    // User coin amount trying to sell
+    let amount_to_sell = req.body.amount;
+    // Current Market Price for coin
+    let coin_current_market_price = 0;
+    // All Coins in database are Uppercase
+    const nameUpper = req.params.name.toUpperCase();
+
+    const queryToSellCoin = `
+    UPDATE coin_page SET amount_owned=amount_owned-$1 
+    WHERE user_profile_id=$2
+    `;
+    const queryGetText = `
+  SELECT * FROM user_profile
+  WHERE users_id=$1;
+  `;
+    const queryGetCoinPageText = `
+SELECT * FROM coin_page
+WHERE user_profile_id=$1
+`;
+
+    try {
+      axios
+        .get(
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${req.body.name}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+        )
+        .then((results) => {
+          // Set the current price of the coin to our variable
+          coin_current_market_price = Number(results.data[0].current_price);
+          console.log(coin_current_market_price);
+          try {
+            pool
+              .query(queryGetText, [Number(req.params.id)])
+              .then((results) => {
+                // console.log(results.rows);
+                account_balance = Number(results.rows[0].account_balance);
+                console.log(`account balance =>`, account_balance);
+                // res.send(`OK`);
+              })
+              .then(() => {
+                pool
+                  .query(queryGetCoinPageText, [Number(req.params.id)])
+                  .then((results) => {
+                    // Set users coin amount owned
+                    amount_owned = Number(results.rows[0].amount_owned);
+                    console.log(`amount of coin user owns =>`, amount_owned);
+                    console.log(
+                      `Can you sell this coin =>`,
+                      amount_to_sell <= amount_owned
+                    );
+                    if (amount_to_sell <= amount_owned) {
+                      try {
+                        pool
+                          .query(queryToSellCoin, [
+                            amount_to_sell,
+                            Number(req.params.id),
+                          ])
+                          .then((results) => {
+                            console.log(results.rows);
+                            res.send(results)
+                          })
+                          .catch(
+                            `We couldn't sell you're coin to the database`,
+                            error
+                          );
+                      } catch (error) {
+                        console.log(`Capt, we're super far down again!`);
+                      }
+                    } else {
+                      res.send([-1]);
+                    }
+                  })
+                  .catch((error) => {
+                    console.log(
+                      `Sorry we couldn't get your coin info ${error}`
+                    );
+                    res.sendStatus(500);
+                  });
+              })
+              .catch((error) => {
+                console.log(`Sorry we couldn't get your user info ${error}`);
+                res.sendStatus(500);
+              });
+          } catch (error) {
+            console.log(`Had a problem selling you're coin`, error);
+          }
+        })
+        .catch((error) => {
+          console.log(`We had a coingecko error`, error);
+        });
+    } catch (error) {
+      console.log(`We can't delete you're coin`, error);
+    }
+  } else {
+    // You didn't make the cut
+    res.sendStatus(403); // Forbidden!
   }
 });
 

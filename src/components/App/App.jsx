@@ -38,12 +38,11 @@ function App() {
   useEffect(() => {
     dispatch({ type: "FETCH_USER" });
   }, [dispatch]);
-  // const location = useLocation();
-  // console.log(location);
+
   return (
     <Router>
       <div>
-        <Nav />
+
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />

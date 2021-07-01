@@ -14,6 +14,7 @@ import { UsersFirstName } from "./ProfilePageComponents/profile.users.first.name
 import { UsersLastName } from "./ProfilePageComponents/profile.users.last.name";
 import { UsersNickName } from "./ProfilePageComponents/profile.users.nickname";
 import { UsersPhoneNumber } from "./ProfilePageComponents/profile.users.phone.number";
+import NavDrawer from "../NavDrawer/NavDrawer";
 
 function ProfilePage() {
   const profileData = useSelector((store) => store.profileData);
@@ -66,6 +67,7 @@ function ProfilePage() {
         <Redirect to="/createProfile" />
       ) : (
         <div className="create-profile-container">
+          <NavDrawer props={true}/>
           <div className="create-form">
             <p>Profile Page</p>
             <form className="create-profile-page-form-container">
