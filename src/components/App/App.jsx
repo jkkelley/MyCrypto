@@ -41,7 +41,7 @@ function App() {
   // const location = useLocation();
   // console.log(location);
   return (
-    <Router >
+    <Router>
       <div>
         <Nav />
         <Switch>
@@ -74,7 +74,7 @@ function App() {
           <ProtectedRoute
             exact
             path="/coinDetails/:id"
-            
+
             // onLeave={() => {console.log('hello')}}
             // (dispatch({ type: "CLEAR_COIN_INFO" }))
           >

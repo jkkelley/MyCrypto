@@ -1,15 +1,19 @@
 import { put, takeLatest, takeEvery } from "redux-saga/effects";
 import axios from "axios";
 
-function* getCoinInfo(action) {
+function*  getCoinInfo(action) {
   console.log(action.payload);
   try {
     // Set a response for our axios get promise
-    const response = yield axios.get(
+    const response =  yield axios.get(
       `/api/CoinPage/UpdatedAmount/${action.payload.name}/${action.payload.id}`
     );
+    const coin_page_coin_info = yield axios.get(
+      `/api/CoinPage/coinPageCoinInfo/${action.payload.name}/${action.payload.id}`
+    );
     // Set reducer with our data from database
-    yield put({ type: "SET_COIN_INFO", payload: response.data });
+    yield put({ type: "SET_VALUE_AMOUNT_OWNED", payload: response.data });
+    yield put ({type: "SET_ACCOUNT_COIN_AMOUNT", payload: coin_page_coin_info.data})
     yield put({ type: "GET_COININFO_REDUCER" });
   } catch (error) {
     console.log(`Sorry we had a problem with GET coin info`, error);

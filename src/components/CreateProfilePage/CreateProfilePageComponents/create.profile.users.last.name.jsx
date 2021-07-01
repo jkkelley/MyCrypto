@@ -61,6 +61,7 @@ export const UsersLastName = () => {
         onChange={handleLastNameChange}
         onClick={handleFirstName}
         value={formSubmission?.last}
+        disabled
       />
     </>
   );

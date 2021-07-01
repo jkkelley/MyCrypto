@@ -56,6 +56,7 @@ export const UsersNickname = () => {
         onChange={handleNicknameChange}
         onClick={handleNickname}
         value={formSubmission?.nickname}
+        disabled
       />
     </>
   );

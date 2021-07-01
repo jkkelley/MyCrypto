@@ -8,7 +8,6 @@ import TextField from "@material-ui/core/TextField";
 
 import Swal from "sweetalert2";
 
-
 export const UsersFirstName = () => {
   const params = useParams();
 
@@ -41,7 +40,6 @@ export const UsersFirstName = () => {
       });
       // Dispatch Users First name and their id to reducer.
       dispatch({ type: "SET_FIRST_NAME_CREATE_PROFILE", payload: firstName });
-
     }
   };
 
@@ -61,6 +59,7 @@ export const UsersFirstName = () => {
         onClick={handleFirstName}
         onChange={handleFirstNameChange}
         value={formSubmission?.first}
+        disabled
       />
     </>
   );

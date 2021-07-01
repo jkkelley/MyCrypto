@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory, Redirect, useLocation, useParams } from "react-router-dom";
 
 // Custom CSS
 import "./CreateProfilePage.css";
@@ -10,7 +10,7 @@ import { UsersFirstName } from "./CreateProfilePageComponents/create.profile.use
 import { UsersLastName } from "./CreateProfilePageComponents/create.profile.users.last.name";
 import { UsersEmail } from "./CreateProfilePageComponents/create.profile.users.email";
 import { UsersNickname } from "./CreateProfilePageComponents/create.profile.users.nickname";
-
+import NavDrawer from "../NavDrawer/NavDrawer";
 // Material-ui Imports
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
@@ -28,7 +28,13 @@ const useStyles = makeStyles((theme) => ({
 // Sweetalert2
 import Swal from "sweetalert2";
 
+
 function CreateProfilePage() {
+
+  // Bring Location in
+  const location = useLocation();
+  // Bring in Params
+  const params = useParams();
   const classes = useStyles();
   // Bring in useHistory
   const history = useHistory();
@@ -76,27 +82,33 @@ function CreateProfilePage() {
       setAlertState(true);
     }
   };
+  console.log(location.pathname);
+  useEffect(() => {
+    /**
+     * Dispatch Location reducer current location
+     */
+    dispatch({ type: "CURRENT_USER_LOCATION", payload: location.pathname });
+  }, []);
 
   return (
     <>
       {/* No profile, redirect them to make one. */}
       {!profileData.length ? (
         <div className="create-profile-container">
+          <NavDrawer props={true}/>
           <div className="create-form">
             {!alertState ? (
               <p>Create Profile Page</p>
             ) : (
               <div className={classes.root}>
-                <Alert severity="error">
-                  Need Valid Email
-                </Alert>
+                <Alert severity="error">Need Valid Email</Alert>
               </div>
             )}
             <form className="create-profile-page-form-container">
               <UsersFirstName />
               <UsersLastName />
               <UsersNickname />
-              <UsersEmail setAlertState={setAlertState}/>
+              <UsersEmail setAlertState={setAlertState} />
 
               <Button variant="outlined" onClick={handleCreateProfile}>
                 Add

@@ -20,7 +20,7 @@ function* loginUser(action) {
     // after the user has logged in
     // get the user information from the server
     yield put({ type: "FETCH_USER" });
-    yield put({type: "CLEAR_COIN_INFO"})
+    yield put({ type: "CLEAR_COIN_INFO" });
   } catch (error) {
     console.log("Error with user login:", error);
     if (error.response.status === 401) {
@@ -54,6 +54,7 @@ function* logoutUser(action) {
     // now that the session has ended on the server
     // remove the client-side user object to let
     // the client-side code know the user is logged out
+    yield put({ type: "CLEAR_CURRENT_USER_LOCATION" });
     yield put({ type: "CLEAR_PROFILE_INFO" });
     yield put({ type: "UNSET_USER" });
   } catch (error) {

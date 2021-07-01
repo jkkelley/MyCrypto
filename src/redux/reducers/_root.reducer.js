@@ -1,6 +1,7 @@
 
 import { coinInfoReducer } from './coin.page.reducer';
 import { combineReducers } from 'redux';
+import {currentUserLocationReducer} from "./current.user.location.reducer"
 import { formSubmission } from './form.submission.reducer';
 import { profileData } from './profile.reducer';
 
@@ -15,6 +16,7 @@ import user from './user.reducer';
 // This is what we get when we use 'state' inside of 'mapStateToProps'
 const rootReducer = combineReducers({
   coinInfoReducer,
+  currentUserLocationReducer,
   formSubmission, // contains form for creating a user_profile
   errors, // contains registrationMessage and loginMessage
   profileData, // contains profile data from table user_profile
