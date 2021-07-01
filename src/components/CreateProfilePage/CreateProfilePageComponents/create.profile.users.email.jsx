@@ -61,6 +61,7 @@ export const UsersEmail = ({setAlertState}) => {
         onChange={handleEmailChange}
         onClick={handleEmail}
         value={formSubmission?.email}
+        disabled
       />
     </>
   );

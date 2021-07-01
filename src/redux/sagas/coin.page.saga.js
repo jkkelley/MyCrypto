@@ -1,7 +1,7 @@
 import { put, takeLatest, takeEvery } from "redux-saga/effects";
 import axios from "axios";
 
-function* getCoinInfo(action) {
+function*  getCoinInfo(action) {
   console.log(action.payload);
   try {
     // Set a response for our axios get promise

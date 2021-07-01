@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams, Redirect } from "react-router-dom";
-import { useLocation } from "react-router";
+import { useHistory, useParams, Redirect, useLocation } from "react-router-dom";
+
 import "./CoinDetailsPageCSS/CoinDetailsPage.css";
 import axios from "axios";
 
@@ -47,6 +47,8 @@ import { TextField, useRadioGroup } from "@material-ui/core";
 import { History101 } from "react-router-dom";
 
 function CoinDetailsPage() {
+  // Bring Location in
+  const location = useLocation();
   // Set our coin info from coingecko api
   const [coinsFromGecko, setCoinsFromGecko] = useState([]);
   // Timer to update price from coin gecko api
@@ -78,21 +80,28 @@ function CoinDetailsPage() {
   };
 
   useEffect(() => {
-    axios
-      .get(
-        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
-      )
-      .then((response) => {
-        setCoinsFromGecko(response.data);
-        // setTimer(false);
+    dispatch({ type: "CLEAR_COIN_INFO" });
+    dispatch({
+      type: "FETCH_COIN_INFO",
+      payload: { id: user.id, name: params.id },
+    });
+    // axios
+    //   .get(
+    //     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+    //   )
+    //   .then((response) => {
 
-        dispatch({ type: "CLEAR_COIN_INFO" });
-      })
-      .catch((error) => {
-        console.log(`Ohh No, coingecko failed me! ${error}`);
-        alert(`We've had problem, sorry`);
-      });
-    if (timer === false) {
+    //     setCoinsFromGecko(response.data);
+    //     // setTimer(false);
+    //     // setAmountUndefined(true);
+    //     // dispatch({ type: "CLEAR_COIN_INFO" });
+    //   })
+
+    //   .catch((error) => {
+    //     console.log(`Ohh No, coingecko failed me! ${error}`);
+    //     alert(`We've had problem, sorry`);
+    //   });
+    if (timer == false && profileData == !undefined) {
       setInterval(() => {
         axios
           .get(
@@ -108,15 +117,10 @@ function CoinDetailsPage() {
             console.log(`is this firing`);
 
             console.log(amountOwned);
-            // try {
-
-            // } catch (error) {
-            //   console.log(`We had a problem with you're request`);
-            // }
           })
           .catch((error) => {
             console.log(`Ohh No, coingecko failed me! ${error}`);
-            alert(`We've had problem, sorry`);
+            // alert(`We've had problem, sorry`);
           });
       }, 10000);
     }
@@ -126,9 +130,9 @@ function CoinDetailsPage() {
     if (coinInfoReducer.value_of_amount_owned == undefined) {
       console.log(`It was undefined`);
       setAmountUndefined(false);
-    } else {
-      setAmountUndefined(true);
-    }
+    }// } else {
+    //   setAmountUndefined(true);
+    // }
   };
 
   const handleCoinReducerIssues = () => {
@@ -140,17 +144,26 @@ function CoinDetailsPage() {
   };
   useEffect(() => {
     handleCoinReducerIssues();
-    handleAsyncIssues();
+    // handleAsyncIssues();
   });
 
-  useEffect(() => {
-    dispatch({ type: "CLEAR_COIN_INFO" });
+  // useEffect(() => {
+  //   dispatch({ type: "CLEAR_COIN_INFO" });
 
-    dispatch({
-      type: "FETCH_COIN_INFO",
-      payload: { id: user.id, name: params.id },
-    });
+  //   dispatch({
+  //     type: "FETCH_COIN_INFO",
+  //     payload: { id: user.id, name: params.id },
+  //   });
+  // }, []);
+
+  useEffect(() => {
+    /**
+     * Dispatch Location reducer current location
+     */
+    dispatch({ type: "CURRENT_USER_LOCATION", payload: location.pathname });
   }, []);
+
+// console.log(coinInfoReducer?.amount_owned)
 
   return (
     <>
@@ -183,7 +196,11 @@ function CoinDetailsPage() {
               })}
             </p>
             <div className="buy-sell-delete-options-container">
-              {!amountOwned ? (<BuyCoinButton useStyles={useStyles} Button={Button} />) : (<p>hello</p>)}
+              {!amountOwned ? (
+                <BuyCoinButton useStyles={useStyles} Button={Button} />
+              ) : (
+                <p>hello</p>
+              )}
               <SellCoinButton useStyles={useStyles} Button={Button} />
               <DeleteCoinButton useStyles={useStyles} Button={Button} />
             </div>
@@ -192,13 +209,13 @@ function CoinDetailsPage() {
               <p>{coinsFromGecko[0]?.name}</p>
               <p>
                 {amountUndefined
-                  ? coinInfoReducer?.value_of_amount_owned.toLocaleString(
+                  ? (coinInfoReducer?.value_of_amount_owned.toLocaleString(
                       "en-US",
                       {
                         style: "currency",
                         currency: "USD",
                       }
-                    )
+                    ))
                   : 0}
               </p>
               <p></p>
