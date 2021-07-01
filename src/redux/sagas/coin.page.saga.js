@@ -24,6 +24,29 @@ function* getCoinInfo(action) {
   }
 }
 
+function* getCoinInfo2(action) {
+  console.log(action);
+  try {
+    // Set a response for our axios get promise
+    const coin_page_coin_info = yield axios.get(
+      `/api/CoinPage/coinPageCoinInfo/${action.payload.name}/${action.payload.id}`
+    );
+    const response = yield axios.get(
+      `/api/CoinPage/UpdatedAmount/${action.payload.name}/${action.payload.id}`
+    );
+
+    // Set reducer with our data from database
+    yield put({
+      type: "SET_ACCOUNT_COIN_AMOUNT",
+      payload: coin_page_coin_info.data,
+    });
+    yield put({ type: "SET_VALUE_AMOUNT_OWNED", payload: response.data });
+    yield put({ type: "GET_COININFO_REDUCER" });
+  } catch (error) {
+    console.log(`Sorry we had a problem with GET coin info`, error);
+  }
+}
+
 function* postAmountToBuy(action) {
   // Set our action.payload to a data object
   // to send on our POST promise
@@ -40,12 +63,8 @@ function* postAmountToBuy(action) {
     // Set reducer with our data from database
     yield put({ type: "SET_ACCOUNT_COIN_AMOUNT", payload: response.data });
     yield put({
-      type: "FETCH_COIN_INFO",
-      payload: {
-        amount: action.payload.amount,
-        name: action.payload.name,
-        id: action.payload.id,
-      },
+      type: "FETCH_COIN_INFO2",
+      payload: action.payload
     });
     yield put({ type: "GET_COININFO_REDUCER" });
 
@@ -65,11 +84,14 @@ function* deleteCoinAmount(action) {
     id: action.payload.id,
   };
   try {
-    const response = yield axios.put(
+    axios.put(
       `/api/CoinPage/sellCoin/${action.payload.name}/${action.payload.id}`,
       data
     );
+    yield put({ type: "FETCH_COIN_INFO2", payload: action.payload });
+    yield put({ type: "UPDATE_COIN_INFO", payload: action.payload });
 
+    // yield put({ type: "UPDATE_COIN_INFO", payload: response.data });
   } catch (error) {
     console.log(`We had an error Deleting coin amount`, error);
   }
@@ -77,6 +99,8 @@ function* deleteCoinAmount(action) {
 
 function* coinPageSaga() {
   yield takeLatest("FETCH_COIN_INFO", getCoinInfo);
+  yield takeLatest("FETCH_COIN_INFO2", getCoinInfo2);
+
   yield takeLatest("POST_COIN_AMOUNT", postAmountToBuy);
   yield takeLatest("DELETE_COIN_AMOUNT", deleteCoinAmount);
 }
