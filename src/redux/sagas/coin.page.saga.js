@@ -18,7 +18,7 @@ function* getCoinInfo(action) {
       payload: coin_page_coin_info.data,
     });
     yield put({ type: "SET_VALUE_AMOUNT_OWNED", payload: response.data });
-    // yield put({ type: "GET_COININFO_REDUCER" });
+    // yield put({ type: "GET_COIN_INFO_REDUCER" });
   } catch (error) {
     console.log(`Sorry we had a problem with GET coin info`, error);
   }
@@ -41,7 +41,7 @@ function* getCoinInfo2(action) {
       payload: coin_page_coin_info.data,
     });
     yield put({ type: "SET_VALUE_AMOUNT_OWNED", payload: response.data });
-    yield put({ type: "GET_COININFO_REDUCER" });
+    yield put({ type: "GET_COIN_INFO_REDUCER" });
   } catch (error) {
     console.log(`Sorry we had a problem with GET coin info`, error);
   }
@@ -64,9 +64,9 @@ function* postAmountToBuy(action) {
     yield put({ type: "SET_ACCOUNT_COIN_AMOUNT", payload: response.data });
     yield put({
       type: "FETCH_COIN_INFO2",
-      payload: action.payload
+      payload: action.payload,
     });
-    yield put({ type: "GET_COININFO_REDUCER" });
+    yield put({ type: "GET_COIN_INFO_REDUCER" });
 
     // profileData needs to update our DOM
     yield put({ type: "GET_CREATE_PROFILE" });
