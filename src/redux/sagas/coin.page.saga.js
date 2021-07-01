@@ -1,20 +1,24 @@
 import { put, takeLatest, takeEvery } from "redux-saga/effects";
 import axios from "axios";
 
-function*  getCoinInfo(action) {
+function* getCoinInfo(action) {
   console.log(action.payload);
   try {
     // Set a response for our axios get promise
-    const response =  yield axios.get(
-      `/api/CoinPage/UpdatedAmount/${action.payload.name}/${action.payload.id}`
-    );
     const coin_page_coin_info = yield axios.get(
       `/api/CoinPage/coinPageCoinInfo/${action.payload.name}/${action.payload.id}`
     );
+    const response = yield axios.get(
+      `/api/CoinPage/UpdatedAmount/${action.payload.name}/${action.payload.id}`
+    );
+
     // Set reducer with our data from database
+    yield put({
+      type: "SET_ACCOUNT_COIN_AMOUNT",
+      payload: coin_page_coin_info.data,
+    });
     yield put({ type: "SET_VALUE_AMOUNT_OWNED", payload: response.data });
-    yield put ({type: "SET_ACCOUNT_COIN_AMOUNT", payload: coin_page_coin_info.data})
-    yield put({ type: "GET_COININFO_REDUCER" });
+    // yield put({ type: "GET_COININFO_REDUCER" });
   } catch (error) {
     console.log(`Sorry we had a problem with GET coin info`, error);
   }
@@ -35,7 +39,16 @@ function* postAmountToBuy(action) {
     );
     // Set reducer with our data from database
     yield put({ type: "SET_ACCOUNT_COIN_AMOUNT", payload: response.data });
+    yield put({
+      type: "FETCH_COIN_INFO",
+      payload: {
+        amount: action.payload.amount,
+        name: action.payload.name,
+        id: action.payload.id,
+      },
+    });
     yield put({ type: "GET_COININFO_REDUCER" });
+
     // profileData needs to update our DOM
     yield put({ type: "GET_CREATE_PROFILE" });
   } catch (error) {
@@ -43,9 +56,29 @@ function* postAmountToBuy(action) {
   }
 }
 
+function* deleteCoinAmount(action) {
+  // Set our action.payload to a data object
+  // to send on our POST promise
+  const data = {
+    amount: action.payload.amount,
+    name: action.payload.name,
+    id: action.payload.id,
+  };
+  try {
+    const response = yield axios.put(
+      `/api/CoinPage/sellCoin/${action.payload.name}/${action.payload.id}`,
+      data
+    );
+
+  } catch (error) {
+    console.log(`We had an error Deleting coin amount`, error);
+  }
+}
+
 function* coinPageSaga() {
   yield takeLatest("FETCH_COIN_INFO", getCoinInfo);
   yield takeLatest("POST_COIN_AMOUNT", postAmountToBuy);
+  yield takeLatest("DELETE_COIN_AMOUNT", deleteCoinAmount);
 }
 
 export default coinPageSaga;

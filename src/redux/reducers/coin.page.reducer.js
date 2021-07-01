@@ -8,7 +8,7 @@ export const coinInfoReducer = (state = [], action) => {
     case "CLEAR_COIN_INFO":
       return [];
     case "GET_COININFO_REDUCER":
-      return state;
+      return {...state};
     default:
       return state;
   }
