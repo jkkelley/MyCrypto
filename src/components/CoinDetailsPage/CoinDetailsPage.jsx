@@ -46,7 +46,8 @@ import Swal from "sweetalert2";
 import { TextField, useRadioGroup } from "@material-ui/core";
 import { History101 } from "react-router-dom";
 
-function CoinDetailsPage() {
+function CoinDetailsPage({coins}) {
+  console.log(coins)
   // Bring Location in
   const location = useLocation();
   // Set our coin info from coingecko api
@@ -79,7 +80,6 @@ function CoinDetailsPage() {
       initialState === false &&
       currentUserLocationReducer === location.pathname
     ) {
-      // if (location.pathname == `/coinDetails/${params.id}`) {
       setTimeout(() => {
         try {
           axios
@@ -156,10 +156,10 @@ function CoinDetailsPage() {
   console.log(params.id);
   console.log(currentUserLocationReducer);
   useEffect(() => {
-    dispatch({
-      type: "FETCH_COIN_INFO2",
-      payload: { id: user.id, name: params.id },
-    });
+    // dispatch({
+    //   type: "FETCH_COIN_INFO2",
+    //   payload: { id: user.id, name: params.id },
+    // });
     // dispatch({ type: "CURRENT_USER_LOCATION" , payload: });
     if (initialState) {
       axios
@@ -229,7 +229,7 @@ function CoinDetailsPage() {
      */
     dispatch({ type: "CURRENT_USER_LOCATION", payload: location.pathname });
   }, []);
-  console.log(coinInfoReducer?.amount_owned);
+  console.log(coinInfoReducer?.amount_owned?.amount_owned);
   return (
     <>
       {!profileData ? (
@@ -262,10 +262,12 @@ function CoinDetailsPage() {
               })}
             </p>
             <div className="buy-sell-delete-options-container">
+              {/* && coinInfoReducer?.amount_owned == 0 */}
               {!amountOwned ? (
                 <BuyCoinButton useStyles={useStyles} Button={Button} />
               ) : (
-                <p>hello</p>
+                <p>Hello</p>
+                
               )}
               <SellCoinButton useStyles={useStyles} Button={Button} />
               <DeleteCoinButton useStyles={useStyles} Button={Button} />

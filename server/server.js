@@ -11,6 +11,7 @@ const passport = require("./strategies/user.strategy");
 const userRouter = require("./routes/user.router");
 const createProfileRouter = require("./routes/create.profile.router");
 const coinPageRouter = require("./routes/coin.page.router");
+const coinPageNotesRouter = require("./routes/coin.page.notes.router")
 // Body parser middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -26,6 +27,7 @@ app.use(passport.session());
 app.use("/api/user", userRouter);
 app.use("/api/CreateProfile", createProfileRouter);
 app.use("/api/CoinPage", coinPageRouter)
+app.use("/api/coinNotes", coinPageNotesRouter)
 // Serve static files
 app.use(express.static("build"));
 

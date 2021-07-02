@@ -45,7 +45,7 @@ function SellCoinButton({ useStyles, Button }) {
           // We got a valid value, need to dispatch to saga.
           console.log(Number(value));
           dispatch({
-            type: "DELETE_COIN_AMOUNT",
+            type: "SELL_COIN_AMOUNT",
             payload: { amount: Number(value), name: params.id, id: user.id },
           });
         }

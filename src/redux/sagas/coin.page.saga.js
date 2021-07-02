@@ -18,6 +18,7 @@ function* getCoinInfo(action) {
       payload: coin_page_coin_info.data,
     });
     yield put({ type: "SET_VALUE_AMOUNT_OWNED", payload: response.data });
+
     // yield put({ type: "GET_COIN_INFO_REDUCER" });
   } catch (error) {
     console.log(`Sorry we had a problem with GET coin info`, error);
@@ -56,7 +57,7 @@ function* postAmountToBuy(action) {
     id: action.payload.id,
   };
   try {
-    const response = yield axios.post(
+    const response =  yield axios.post(
       `/api/CoinPage/Buy/${action.payload.name}/${action.payload.id}`,
       data
     );
@@ -64,9 +65,12 @@ function* postAmountToBuy(action) {
     yield put({ type: "SET_ACCOUNT_COIN_AMOUNT", payload: response.data });
     yield put({
       type: "FETCH_COIN_INFO2",
-      payload: action.payload,
+      payload: action
     });
     yield put({ type: "GET_COIN_INFO_REDUCER" });
+
+    // Updates users coin info
+    yield put({ type: "UPDATE_COIN_INFO", payload: action.payload });
 
     // profileData needs to update our DOM
     yield put({ type: "GET_CREATE_PROFILE" });
@@ -75,7 +79,7 @@ function* postAmountToBuy(action) {
   }
 }
 
-function* deleteCoinAmount(action) {
+function* sellCoinAmount(action) {
   // Set our action.payload to a data object
   // to send on our POST promise
   const data = {
@@ -84,14 +88,15 @@ function* deleteCoinAmount(action) {
     id: action.payload.id,
   };
   try {
-    axios.put(
+    yield axios.put(
       `/api/CoinPage/sellCoin/${action.payload.name}/${action.payload.id}`,
       data
     );
     yield put({ type: "FETCH_COIN_INFO2", payload: action.payload });
+    // Updates users coin info
     yield put({ type: "UPDATE_COIN_INFO", payload: action.payload });
-
-    // yield put({ type: "UPDATE_COIN_INFO", payload: response.data });
+    // Show updated account_balance by GET request dispatch.
+    yield put({ type: "GET_CREATE_PROFILE" });
   } catch (error) {
     console.log(`We had an error Deleting coin amount`, error);
   }
@@ -102,7 +107,7 @@ function* coinPageSaga() {
   yield takeLatest("FETCH_COIN_INFO2", getCoinInfo2);
 
   yield takeLatest("POST_COIN_AMOUNT", postAmountToBuy);
-  yield takeLatest("DELETE_COIN_AMOUNT", deleteCoinAmount);
+  yield takeLatest("SELL_COIN_AMOUNT", sellCoinAmount);
 }
 
 export default coinPageSaga;
