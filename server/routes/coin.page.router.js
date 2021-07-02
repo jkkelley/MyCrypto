@@ -234,7 +234,7 @@ router.put("/sellCoin/:name/:id", rejectUnauthenticated, (req, res) => {
   `;
     const queryGetCoinPageText = `
 SELECT * FROM coin_page
-WHERE user_profile_id=$1
+WHERE user_profile_id=$1 and crypto_name=$2;
 `;
 
     try {
@@ -251,15 +251,16 @@ WHERE user_profile_id=$1
               .query(queryGetText, [Number(req.params.id)])
               .then((results) => {
                 // console.log(results.rows);
-                account_balance = Number(results.rows[0].account_balance);
+                // Account balance from table user_profile
+                account_balance = Number(results.rows[0]?.account_balance);
                 console.log(`account balance =>`, account_balance);
-                // res.send(`OK`);
               })
               .then(() => {
                 pool
-                  .query(queryGetCoinPageText, [Number(req.params.id)])
+                  .query(queryGetCoinPageText, [Number(req.params.id), nameUpper])
                   .then((results) => {
                     // Set users coin amount owned
+                    console.log(results.rows);
                     amount_owned = Number(results.rows[0].amount_owned);
                     console.log(`amount of coin user owns =>`, amount_owned);
                     console.log(
@@ -268,19 +269,23 @@ WHERE user_profile_id=$1
                     );
                     if (amount_to_sell <= amount_owned) {
                       try {
+                        // Update table coin_page SET amount_owned
                         pool
                           .query(queryToSellCoin, [
                             amount_to_sell,
                             Number(req.params.id),
                           ])
                           .then((results) => {
-                            console.log(results.rows);
-                            res.send(results)
+                            // Send back an OK
+                            // res.sendStatus(200);
                           })
-                          .catch(
-                            `We couldn't sell you're coin to the database`,
-                            error
-                          );
+                          .catch((error) => {
+                            console.log(
+                              `We couldn't sell you're coin to the database`,
+                              error
+                            );
+                            res.sendStatus(500);
+                          });
                       } catch (error) {
                         console.log(`Capt, we're super far down again!`);
                       }

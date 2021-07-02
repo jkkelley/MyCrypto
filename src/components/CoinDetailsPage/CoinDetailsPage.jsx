@@ -70,35 +70,17 @@ function CoinDetailsPage() {
   const user = useSelector((store) => store.user);
   const coinInfoReducer = useSelector((store) => store.coinInfoReducer);
 
-  // Function to handleSell click
-  const handleSell = () => {
-    console.log(`You clicked handleSell`);
-  };
-
-  // Function to handleDelete click
-  const handleDelete = () => {
-    console.log(`You clicked handleDelete`);
-  };
-
   useEffect(() => {
-    if (location.pathname == `/coinDetails/${params.id}`) {
-      setInterval(() => {
-        // try {
-        //   axios
-        //     .get(
-        //       `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
-        //     )
-        //     .then((response) => {
-        //       setCoinsFromGecko(response.data);
-        //     })
-
-        //     .catch((error) => {
-        //       console.log(`Ohh No, coingecko failed me! ${error}`);
-        //       alert(`We've had problem, sorry`);
-        //     });
-        // } catch (error) {
-        //   console.log(`Error`);
-        // }
+    dispatch({
+      type: "FETCH_COIN_INFO2",
+      payload: { id: user.id, name: params.id },
+    });
+    if (
+      initialState === false &&
+      currentUserLocationReducer === location.pathname
+    ) {
+      // if (location.pathname == `/coinDetails/${params.id}`) {
+      setTimeout(() => {
         try {
           axios
             .get(
@@ -107,29 +89,77 @@ function CoinDetailsPage() {
             .then((response) => {
               setCoinsFromGecko(response.data);
               setAmountUndefined(true);
-              console.log(`Line 112 Dispatched`);
+              console.log(`Line 85 Dispatched`);
               dispatch({
-                type: "FETCH_COIN_INFO",
+                type: "FETCH_COIN_INFO2",
                 payload: { id: user.id, name: params.id },
               });
             })
             .catch((error) => {
               console.log(`Ohh No, coingecko failed me! ${error}`);
-              // alert(`We've had problem, sorry`);
             });
         } catch (error) {
           console.log(`Error`);
         }
-      }, 10000);
+      }, 3000);
     } else {
-      clearInterval(() => {
-        dispatch({ type: "CLEAR_CURRENT_USER_LOCATION" });
-      });
+      // clearInterval(() => {
+      //   dispatch({ type: "CLEAR_CURRENT_USER_LOCATION" });
+      // });
+      dispatch({ type: "CLEAR_CURRENT_USER_LOCATION" });
     }
   }, []);
 
+  // const handleInterval = () => {
+
+  // }
+  // setInterval(() => {
+  //   if (initialState === false && currentUserLocationReducer === location.pathname) {
+  //     // if (location.pathname == `/coinDetails/${params.id}`) {
+
+  //       try {
+  //         axios
+  //           .get(
+  //             `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+  //           )
+  //           .then((response) => {
+  //             setCoinsFromGecko(response.data);
+  //             setAmountUndefined(true);
+  //             console.log(`Line 85 Dispatched`);
+  //             dispatch({
+  //               type: "FETCH_COIN_INFO",
+  //               payload: { id: user.id, name: params.id },
+  //             });
+  //           })
+  //           .catch((error) => {
+  //             console.log(`Ohh No, coingecko failed me! ${error}`);
+
+  //           });
+  //       } catch (error) {
+  //         console.log(`Error`);
+  //       }
+
+  //   } else {
+  //     // clearInterval(() => {
+  //     //   dispatch({ type: "CLEAR_CURRENT_USER_LOCATION" });
+  //     // });
+  //       dispatch({ type: "CLEAR_CURRENT_USER_LOCATION" });
+
+  //   }
+  // }, 10000);
+
+  const currentUserLocationReducer = useSelector(
+    (store) => store.currentUserLocationReducer
+  );
   const [initialState, setInitialState] = useState(true);
+  console.log(location.pathname);
+  console.log(params.id);
+  console.log(currentUserLocationReducer);
   useEffect(() => {
+    dispatch({
+      type: "FETCH_COIN_INFO2",
+      payload: { id: user.id, name: params.id },
+    });
     // dispatch({ type: "CURRENT_USER_LOCATION" , payload: });
     if (initialState) {
       axios
@@ -167,6 +197,8 @@ function CoinDetailsPage() {
       //     console.log(`Ohh No, coingecko failed me! ${error}`);
       //     // alert(`We've had problem, sorry`);
       //   });
+    } else {
+      return;
     }
   }, []);
 
@@ -190,15 +222,6 @@ function CoinDetailsPage() {
     handleCoinReducerIssues();
     handleAsyncIssues();
   });
-
-  // useEffect(() => {
-  //   dispatch({ type: "CLEAR_COIN_INFO" });
-
-  //   dispatch({
-  //     type: "FETCH_COIN_INFO",
-  //     payload: { id: user.id, name: params.id },
-  //   });
-  // }, []);
 
   useEffect(() => {
     /**
@@ -260,14 +283,7 @@ function CoinDetailsPage() {
                 )}
               </p>
               <p>
-                {Number(
-                  coinInfoReducer?.amount_owned[0]?.amount_owned.toLocaleString(
-                    {
-                      style: "currency",
-                      currency: "USD",
-                    }
-                  )
-                )}
+                {/* {Number(coinInfoReducer?.amount_owned[0].amount_owned?.toLocaleString({minimumFractionDigits:0, maximumFractionDigits: 8}))} */}
               </p>
             </div>
 
