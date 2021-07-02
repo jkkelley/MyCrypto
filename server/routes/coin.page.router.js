@@ -221,6 +221,8 @@ router.put("/sellCoin/:name/:id", rejectUnauthenticated, (req, res) => {
     let amount_to_sell = req.body.amount;
     // Current Market Price for coin
     let coin_current_market_price = 0;
+    // Amount to update table user_profile account_balance
+    let account_balance_update = 0;
     // All Coins in database are Uppercase
     const nameUpper = req.params.name.toUpperCase();
 
@@ -229,13 +231,18 @@ router.put("/sellCoin/:name/:id", rejectUnauthenticated, (req, res) => {
     WHERE user_profile_id=$2
     `;
     const queryGetText = `
-  SELECT * FROM user_profile
-  WHERE users_id=$1;
-  `;
+    SELECT * FROM user_profile
+    WHERE users_id=$1;
+    `;
     const queryGetCoinPageText = `
-SELECT * FROM coin_page
-WHERE user_profile_id=$1 and crypto_name=$2;
-`;
+    SELECT * FROM coin_page
+    WHERE user_profile_id=$1 and crypto_name=$2;
+    `;
+
+    const queryUpdateAccountBalance = `
+    UPDATE user_profile SET account_balance=account_balance+$1
+    WHERE users_id=$2
+    `;
 
     try {
       axios
@@ -245,7 +252,7 @@ WHERE user_profile_id=$1 and crypto_name=$2;
         .then((results) => {
           // Set the current price of the coin to our variable
           coin_current_market_price = Number(results.data[0].current_price);
-          console.log(coin_current_market_price);
+          console.log(`Current Price of coin => `, coin_current_market_price);
           try {
             pool
               .query(queryGetText, [Number(req.params.id)])
@@ -257,7 +264,10 @@ WHERE user_profile_id=$1 and crypto_name=$2;
               })
               .then(() => {
                 pool
-                  .query(queryGetCoinPageText, [Number(req.params.id), nameUpper])
+                  .query(queryGetCoinPageText, [
+                    Number(req.params.id),
+                    nameUpper,
+                  ])
                   .then((results) => {
                     // Set users coin amount owned
                     console.log(results.rows);
@@ -277,7 +287,29 @@ WHERE user_profile_id=$1 and crypto_name=$2;
                           ])
                           .then((results) => {
                             // Send back an OK
+                            console.log(
+                              `Deposit user_profile account_balance => `,
+                              coin_current_market_price * amount_to_sell
+                            );
+                            account_balance_update =
+                              coin_current_market_price * amount_to_sell;
                             // res.sendStatus(200);
+                          })
+                          .then(() => {
+                            pool
+                              .query(queryUpdateAccountBalance, [
+                                account_balance_update,
+                                req.params.id,
+                              ])
+                              .then((results) => {
+                                res.sendStatus(200);
+                              })
+                              .catch((error) => {
+                                console.log(
+                                  `Sorry about that, we couldn't deposit your funds`,
+                                  error
+                                );
+                              });
                           })
                           .catch((error) => {
                             console.log(
