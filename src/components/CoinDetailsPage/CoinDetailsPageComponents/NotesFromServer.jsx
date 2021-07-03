@@ -34,10 +34,10 @@ function NotesFromServer() {
           return `We can't leave notes blank...`;
         } else {
           console.log(value);
-          // coinInfoReducer?.amount_owned.id
+          
           dispatch({
             type: "POST_COIN_NOTE",
-            payload: { note: value, name: params.id, id: coinInfoReducer?.amount_owned[0]?.id },
+            payload: { note: value, crypto_name: params.id, id: coinInfoReducer?.amount_owned[0]?.id },
           });
         }
       },

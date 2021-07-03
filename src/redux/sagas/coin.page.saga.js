@@ -26,7 +26,7 @@ function* getCoinInfo(action) {
 }
 
 function* getCoinInfo2(action) {
-  console.log(action);
+  console.log(action.payload.id);
   try {
     // Set a response for our axios get promise
     const coin_page_coin_info = yield axios.get(
@@ -40,6 +40,10 @@ function* getCoinInfo2(action) {
     yield put({
       type: "SET_ACCOUNT_COIN_AMOUNT",
       payload: coin_page_coin_info.data,
+    });
+    yield put({
+      type: "FETCH_COIN_NOTE",
+      payload: coin_page_coin_info.data[0],
     });
     yield put({ type: "SET_VALUE_AMOUNT_OWNED", payload: response.data });
     yield put({ type: "GET_COIN_INFO_REDUCER" });
@@ -57,7 +61,7 @@ function* postAmountToBuy(action) {
     id: action.payload.id,
   };
   try {
-    const response =  yield axios.post(
+    const response = yield axios.post(
       `/api/CoinPage/Buy/${action.payload.name}/${action.payload.id}`,
       data
     );
@@ -65,7 +69,7 @@ function* postAmountToBuy(action) {
     yield put({ type: "SET_ACCOUNT_COIN_AMOUNT", payload: response.data });
     yield put({
       type: "FETCH_COIN_INFO2",
-      payload: action
+      payload: action,
     });
     yield put({ type: "GET_COIN_INFO_REDUCER" });
 

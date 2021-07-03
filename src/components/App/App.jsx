@@ -84,7 +84,7 @@ function App() {
             // logged in shows UserPage else shows LoginPage
             exact
             path="/user"
-            // authRedirect="/createProfile/:id"
+            authRedirect="/homePage"
           >
             <UserPage />
           </ProtectedRoute>

@@ -1,12 +1,12 @@
+import { coinInfoReducer } from "./coin.page.reducer";
+import { combineReducers } from "redux";
+import { coinNotes } from "./notes.coin.page.reducer";
+import { currentUserLocationReducer } from "./current.user.location.reducer";
+import { formSubmission } from "./form.submission.reducer";
+import { profileData } from "./profile.reducer";
 
-import { coinInfoReducer } from './coin.page.reducer';
-import { combineReducers } from 'redux';
-import {currentUserLocationReducer} from "./current.user.location.reducer"
-import { formSubmission } from './form.submission.reducer';
-import { profileData } from './profile.reducer';
-
-import errors from './errors.reducer';
-import user from './user.reducer';
+import errors from "./errors.reducer";
+import user from "./user.reducer";
 
 // rootReducer is the primary reducer for our entire project
 // It bundles up all of the other reducers so our project can use them.
@@ -16,6 +16,7 @@ import user from './user.reducer';
 // This is what we get when we use 'state' inside of 'mapStateToProps'
 const rootReducer = combineReducers({
   coinInfoReducer,
+  coinNotes,
   currentUserLocationReducer,
   formSubmission, // contains form for creating a user_profile
   errors, // contains registrationMessage and loginMessage

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams, Redirect } from "react-router-dom";
 
+import NavDrawer from "../NavDrawer/NavDrawer";
+
 import "./HomePageCSS/HomePage.css";
 
 // Material-ui Imports
@@ -18,6 +20,7 @@ function HomePage() {
         <Redirect to="/createProfile" />
       ) : (
         <div className="home-page-container">
+        <NavDrawer props={true}/>
           <div className="home-page-welcome-container">
             <h3>Welcome</h3>
             <p className="home-page-nickname">
