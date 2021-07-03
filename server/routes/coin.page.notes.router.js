@@ -24,7 +24,7 @@ router.post("/v1/:name/:id", rejectUnauthenticated, async (req, res) => {
       ]);
       const notesId = postNoteToServer.rows[0].id;
       console.log(notesId);
-      await client.query('COMMIT')
+      await client.query("COMMIT");
 
       res.sendStatus(201);
     } catch (error) {
@@ -84,6 +84,35 @@ router.put(
         await res.sendStatus(201);
       } catch (error) {
         console.log(`We couldn't handle you're note update`, error);
+        res.sendStatus(500);
+      }
+    } else {
+    }
+  }
+);
+
+router.delete(
+  "/v1/delete/:name/:note_id/:coin_page_id",
+  rejectUnauthenticated,
+  async (req, res) => {
+    console.log(`delete coin note params =>`, req.params);
+    const { coin_page_id, note_id } = req.params;
+    if (req.isAuthenticated) {
+      try {
+        const queryNoteDeleteText = `
+        DELETE FROM notes
+        WHERE coin_page_id=$1 and id=$2;
+        `;
+        await pool.query(queryNoteDeleteText, [
+          Number(coin_page_id),
+          Number(note_id),
+        ]);
+        await res.sendStatus(201);
+      } catch (error) {
+        console.log(
+          `We couldn't delete your note for this ${req.params.name}.`,
+          error
+        );
         res.sendStatus(500);
       }
     } else {
