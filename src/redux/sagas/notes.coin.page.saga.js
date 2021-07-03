@@ -41,7 +41,10 @@ function* updateCoinNote(action) {
 
 function* deleteCoinNote(action) {
   console.log(`delete note => `, action.payload)
-  try {} catch(error) {
+  try {
+    yield axios.delete(`/api/coinNotes/v1/delete/${action.payload.name}/${action.payload.note_id}/${action.payload.coin_page_id}`)
+    yield put({type: "FETCH_COIN_NOTE", payload: action.payload})
+  } catch(error) {
     console.log(`Sorry, We couldn't delete your Note...`, error)
   }
 }

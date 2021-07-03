@@ -10,6 +10,7 @@ import Swal from "sweetalert2";
 
 function CoinPageNotes({ notes }) {
   const params = useParams();
+  const user = useSelector((store) => store.user);
   // Bring in dispatch
   const dispatch = useDispatch();
   // Function to Handle clicking on note to edit.
@@ -20,7 +21,9 @@ function CoinPageNotes({ notes }) {
       title: "Want to Edit?",
       input: "textarea",
       inputValue: note.notes,
+      allowOutsideClick: true,
       allowEnterKey: true,
+      backdrop: true,
       showDenyButton: true,
       showCancelButton: true,
       confirmButtonText: `Yes`,
@@ -46,16 +49,20 @@ function CoinPageNotes({ notes }) {
             coin_page_id: notes.coin_page_id,
             updated_note: result.value,
             note_id: note.id,
-            name: params.id
+            name: params.id,
           },
         });
       } else if (result.isDenied) {
-        console.log(note)
-        dispatch({type: "DELETE_COIN_NOTE", payload: {
-          coin_page_id: notes.coin_page_id,
-          note_id: note.id,
-          name: params.id
-        }})
+        console.log(note);
+        dispatch({
+          type: "DELETE_COIN_NOTE",
+          payload: {
+            coin_page_id: notes.coin_page_id,
+            note_id: note.id,
+            crypto_name: params.id,
+            id: user.id,
+          },
+        });
         // Swal.fire("Changes are not saved", "", "info");
       }
     });
