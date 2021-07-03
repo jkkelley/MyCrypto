@@ -117,7 +117,7 @@ function CreateProfilePage() {
           </div>
         </div>
       ) : (
-        <Redirect to="/profile" />
+        <Redirect to="/homePage" />
       )}
     </>
   );

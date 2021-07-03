@@ -41,10 +41,12 @@ router.get("/v1/:name/:id", rejectUnauthenticated, async (req, res) => {
   console.log(`GET Notes Says... =>`, req.params);
   if (req.isAuthenticated) {
     const queryGetText = `
-    SELECT * FROM notes
-    WHERE coin_page_id=$1 
-    ORDER BY id DESC;
+    SELECT crypto_name, notes.notes as notes from coin_page
+    join notes on notes.coin_page_id = coin_page.id
+    WHERE coin_page.id=$1
+    ;
     `;
+    const nameUpper = req.params.name.toUpperCase();
     try {
       const getFromServer = await pool.query(queryGetText, [
         Number(req.params.id),

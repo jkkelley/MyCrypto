@@ -9,6 +9,8 @@ export const coinInfoReducer = (state = [], action) => {
       return { ...state, idunno: action.payload };
     case "GET_COIN_INFO_REDUCER":
       return { ...state };
+    case "COIN_CLICK_INFO_PAGE_2":
+      return { ...state, coin_click: action.payload };
     case "CLEAR_COIN_INFO":
       return [];
 

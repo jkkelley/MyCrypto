@@ -63,6 +63,7 @@ router.get("/UpdatedAmount/:name/:id", rejectUnauthenticated, (req, res) => {
 
 router.get("/coinPageCoinInfo/:name/:id", rejectUnauthenticated, (req, res) => {
   console.log(`You got to /api/CoinPage/coinPageCoinInfo`);
+  console.log(req.params)
   const nameUpper = req.params.name.toUpperCase();
   const getCoinInfoText = `
   SELECT * FROM coin_page

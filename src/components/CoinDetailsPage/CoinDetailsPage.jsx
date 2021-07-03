@@ -48,7 +48,7 @@ import { TextField, useRadioGroup } from "@material-ui/core";
 import { History101 } from "react-router-dom";
 
 function CoinDetailsPage({ coins }) {
-  // console.log(coins);
+  console.log(`coins from coin details =>`, coins);
   // Bring Location in
   const location = useLocation();
   // Set our coin info from coingecko api
@@ -86,7 +86,7 @@ function CoinDetailsPage({ coins }) {
           console.log(`Line 104 Dispatched`);
           dispatch({
             type: "FETCH_COIN_INFO2",
-            payload: { id: user.id, name: params.id },
+            payload: { id: user.id, crypto_name: params.id },
           });
         })
         .catch((error) => {
@@ -130,12 +130,12 @@ function CoinDetailsPage({ coins }) {
   }, []);
 
   console.log(params.id);
-  useEffect(() => {
-    dispatch({
-      type: "FETCH_COIN_NOTE",
-      payload: { crypto_name: params.id, id: Number(user.id) },
-    });
-  }, []);
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "FETCH_COIN_NOTE",
+  //     payload: { crypto_name: params.id, id: Number(user.id) },
+  //   });
+  // }, []);
 
   return (
     <>
@@ -191,20 +191,24 @@ function CoinDetailsPage({ coins }) {
                 )}
               </p>
               <p>
-                {/* {Number(coinInfoReducer?.amount_owned[0].amount_owned?.toLocaleString({minimumFractionDigits:0, maximumFractionDigits: 8}))} */}
+                {/* {coinInfoReducer?.amount_owned[0].amount_owned?.toLocaleString({minimumFractionDigits:0, maximumFractionDigits: 8})} */}
               </p>
             </div>
+            {!coinNotes ? (
+              <p></p>
+            ) : (
+              <>
+                <div className="notes-container">
+                  <NotesFromServer />
+                </div>
 
-            <div className="notes-container">
-              {}
-              <NotesFromServer />
-            </div>
-
-            <div>
-              {coinNotes?.map((notes, index) => {
-                return <CoinPageNotes key={index} notes={notes} />;
-              })}
-            </div>
+                <div>
+                  {coinNotes?.map((notes, index) => {
+                    return <CoinPageNotes key={index} notes={notes} />;
+                  })}
+                </div>
+              </>
+            )}
           </div>
         </div>
       )}

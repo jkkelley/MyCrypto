@@ -15,10 +15,10 @@ function* postCoinNote(action) {
 }
 
 function* fetchCoinNote(action) {
-  console.log(action);
+  console.log(`Note info => `, action.payload);
   try {
     const response = yield axios.get(
-      `/api/coinNotes/v1/${action.payload.crypto_name}/${Number(action.payload.id)}`
+      `/api/coinNotes/v1/${action.payload.name}/${Number(action.payload.id)}`
     );
     yield put({ type: "SET_NOTES_FROM_COIN", payload: response.data });
   } catch (error) {

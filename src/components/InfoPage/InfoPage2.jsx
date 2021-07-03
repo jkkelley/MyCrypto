@@ -2,7 +2,7 @@ import "./CreateProfilePage.css";
 
 import React from "react";
 import { useHistory } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -36,6 +36,8 @@ const useStyles = makeStyles({
 });
 
 function InfoPage2({ coins, name, price }) {
+  // Bring in dispatch
+  const dispatch = useDispatch()
   // Bring history in
   const history = useHistory();
   // Custom CSS classes
@@ -44,6 +46,7 @@ function InfoPage2({ coins, name, price }) {
   const handleCoinClick = (coins) => {
     console.log(`You clicked handleCoinClick.`);
     console.log(coins);
+    dispatch({type: "COIN_CLICK_INFO_PAGE_2", payload: coins})
     history.push(`/coinDetails/${coins.id}`)
   };
   return (
