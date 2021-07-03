@@ -8,6 +8,7 @@ import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 
 import BuyCoinButton from "./CoinDetailsPageComponents/BuyCoinButton";
+import CoinPageNotes from "./CoinDetailsPageComponents/CoinPageNotes";
 import DeleteCoinButton from "./CoinDetailsPageComponents/DeleteCoinButton";
 import NotesFromServer from "./CoinDetailsPageComponents/NotesFromServer";
 import SellCoinButton from "./CoinDetailsPageComponents/SellCoinButton";
@@ -46,7 +47,8 @@ import Swal from "sweetalert2";
 import { TextField, useRadioGroup } from "@material-ui/core";
 import { History101 } from "react-router-dom";
 
-function CoinDetailsPage() {
+function CoinDetailsPage({ coins }) {
+  // console.log(coins);
   // Bring Location in
   const location = useLocation();
   // Set our coin info from coingecko api
@@ -55,12 +57,13 @@ function CoinDetailsPage() {
   const [timer, setTimer] = useState(false);
   const [amountUndefined, setAmountUndefined] = useState(false);
   const [amountOwned, setAmountOwned] = useState(false);
+  const [initialState, setInitialState] = useState(false);
 
   // Bring in Custom CSS classes
   const classes = useStyles();
   // Bring in params
   const params = useParams();
-  console.log(location);
+  // console.log(location);
   // Bring in useHistory
   const history = useHistory();
   // Bring in dispatch
@@ -69,106 +72,34 @@ function CoinDetailsPage() {
   const profileData = useSelector((store) => store.profileData);
   const user = useSelector((store) => store.user);
   const coinInfoReducer = useSelector((store) => store.coinInfoReducer);
-
-  // Function to handleSell click
-  const handleSell = () => {
-    console.log(`You clicked handleSell`);
-  };
-
-  // Function to handleDelete click
-  const handleDelete = () => {
-    console.log(`You clicked handleDelete`);
-  };
-
+  const coinNotes = useSelector((store) => store.coinNotes);
   useEffect(() => {
-    if (location.pathname == `/coinDetails/${params.id}`) {
-      setInterval(() => {
-        // try {
-        //   axios
-        //     .get(
-        //       `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
-        //     )
-        //     .then((response) => {
-        //       setCoinsFromGecko(response.data);
-        //     })
-
-        //     .catch((error) => {
-        //       console.log(`Ohh No, coingecko failed me! ${error}`);
-        //       alert(`We've had problem, sorry`);
-        //     });
-        // } catch (error) {
-        //   console.log(`Error`);
-        // }
-        try {
-          axios
-            .get(
-              `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
-            )
-            .then((response) => {
-              setCoinsFromGecko(response.data);
-              setAmountUndefined(true);
-              console.log(`Line 112 Dispatched`);
-              dispatch({
-                type: "FETCH_COIN_INFO",
-                payload: { id: user.id, name: params.id },
-              });
-            })
-            .catch((error) => {
-              console.log(`Ohh No, coingecko failed me! ${error}`);
-              // alert(`We've had problem, sorry`);
-            });
-        } catch (error) {
-          console.log(`Error`);
-        }
-      }, 10000);
-    } else {
-      clearInterval(() => {
-        dispatch({ type: "CLEAR_CURRENT_USER_LOCATION" });
-      });
-    }
-  }, []);
-
-  const [initialState, setInitialState] = useState(true);
-  useEffect(() => {
-    // dispatch({ type: "CURRENT_USER_LOCATION" , payload: });
-    if (initialState) {
+    try {
       axios
         .get(
           `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
         )
         .then((response) => {
           setCoinsFromGecko(response.data);
-          setInitialState(!initialState);
-        })
+          setAmountUndefined(true);
 
+          console.log(`Line 104 Dispatched`);
+          dispatch({
+            type: "FETCH_COIN_INFO2",
+            payload: { id: user.id, name: params.id },
+          });
+        })
         .catch((error) => {
           console.log(`Ohh No, coingecko failed me! ${error}`);
-          alert(`We've had problem, sorry`);
         });
-
-      // axios
-      //   .get(
-      //     `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
-      //   )
-      //   .then((response) => {
-      //     setCoinsFromGecko(response.data);
-      //     setAmountUndefined(true);
-      //     console.log(`Line 112 Dispatched`);
-      //     dispatch({
-      //       type: "FETCH_COIN_INFO",
-      //       payload: { id: user.id, name: params.id },
-      //     });
-      //     console.log(`is this firing`);
-      //     console.log(coinInfoReducer?.value_of_amount_owned);
-
-      //     console.log(amountOwned);
-      //   })
-      //   .catch((error) => {
-      //     console.log(`Ohh No, coingecko failed me! ${error}`);
-      //     // alert(`We've had problem, sorry`);
-      //   });
+    } catch (error) {
+      console.log(`Error`);
     }
   }, []);
+
+  const currentUserLocationReducer = useSelector(
+    (store) => store.currentUserLocationReducer
+  );
 
   const handleAsyncIssues = () => {
     if (coinInfoReducer.value_of_amount_owned == undefined) {
@@ -191,22 +122,21 @@ function CoinDetailsPage() {
     handleAsyncIssues();
   });
 
-  // useEffect(() => {
-  //   dispatch({ type: "CLEAR_COIN_INFO" });
-
-  //   dispatch({
-  //     type: "FETCH_COIN_INFO",
-  //     payload: { id: user.id, name: params.id },
-  //   });
-  // }, []);
-
   useEffect(() => {
     /**
      * Dispatch Location reducer current location
      */
     dispatch({ type: "CURRENT_USER_LOCATION", payload: location.pathname });
   }, []);
-  console.log(coinInfoReducer?.amount_owned);
+
+  console.log(params.id);
+  useEffect(() => {
+    dispatch({
+      type: "FETCH_COIN_NOTE",
+      payload: { crypto_name: params.id, id: Number(user.id) },
+    });
+  }, []);
+
   return (
     <>
       {!profileData ? (
@@ -239,10 +169,11 @@ function CoinDetailsPage() {
               })}
             </p>
             <div className="buy-sell-delete-options-container">
+              {/* && coinInfoReducer?.amount_owned == 0 */}
               {!amountOwned ? (
                 <BuyCoinButton useStyles={useStyles} Button={Button} />
               ) : (
-                <p>hello</p>
+                <p>Hello</p>
               )}
               <SellCoinButton useStyles={useStyles} Button={Button} />
               <DeleteCoinButton useStyles={useStyles} Button={Button} />
@@ -260,19 +191,19 @@ function CoinDetailsPage() {
                 )}
               </p>
               <p>
-                {Number(
-                  coinInfoReducer?.amount_owned[0]?.amount_owned.toLocaleString(
-                    {
-                      style: "currency",
-                      currency: "USD",
-                    }
-                  )
-                )}
+                {/* {Number(coinInfoReducer?.amount_owned[0].amount_owned?.toLocaleString({minimumFractionDigits:0, maximumFractionDigits: 8}))} */}
               </p>
             </div>
 
             <div className="notes-container">
+              {}
               <NotesFromServer />
+            </div>
+
+            <div>
+              {coinNotes?.map((notes, index) => {
+                return <CoinPageNotes key={index} notes={notes} />;
+              })}
             </div>
           </div>
         </div>

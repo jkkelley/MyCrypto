@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import Divider from "@material-ui/core/Divider";
 import Drawer from "@material-ui/core/Drawer";
 import Hidden from "@material-ui/core/Hidden";
+import HomeIcon from '@material-ui/icons/Home';
 import IconButton from "@material-ui/core/IconButton";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
 import List from "@material-ui/core/List";
@@ -63,21 +64,30 @@ function NavDrawer({ props }) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const [mobileOpen, setMobileOpen] = React.useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
-  console.log(props);
+
   const handleNavClick = (event) => {
     event.preventDefault;
     console.log(`You clicked a link on the nav bar`);
     // Based on the event, travel to the corresponding path
     switch (event) {
+      case "Home":
+        try {
+          console.log(event);
+          dispatch({ type: "CLEAR_COIN_INFO", type: "CLEAR_NOTES_FROM_COIN" });
+          history.push("/homePage");
+        } catch (error) {
+          console.log(`Had a Nav Error ${error}`);
+        }
+        break;
       case "Profile":
         try {
           console.log(event);
-          dispatch({ type: "CLEAR_COIN_INFO" });
+          dispatch({ type: "CLEAR_COIN_INFO", type: "CLEAR_NOTES_FROM_COIN" });
           history.push("/profile");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -86,7 +96,7 @@ function NavDrawer({ props }) {
       case "Coin Market":
         try {
           console.log(event);
-          dispatch({ type: "CLEAR_COIN_INFO" });
+          dispatch({ type: "CLEAR_COIN_INFO", type: "CLEAR_NOTES_FROM_COIN" });
           history.push("/info");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -94,6 +104,7 @@ function NavDrawer({ props }) {
         break;
       case "Logout":
         dispatch({ type: "LOGOUT" });
+        history.push("/");
     }
   };
   const drawer = (
@@ -101,12 +112,13 @@ function NavDrawer({ props }) {
       <div className={classes.toolbar} />
       <Divider />
       <List>
-        {["Profile", "Coin Market", "Logout"].map((text, index) => (
+        {["Home", "Profile", "Coin Market", "Logout"].map((text, index) => (
           <ListItem button key={text} onClick={() => handleNavClick(text)}>
             <ListItemIcon>
-              {index === 0 ? <AccountBoxIcon value={0} /> : ""}
-              {index === 1 ? <AccountBalanceIcon value={1} /> : ""}
-              {index === 2 ? <ExitToAppIcon value={2} /> : ""}
+              {index === 0 ? <HomeIcon value={0} /> : ""}
+              {index === 1 ? <AccountBoxIcon value={1} /> : ""}
+              {index === 2 ? <AccountBalanceIcon value={2} /> : ""}
+              {index === 3 ? <ExitToAppIcon value={3} /> : ""}
               {/* <MailIcon /> */}
             </ListItemIcon>
             <ListItemText primary={text} />

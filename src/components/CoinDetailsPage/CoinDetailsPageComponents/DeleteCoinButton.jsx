@@ -8,7 +8,7 @@ function DeleteCoinButton({ useStyles, Button }) {
   return (
     <>
       <Button className={classes.root1} onClick={handleDelete}>
-        Buy
+        Delete
       </Button>
     </>
   );

@@ -221,6 +221,8 @@ router.put("/sellCoin/:name/:id", rejectUnauthenticated, (req, res) => {
     let amount_to_sell = req.body.amount;
     // Current Market Price for coin
     let coin_current_market_price = 0;
+    // Amount to update table user_profile account_balance
+    let account_balance_update = 0;
     // All Coins in database are Uppercase
     const nameUpper = req.params.name.toUpperCase();
 
@@ -229,13 +231,18 @@ router.put("/sellCoin/:name/:id", rejectUnauthenticated, (req, res) => {
     WHERE user_profile_id=$2
     `;
     const queryGetText = `
-  SELECT * FROM user_profile
-  WHERE users_id=$1;
-  `;
+    SELECT * FROM user_profile
+    WHERE users_id=$1;
+    `;
     const queryGetCoinPageText = `
-SELECT * FROM coin_page
-WHERE user_profile_id=$1
-`;
+    SELECT * FROM coin_page
+    WHERE user_profile_id=$1 and crypto_name=$2;
+    `;
+
+    const queryUpdateAccountBalance = `
+    UPDATE user_profile SET account_balance=account_balance+$1
+    WHERE users_id=$2
+    `;
 
     try {
       axios
@@ -245,21 +252,25 @@ WHERE user_profile_id=$1
         .then((results) => {
           // Set the current price of the coin to our variable
           coin_current_market_price = Number(results.data[0].current_price);
-          console.log(coin_current_market_price);
+          console.log(`Current Price of coin => `, coin_current_market_price);
           try {
             pool
               .query(queryGetText, [Number(req.params.id)])
               .then((results) => {
                 // console.log(results.rows);
-                account_balance = Number(results.rows[0].account_balance);
+                // Account balance from table user_profile
+                account_balance = Number(results.rows[0]?.account_balance);
                 console.log(`account balance =>`, account_balance);
-                // res.send(`OK`);
               })
               .then(() => {
                 pool
-                  .query(queryGetCoinPageText, [Number(req.params.id)])
+                  .query(queryGetCoinPageText, [
+                    Number(req.params.id),
+                    nameUpper,
+                  ])
                   .then((results) => {
                     // Set users coin amount owned
+                    console.log(results.rows);
                     amount_owned = Number(results.rows[0].amount_owned);
                     console.log(`amount of coin user owns =>`, amount_owned);
                     console.log(
@@ -268,19 +279,45 @@ WHERE user_profile_id=$1
                     );
                     if (amount_to_sell <= amount_owned) {
                       try {
+                        // Update table coin_page SET amount_owned
                         pool
                           .query(queryToSellCoin, [
                             amount_to_sell,
                             Number(req.params.id),
                           ])
                           .then((results) => {
-                            console.log(results.rows);
-                            res.send(results)
+                            // Send back an OK
+                            console.log(
+                              `Deposit user_profile account_balance => `,
+                              coin_current_market_price * amount_to_sell
+                            );
+                            account_balance_update =
+                              coin_current_market_price * amount_to_sell;
+                            // res.sendStatus(200);
                           })
-                          .catch(
-                            `We couldn't sell you're coin to the database`,
-                            error
-                          );
+                          .then(() => {
+                            pool
+                              .query(queryUpdateAccountBalance, [
+                                account_balance_update,
+                                req.params.id,
+                              ])
+                              .then((results) => {
+                                res.sendStatus(200);
+                              })
+                              .catch((error) => {
+                                console.log(
+                                  `Sorry about that, we couldn't deposit your funds`,
+                                  error
+                                );
+                              });
+                          })
+                          .catch((error) => {
+                            console.log(
+                              `We couldn't sell you're coin to the database`,
+                              error
+                            );
+                            res.sendStatus(500);
+                          });
                       } catch (error) {
                         console.log(`Capt, we're super far down again!`);
                       }

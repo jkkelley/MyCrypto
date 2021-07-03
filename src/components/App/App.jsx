@@ -42,7 +42,7 @@ function App() {
   return (
     <Router>
       <div>
-
+        
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
@@ -84,7 +84,7 @@ function App() {
             // logged in shows UserPage else shows LoginPage
             exact
             path="/user"
-            // authRedirect="/createProfile/:id"
+            authRedirect="/homePage"
           >
             <UserPage />
           </ProtectedRoute>

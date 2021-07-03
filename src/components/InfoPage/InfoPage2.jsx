@@ -41,7 +41,7 @@ function InfoPage2({ coins, name, price }) {
   // Custom CSS classes
   const classes = useStyles();
   // Function to handle going to /coinDetails/:id
-  const handleCoinClick = () => {
+  const handleCoinClick = (coins) => {
     console.log(`You clicked handleCoinClick.`);
     console.log(coins);
     history.push(`/coinDetails/${coins.id}`)
@@ -49,7 +49,7 @@ function InfoPage2({ coins, name, price }) {
   return (
     <>
       <div className="coin-container">
-        <div className="coin" onClick={handleCoinClick}>
+        <div className="coin" onClick={() => handleCoinClick(coins)}>
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
