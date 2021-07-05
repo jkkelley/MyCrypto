@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Profile UPDATE Request to server
 function* updateProfilePage(action) {
-  console.log(action);
+  console.log(`updateProfilePage =>`, action.payload);
 
   try {
     yield axios.put(`/api/CreateProfile/${action.payload.id}`, action.payload);

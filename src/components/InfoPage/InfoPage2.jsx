@@ -46,7 +46,7 @@ function InfoPage2({ coins, name, price }) {
   const handleCoinClick = (coins) => {
     console.log(`You clicked handleCoinClick.`);
     console.log(coins);
-    dispatch({type: "COIN_CLICK_INFO_PAGE_2", payload: coins})
+    dispatch({type: "CLEAR_COIN_INFO", type: "CLEAR_FORM_SUBMISSION", type: "COIN_CLICK_INFO_PAGE_2", payload: coins})
     history.push(`/coinDetails/${coins.id}`)
   };
   return (

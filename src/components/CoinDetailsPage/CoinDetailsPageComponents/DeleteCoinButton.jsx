@@ -3,7 +3,7 @@ function DeleteCoinButton({ useStyles, Button }) {
   const classes = useStyles();
   // Function to handleDelete click
   const handleDelete = () => {
-    console.log(`You clicked handleBuy`);
+    // console.log(`You clicked handleDelete`);
   };
   return (
     <>
