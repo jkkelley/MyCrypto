@@ -8,11 +8,13 @@ import axios from "axios";
 import { makeStyles } from "@material-ui/core/styles";
 
 import BuyCoinButton from "./CoinDetailsPageComponents/BuyCoinButton";
+import BuyMoreCoinsButton from "./CoinDetailsPageComponents/BuyMoreCoinsButton";
 import CoinPageNotes from "./CoinDetailsPageComponents/CoinPageNotes";
 import DeleteCoinButton from "./CoinDetailsPageComponents/DeleteCoinButton";
+import NavDrawer from "../NavDrawer/NavDrawer";
 import NotesFromServer from "./CoinDetailsPageComponents/NotesFromServer";
 import SellCoinButton from "./CoinDetailsPageComponents/SellCoinButton";
-import NavDrawer from "../NavDrawer/NavDrawer";
+
 const useStyles = makeStyles({
   root1: {
     background: "linear-gradient(45deg, #003366 30%, #FF8E53 90%)",
@@ -173,7 +175,7 @@ function CoinDetailsPage({ coins }) {
               {!amountOwned ? (
                 <BuyCoinButton useStyles={useStyles} Button={Button} />
               ) : (
-                <p>Hello</p>
+                <BuyMoreCoinsButton Button={Button} useStyles={useStyles} />
               )}
               <SellCoinButton useStyles={useStyles} Button={Button} />
               <DeleteCoinButton useStyles={useStyles} Button={Button} />
@@ -204,7 +206,9 @@ function CoinDetailsPage({ coins }) {
 
                 <div>
                   {coinNotes?.map((notes, index) => {
-                    return <CoinPageNotes key={index} index={index} notes={notes} />;
+                    return (
+                      <CoinPageNotes key={index} index={index} notes={notes} />
+                    );
                   })}
                 </div>
               </>
