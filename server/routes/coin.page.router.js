@@ -370,10 +370,12 @@ router.put("/v1/buyMoreCoins/", rejectUnauthenticated, async (req, res) => {
   SELECT * FROM user_profile
   WHERE users_id=$1;
   `;
-
   const queryPutText = `
   UPDATE coin_page SET amount_owned=amount_owned+$1 
-  WHERE user_profile_id=$2
+  WHERE user_profile_id=$2;
+  `;
+  const queryUpdateText = `
+  UPDATE user_profile SET account_balance=account_balance-$1 WHERE users_id=$2;
   `;
 
   if (req.isAuthenticated) {
@@ -389,9 +391,7 @@ router.put("/v1/buyMoreCoins/", rejectUnauthenticated, async (req, res) => {
           purchasedPriceAmount = Number(
             coin_current_market_price * req.body.amount
           );
-          
-        })
-       
+        });
 
       await console.log(
         `coin_current_market_price => `,
@@ -402,20 +402,28 @@ router.put("/v1/buyMoreCoins/", rejectUnauthenticated, async (req, res) => {
         .query(queryGetText, [req.body.id])
         .then((result) => {
           account_balance = Number(result.rows[0].account_balance);
-        }).then(async ()  => {
+        })
+        .then(async () => {
           // Send back a -1 "no" response to be set in coinInfoReducer
           // This will in turn tell the user they don't have the funds
           // to purchase this amount of the coin.
           if (purchasedPriceAmount.toFixed(2) > account_balance) {
             res.send([-1]);
           } else {
-            const updatedCoinAmount = await pool.query(queryPutText, [req.body.amount, req.body.id])
-            // res.sendStatus(201) 
+            // Subtract purchase price from user_profile account_balance
+            const updatedCoinAmount = await pool.query(queryPutText, [
+              req.body.amount,
+              req.body.id,
+            ]);
+            const updatedUserProfileAccountBalance = await pool.query(
+              queryUpdateText,
+              [purchasedPriceAmount, req.body.id]
+            );
+            await client.query("COMMIT");
+            res.sendStatus(201);
           }
         });
-      // await console.log(`userProfileResponse =>`, account_balance)
-      // await client.query("COMMIT");
-      // res.sendStatus(201);
+
     } catch (error) {
       console.log(`Sorry we a problem updating coin PUT route`, error);
       res.sendStatus(500);

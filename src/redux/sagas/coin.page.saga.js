@@ -45,7 +45,7 @@ function* getCoinInfo2(action) {
       type: "FETCH_COIN_NOTE",
       payload: coin_page_coin_info.data[0],
     });
-    yield console.log(`Coin data from server => `, coin_page_coin_info.data[0])
+    yield console.log(`Coin data from server => `, coin_page_coin_info.data[0]);
     yield put({ type: "SET_VALUE_AMOUNT_OWNED", payload: response.data });
     yield put({ type: "GET_COIN_INFO_REDUCER" });
   } catch (error) {
@@ -68,7 +68,7 @@ function* postAmountToBuy(action) {
     );
     // Set reducer with our data from database
     yield put({ type: "SET_ACCOUNT_COIN_AMOUNT", payload: response.data });
-    console.log(response.data)
+    console.log(response.data);
     yield put({
       type: "FETCH_COIN_INFO2",
       payload: action.payload,
@@ -109,23 +109,30 @@ function* sellCoinAmount(action) {
 }
 
 function* updateCoinAmount(action) {
-  console.log(`Trying to buy more coins => `, action.payload)
+  console.log(`Trying to buy more coins => `, action.payload);
   const data = {
     amount: action.payload.amount,
-    id: action.payload.id, 
+    id: action.payload.id,
     crypto_name: action.payload.crypto_name,
-  }
+  };
   try {
-    const response = yield axios.put(`/api/CoinPage/v1/buyMoreCoins`, data)
-  } catch(error) {
-    console.log(`We buy more coins for you =>`, error)
+    yield axios.put(`/api/CoinPage/v1/buyMoreCoins`, data);
+    // Update coin client side data
+    yield put({
+      type: "FETCH_COIN_INFO2",
+      payload: action.payload,
+    });
+    // // Updates users coin info
+    yield put({ type: "GET_CREATE_PROFILE"});
+  } catch (error) {
+    console.log(`We buy more coins for you =>`, error);
   }
 }
 
 function* coinPageSaga() {
   yield takeLatest("FETCH_COIN_INFO", getCoinInfo);
   yield takeLatest("FETCH_COIN_INFO2", getCoinInfo2);
-  yield takeLatest("UPDATE_COIN_AMOUNT", updateCoinAmount)
+  yield takeLatest("UPDATE_COIN_AMOUNT", updateCoinAmount);
   yield takeLatest("POST_COIN_AMOUNT", postAmountToBuy);
   yield takeLatest("SELL_COIN_AMOUNT", sellCoinAmount);
 }
