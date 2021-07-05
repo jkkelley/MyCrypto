@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
   divider: {
     marginTop: -5,
-  }
+  },
 }));
 
 function NavDrawer({ props }) {
@@ -82,7 +82,11 @@ function NavDrawer({ props }) {
       case "Home":
         try {
           console.log(event);
-          dispatch({ type: "CLEAR_COIN_INFO", type: "CLEAR_NOTES_FROM_COIN" });
+          dispatch({
+            type: "CLEAR_COIN_INFO",
+            type: "CLEAR_NOTES_FROM_COIN",
+            type: "CLEAR_FORM_SUBMISSION",
+          });
           history.push("/homePage");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -91,7 +95,11 @@ function NavDrawer({ props }) {
       case "Profile":
         try {
           console.log(event);
-          dispatch({ type: "CLEAR_COIN_INFO", type: "CLEAR_NOTES_FROM_COIN" });
+          dispatch({
+            type: "CLEAR_COIN_INFO",
+            type: "CLEAR_NOTES_FROM_COIN",
+            type: "CLEAR_FORM_SUBMISSION",
+          });
           history.push("/profile");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -100,14 +108,18 @@ function NavDrawer({ props }) {
       case "Coin Market":
         try {
           console.log(event);
-          dispatch({ type: "CLEAR_COIN_INFO", type: "CLEAR_NOTES_FROM_COIN" });
+          dispatch({
+            type: "CLEAR_COIN_INFO",
+            type: "CLEAR_NOTES_FROM_COIN",
+            type: "CLEAR_FORM_SUBMISSION",
+          });
           history.push("/info");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
         }
         break;
       case "Logout":
-        dispatch({ type: "CLEAR_NOTES_FROM_COIN", type: "LOGOUT" });
+        dispatch({ type: "CLEAR_NOTES_FROM_COIN", type: "CLEAR_FORM_SUBMISSION", type: "LOGOUT" });
         history.push("/");
     }
   };
@@ -115,7 +127,7 @@ function NavDrawer({ props }) {
     <div>
       <div className={classes.toolbar} />
       <h3>Menu</h3>
-      <Divider className={classes.divider}/>
+      <Divider className={classes.divider} />
       <List>
         {["Home", "Profile", "Coin Market", "Logout"].map((text, index) => (
           <ListItem button key={text} onClick={() => handleNavClick(text)}>

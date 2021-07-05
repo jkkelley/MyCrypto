@@ -361,6 +361,8 @@ router.put("/v1/buyMoreCoins/", rejectUnauthenticated, async (req, res) => {
   const client = await pool.connect();
   console.log(`/v1/buyMoreCoins/ =>`, req.body);
   const nameLower = req.body.crypto_name.toLowerCase();
+  const nameUpper = req.body.crypto_name.toUpperCase();
+
   // Users Account balance
   let account_balance = 0;
   // Current Market Price of Coin
@@ -372,7 +374,7 @@ router.put("/v1/buyMoreCoins/", rejectUnauthenticated, async (req, res) => {
   `;
   const queryPutText = `
   UPDATE coin_page SET amount_owned=amount_owned+$1 
-  WHERE user_profile_id=$2;
+  WHERE user_profile_id=$2 and crypto_name=$3;
   `;
   const queryUpdateText = `
   UPDATE user_profile SET account_balance=account_balance-$1 WHERE users_id=$2;
@@ -414,6 +416,7 @@ router.put("/v1/buyMoreCoins/", rejectUnauthenticated, async (req, res) => {
             const updatedCoinAmount = await pool.query(queryPutText, [
               req.body.amount,
               req.body.id,
+              nameUpper
             ]);
             const updatedUserProfileAccountBalance = await pool.query(
               queryUpdateText,
