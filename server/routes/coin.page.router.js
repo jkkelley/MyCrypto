@@ -8,7 +8,7 @@ const axios = require("axios");
 
 router.get("/UpdatedAmount/:name/:id", rejectUnauthenticated, (req, res) => {
   console.log(`Got to get coin page`);
-  console.log(`Req Params`, req.params);
+  console.log(`/api/CoinPage/UpdatedAmount/:name/:id => Req Params`, req.params);
   const queryText = `
     SELECT * FROM coin_page
     WHERE user_profile_id=$1 and crypto_name=$2;
@@ -217,7 +217,7 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
 router.put("/sellCoin/:name/:id", rejectUnauthenticated, (req, res) => {
   if (req.isAuthenticated) {
     console.log(req.params);
-    console.log(req.body)
+    console.log(req.body);
     // Users account balance from table user_profile
     let account_balance = 0;
     // Users coin amount_owned from table coin_page
@@ -416,7 +416,7 @@ router.put("/v1/buyMoreCoins/", rejectUnauthenticated, async (req, res) => {
             const updatedCoinAmount = await pool.query(queryPutText, [
               req.body.amount,
               req.body.id,
-              nameUpper
+              nameUpper,
             ]);
             const updatedUserProfileAccountBalance = await pool.query(
               queryUpdateText,
@@ -438,4 +438,75 @@ router.put("/v1/buyMoreCoins/", rejectUnauthenticated, async (req, res) => {
   }
 });
 
+// Delete Area
+router.delete("/v1/:name/:id", rejectUnauthenticated, async (req, res) => {
+  const client = await pool.connect();
+  console.log(
+    `Welcome to /api/CoinPage/v1/${req.params.name}/${req.params.id} =>`,
+    req.params
+  );
+  const nameUpper = req.params.name.toUpperCase();
+
+  // Query Area
+  const queryCoinPageText = `
+  SELECT * FROM coin_page
+  WHERE user_profile_id=$1 and crypto_name=$2;
+  `;
+
+  const queryUpdateAccountBalance = `
+  UPDATE user_profile SET account_balance=account_balance+$1 WHERE users_id=$2;
+  `;
+
+  const queryToDeleteCoin = `
+  DELETE FROM coin_page
+  WHERE user_profile_id=$1 and crypto_name=$2;
+  `;
+  // Current Market Price for coin
+  let coin_current_market_price = 0;
+  let account_balance_increase = 0;
+  if (req.isAuthenticated) {
+    try {
+      // Let's gather some data
+      await client.query("BEGIN");
+      const coingeckoResponse = await axios
+        .get(
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${req.params.name}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+        )
+        .then((result) => {
+          coin_current_market_price = Number(result.data[0].current_price);
+        });
+
+      await console.log(
+        `coin_current_market_price => `,
+        coin_current_market_price
+      );
+      const getCoinPageResponse = await pool
+        .query(queryCoinPageText, [Number(req.params.id), nameUpper])
+        .then((result) => {
+          account_balance_increase =
+            Number(result.rows[0].amount_owned) * coin_current_market_price;
+        });
+      await console.log(
+        `account_balance_increase => `,
+        account_balance_increase
+      );
+      // Increase user_profile account_balance
+      await pool.query(queryUpdateAccountBalance, [
+        account_balance_increase,
+        Number(req.params.id),
+      ]);
+      await pool.query(queryToDeleteCoin, [Number(req.params.id), nameUpper]);
+      await client.query("COMMIT");
+      res.sendStatus(201);
+    } catch (error) {
+      console.log(`We have a problem DELETING your coin`, error);
+      res.sendStatus(500);
+    } finally {
+      client.release();
+    }
+  } else {
+    // Forbidden
+    res.sendStatus(403);
+  }
+});
 module.exports = router;

@@ -171,27 +171,43 @@ function CoinDetailsPage({ coins }) {
               {!amountOwned ? (
                 <BuyCoinButton useStyles={useStyles} Button={Button} />
               ) : (
-                <BuyMoreCoinsButton Button={Button} useStyles={useStyles} />
+                <>
+                  <BuyMoreCoinsButton Button={Button} useStyles={useStyles} />
+                  <SellCoinButton useStyles={useStyles} Button={Button} />
+                  <DeleteCoinButton
+                    coins={coins}
+                    useStyles={useStyles}
+                    Button={Button}
+                  />
+                </>
               )}
-              <SellCoinButton useStyles={useStyles} Button={Button} />
-              <DeleteCoinButton useStyles={useStyles} Button={Button} />
             </div>
 
-            <div>
-              <p>{coinsFromGecko[0]?.name}</p>
-              <p>
-                {coinInfoReducer?.value_of_amount_owned?.toLocaleString(
-                  "en-US",
-                  {
-                    style: "currency",
-                    currency: "USD",
-                  }
-                )}
-              </p>
-              <p>
-                {/* {coinInfoReducer?.amount_owned[0].amount_owned?.toLocaleString({minimumFractionDigits:0, maximumFractionDigits: 8})} */}
-              </p>
-            </div>
+            {coinInfoReducer && coinInfoReducer.amount_owned ? (
+              <div>
+                <p>{coinsFromGecko[0]?.name}</p>
+                <p>
+                  {coinInfoReducer?.value_of_amount_owned?.toLocaleString(
+                    "en-US",
+                    {
+                      style: "currency",
+                      currency: "USD",
+                    }
+                  )}
+                </p>
+                <p>
+                  {coinInfoReducer?.amount_owned[0]?.amount_owned?.toLocaleString(
+                    { minimumFractionDigits: 0, maximumFractionDigits: 8 }
+                  )}
+                </p>
+              </div>
+            ) : (
+              <p>$0.00</p>
+            )}
+
+            <p>
+              {/* {coinInfoReducer?.amount_owned[0].amount_owned?.toLocaleString({minimumFractionDigits:0, maximumFractionDigits: 8})} */}
+            </p>
             {!amountOwned ? (
               <p></p>
             ) : (
