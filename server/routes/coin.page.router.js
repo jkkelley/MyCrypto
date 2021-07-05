@@ -216,8 +216,8 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
 // PUT Area
 router.put("/sellCoin/:name/:id", rejectUnauthenticated, (req, res) => {
   if (req.isAuthenticated) {
-    console.log(req.body);
-
+    console.log(req.params);
+    console.log(req.body)
     // Users account balance from table user_profile
     let account_balance = 0;
     // Users coin amount_owned from table coin_page
@@ -252,7 +252,7 @@ router.put("/sellCoin/:name/:id", rejectUnauthenticated, (req, res) => {
     try {
       axios
         .get(
-          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${req.body.name}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${req.params.name}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
         )
         .then((results) => {
           // Set the current price of the coin to our variable
@@ -423,7 +423,6 @@ router.put("/v1/buyMoreCoins/", rejectUnauthenticated, async (req, res) => {
             res.sendStatus(201);
           }
         });
-
     } catch (error) {
       console.log(`Sorry we a problem updating coin PUT route`, error);
       res.sendStatus(500);
