@@ -30,9 +30,9 @@ function* getCoinInfo2(action) {
   let data = {
     amount: action.payload.amount,
     id: action.payload.id,
-     crypto_name: action.payload.crypto_name
-  }
-  console.log(`Data => `, data)
+    crypto_name: action.payload.crypto_name,
+  };
+  console.log(`Data => `, data);
   try {
     // Set a response for our axios get promise
     const coin_page_coin_info = yield axios.get(
@@ -77,7 +77,7 @@ function* postAmountToBuy(action) {
     console.log(response.data);
     yield put({
       type: "FETCH_COIN_INFO2",
-      payload: action.payload,
+      payload: data,
     });
     yield put({ type: "GET_COIN_INFO_REDUCER" });
 
@@ -94,7 +94,7 @@ function* postAmountToBuy(action) {
 function* sellCoinAmount(action) {
   // Set our action.payload to a data object
   // to send on our POST promise
-  console.log(`Selling Coin info`, action.payload)
+  console.log(`Selling Coin info`, action.payload);
   const data = {
     amount: action.payload.amount,
     crypto_name: action.payload.name,
@@ -130,9 +130,25 @@ function* updateCoinAmount(action) {
       payload: action.payload,
     });
     // // Updates users coin info
-    yield put({ type: "GET_CREATE_PROFILE"});
+    yield put({ type: "GET_CREATE_PROFILE" });
   } catch (error) {
     console.log(`We buy more coins for you =>`, error);
+  }
+}
+
+function* deleteCoin(action) {
+  const data = {
+    crypto_name: action.payload.crypto_name,
+    id: action.payload.id,
+  };
+  console.log(`Info from coin to delete => `, data);
+  try {
+    yield axios.delete(`/api/CoinPage/v1/${data.crypto_name}/${data.id}`, data);
+    yield put({ type: "CLEAR_COIN_INFO" });
+    // // Updates users coin info
+    yield put({ type: "GET_CREATE_PROFILE" });
+  } catch (error) {
+    console.log(`Sorry, we couldn't delete your coin.`, error);
   }
 }
 
@@ -142,6 +158,7 @@ function* coinPageSaga() {
   yield takeLatest("UPDATE_COIN_AMOUNT", updateCoinAmount);
   yield takeLatest("POST_COIN_AMOUNT", postAmountToBuy);
   yield takeLatest("SELL_COIN_AMOUNT", sellCoinAmount);
+  yield takeLatest("DELETE_THIS_COIN", deleteCoin);
 }
 
 export default coinPageSaga;
