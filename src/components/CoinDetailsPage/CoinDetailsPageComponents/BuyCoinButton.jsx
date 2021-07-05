@@ -24,7 +24,6 @@ function BuyCoinButton({ useStyles, Button }) {
   // Function to handleBuy click
   const handleBuy = async () => {
     console.log(`You clicked handleBuy`);
-    // We need to bring the store in.
 
     const { value: coinAmountToBuy } = await Swal.fire({
       title: `${params.id}`,

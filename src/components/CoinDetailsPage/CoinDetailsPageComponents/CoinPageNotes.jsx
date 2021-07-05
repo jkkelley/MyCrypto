@@ -20,7 +20,6 @@ function CoinPageNotes({ notes, index }) {
   const dispatch = useDispatch();
   // Function to Handle clicking on note to edit.
   const handleNoteClick = async (note) => {
-
     console.log(note);
     console.log(params);
     await Swal.fire({
@@ -53,9 +52,10 @@ function CoinPageNotes({ notes, index }) {
         dispatch({
           type: "UPDATE_COIN_NOTE",
           payload: {
-            coin_page_id: note.coin_page_id,
+            coin_page_id: coinInfoReducer?.amount_owned[0]?.id,
+            id: coinInfoReducer?.amount_owned[0]?.id,
             updated_note: result.value,
-            note_id: note.id,
+            notes_id: notes.notes_id,
             crypto_name: params.id,
           },
         });

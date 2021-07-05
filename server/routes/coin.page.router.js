@@ -353,4 +353,9 @@ router.put("/sellCoin/:name/:id", rejectUnauthenticated, (req, res) => {
   }
 });
 
+router.put("/v1/buyMoreCoins/", rejectUnauthenticated, (req, res) => {
+
+  
+})
+
 module.exports = router;

@@ -108,10 +108,19 @@ function* sellCoinAmount(action) {
   }
 }
 
+function* updateCoinAmount(action) {
+  console.log(`Trying to buy more coins => `, action.payload)
+  try {
+    const response = yield axios.put(`/api/CoinPage/v1/buyMoreCoins`)
+  } catch(error) {
+    console.log(`We buy more coins for you =>`, error)
+  }
+}
+
 function* coinPageSaga() {
   yield takeLatest("FETCH_COIN_INFO", getCoinInfo);
   yield takeLatest("FETCH_COIN_INFO2", getCoinInfo2);
-
+  yield takeLatest("UPDATE_COIN_AMOUNT", updateCoinAmount)
   yield takeLatest("POST_COIN_AMOUNT", postAmountToBuy);
   yield takeLatest("SELL_COIN_AMOUNT", sellCoinAmount);
 }
