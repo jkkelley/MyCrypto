@@ -63,7 +63,7 @@ router.get("/UpdatedAmount/:name/:id", rejectUnauthenticated, (req, res) => {
 
 router.get("/coinPageCoinInfo/:name/:id", rejectUnauthenticated, (req, res) => {
   console.log(`You got to /api/CoinPage/coinPageCoinInfo`);
-  console.log(req.params)
+  console.log(`coinPageCoinInfo params =>`, req.params)
   const nameUpper = req.params.name.toUpperCase();
   const getCoinInfoText = `
   SELECT * FROM coin_page
@@ -91,7 +91,7 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
   console.log(`Got to /api/CoinPage/Buy`);
   console.log(req.params);
   console.log(req.body);
-  const nameUpper = req.body.name.toUpperCase();
+  const nameUpper = req.body.crypto_name.toUpperCase();
   console.log(nameUpper);
   let coin_current_market_price = 0;
   let account_balance = 0;
@@ -117,7 +117,7 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
       // axios, go to coingecko and get me the coins info
       axios
         .get(
-          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${req.body.name}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${req.body.crypto_name}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
         )
         .then((response) => {
           // Set the current price of the coin to our variable
@@ -130,7 +130,7 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
                 console.log(response.rows);
                 // Users Account Balance
                 account_balance = Number(response.rows[0].account_balance);
-                console.log(account_balance);
+                console.log(`Users Account balance =>`, account_balance);
                 // Amount user will be spending
                 let purchasePriceAmount =
                   req.body.amount * coin_current_market_price;

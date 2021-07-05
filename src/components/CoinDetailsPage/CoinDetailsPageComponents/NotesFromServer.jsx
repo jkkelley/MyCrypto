@@ -8,14 +8,16 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Swal from "sweetalert2";
 
-function NotesFromServer() {
+function NotesFromServer({notes}) {
+  console.log(notes)
   // Bring in dispatch
   const dispatch = useDispatch();
   // Bring in params
   const params = useParams();
   // Need the user from store
   const user = useSelector((store) => store.user);
-  const coinInfoReducer = useSelector(store => store.coinInfoReducer)
+  const coinInfoReducer = useSelector((store) => store.coinInfoReducer);
+  
   const handleAddNote = async () => {
     console.log(`You clicked handleAddNote`);
     const { value: text } = await Swal.fire({
@@ -34,10 +36,14 @@ function NotesFromServer() {
           return `We can't leave notes blank...`;
         } else {
           console.log(value);
-          
+
           dispatch({
             type: "POST_COIN_NOTE",
-            payload: { note: value, crypto_name: params.id, id: coinInfoReducer?.amount_owned[0]?.id },
+            payload: {
+              note: value,
+              crypto_name: params.id,
+              id: coinInfoReducer?.amount_owned[0]?.id,
+            },
           });
         }
       },

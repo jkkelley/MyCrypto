@@ -18,7 +18,7 @@ function* fetchCoinNote(action) {
   console.log(`Note info => `, action.payload);
   try {
     const response = yield axios.get(
-      `/api/coinNotes/v1/${action.payload.name}/${Number(action.payload.id)}`
+      `/api/coinNotes/v1/${action.payload.crypto_name}/${Number(action.payload.id)}`
     );
     yield put({ type: "SET_NOTES_FROM_COIN", payload: response.data });
   } catch (error) {
@@ -42,7 +42,7 @@ function* updateCoinNote(action) {
 function* deleteCoinNote(action) {
   console.log(`delete note => `, action.payload)
   try {
-    yield axios.delete(`/api/coinNotes/v1/delete/${action.payload.name}/${action.payload.note_id}/${action.payload.coin_page_id}`)
+    yield axios.delete(`/api/coinNotes/v1/delete/${action.payload.crypto_name}/${action.payload.notes_id}/${action.payload.coin_page_id}/${action.payload.id}`)
     yield put({type: "FETCH_COIN_NOTE", payload: action.payload})
   } catch(error) {
     console.log(`Sorry, We couldn't delete your Note...`, error)

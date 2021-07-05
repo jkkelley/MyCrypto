@@ -41,9 +41,10 @@ router.get("/v1/:name/:id", rejectUnauthenticated, async (req, res) => {
   console.log(`GET Notes Says... =>`, req.params);
   if (req.isAuthenticated) {
     const queryGetText = `
-    SELECT crypto_name, notes.notes as notes from coin_page
+    SELECT crypto_name, notes.coin_page_id as id, notes.id as notes_id, notes.notes as notes from coin_page
     join notes on notes.coin_page_id = coin_page.id
     WHERE coin_page.id=$1
+    ORDER BY notes.id DESC
     ;
     `;
     const nameUpper = req.params.name.toUpperCase();
@@ -94,11 +95,12 @@ router.put(
 );
 
 router.delete(
-  "/v1/delete/:name/:note_id/:coin_page_id",
+  "/v1/delete/:name/:notes_id/:coin_page_id/:id",
   rejectUnauthenticated,
   async (req, res) => {
     console.log(`delete coin note params =>`, req.params);
-    const { coin_page_id, note_id } = req.params;
+    const { coin_page_id, notes_id } = req.params;
+    console.log(`Note id =>`, req.params.notes_id)
     if (req.isAuthenticated) {
       try {
         const queryNoteDeleteText = `
@@ -107,7 +109,7 @@ router.delete(
         `;
         await pool.query(queryNoteDeleteText, [
           Number(coin_page_id),
-          Number(note_id),
+          Number(notes_id),
         ]);
         await res.sendStatus(201);
       } catch (error) {

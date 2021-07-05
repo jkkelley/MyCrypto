@@ -50,7 +50,7 @@ function BuyCoinButton({ useStyles, Button }) {
           console.log(Number(value));
           dispatch({
             type: "POST_COIN_AMOUNT",
-            payload: { amount: Number(value), name: params.id, id: user.id},
+            payload: { amount: Number(value), crypto_name: params.id, id: user.id},
           });
         }
       },

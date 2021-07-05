@@ -8,13 +8,19 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Swal from "sweetalert2";
 
-function CoinPageNotes({ notes }) {
+function CoinPageNotes({ notes, index }) {
+  const coinInfoReducer = useSelector((store) => store.coinInfoReducer);
+  console.log(`Notes page => `, notes);
+  console.log(`index page => `, index);
+  const coinNotes = useSelector((store) => store.coinNotes);
+  console.log(`coinNotes => `, coinNotes);
   const params = useParams();
   const user = useSelector((store) => store.user);
   // Bring in dispatch
   const dispatch = useDispatch();
   // Function to Handle clicking on note to edit.
   const handleNoteClick = async (note) => {
+
     console.log(note);
     console.log(params);
     await Swal.fire({
@@ -42,14 +48,15 @@ function CoinPageNotes({ notes }) {
       if (result.isConfirmed) {
         Swal.fire("Saved!", "", "success");
         console.log(result.value);
-        console.log(notes.coin_page_id);
+        console.log(notes);
+        console.log(note.coin_page_id);
         dispatch({
           type: "UPDATE_COIN_NOTE",
           payload: {
-            coin_page_id: notes.coin_page_id,
+            coin_page_id: note.coin_page_id,
             updated_note: result.value,
             note_id: note.id,
-            name: params.id,
+            crypto_name: params.id,
           },
         });
       } else if (result.isDenied) {
@@ -57,11 +64,12 @@ function CoinPageNotes({ notes }) {
         dispatch({
           type: "DELETE_COIN_NOTE",
           payload: {
-            coin_page_id: notes.coin_page_id,
-            note_id: note.id,
+            id: coinInfoReducer?.amount_owned[0]?.id,
+            notes_id: notes.notes_id,
             crypto_name: params.id,
-            id: user.id,
+            coin_page_id: coinInfoReducer?.amount_owned[0]?.id,
           },
+          // payload: notes
         });
         // Swal.fire("Changes are not saved", "", "info");
       }

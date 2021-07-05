@@ -48,7 +48,7 @@ import { TextField, useRadioGroup } from "@material-ui/core";
 import { History101 } from "react-router-dom";
 
 function CoinDetailsPage({ coins }) {
-  console.log(`coins from coin details =>`, coins);
+  // console.log(`coins from coin details =>`, coins);
   // Bring Location in
   const location = useLocation();
   // Set our coin info from coingecko api
@@ -204,7 +204,7 @@ function CoinDetailsPage({ coins }) {
 
                 <div>
                   {coinNotes?.map((notes, index) => {
-                    return <CoinPageNotes key={index} notes={notes} />;
+                    return <CoinPageNotes key={index} index={index} notes={notes} />;
                   })}
                 </div>
               </>

@@ -26,7 +26,7 @@ function* getCoinInfo(action) {
 }
 
 function* getCoinInfo2(action) {
-  console.log(action.payload.id);
+  console.log(`What we get for coin info => `, action.payload);
   try {
     // Set a response for our axios get promise
     const coin_page_coin_info = yield axios.get(
@@ -58,19 +58,20 @@ function* postAmountToBuy(action) {
   // to send on our POST promise
   const data = {
     amount: action.payload.amount,
-    crypto_name: action.payload.name,
+    crypto_name: action.payload.crypto_name,
     id: action.payload.id,
   };
   try {
     const response = yield axios.post(
-      `/api/CoinPage/Buy/${action.payload.name}/${action.payload.id}`,
+      `/api/CoinPage/Buy/${data.crypto_name}/${action.payload.id}`,
       data
     );
     // Set reducer with our data from database
     yield put({ type: "SET_ACCOUNT_COIN_AMOUNT", payload: response.data });
+    console.log(response.data)
     yield put({
       type: "FETCH_COIN_INFO2",
-      payload: action,
+      payload: action.payload,
     });
     yield put({ type: "GET_COIN_INFO_REDUCER" });
 
