@@ -63,7 +63,7 @@ router.get("/UpdatedAmount/:name/:id", rejectUnauthenticated, (req, res) => {
 
 router.get("/coinPageCoinInfo/:name/:id", rejectUnauthenticated, (req, res) => {
   console.log(`You got to /api/CoinPage/coinPageCoinInfo`);
-  console.log(`coinPageCoinInfo params =>`, req.params)
+  console.log(`coinPageCoinInfo params =>`, req.params);
   const nameUpper = req.params.name.toUpperCase();
   const getCoinInfoText = `
   SELECT * FROM coin_page
@@ -204,8 +204,12 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
           console.log(`We had a problem fetching Coin Info from coingecko`);
         });
     } catch (error) {
-      console.log(`We had a problem`);
+      console.log(`We had a problem`, error);
+      res.sendStatus(500);
     }
+  } else {
+    // Forbidden
+    res.sendStatus(403);
   }
 });
 
@@ -353,9 +357,75 @@ router.put("/sellCoin/:name/:id", rejectUnauthenticated, (req, res) => {
   }
 });
 
-router.put("/v1/buyMoreCoins/", rejectUnauthenticated, (req, res) => {
+router.put("/v1/buyMoreCoins/", rejectUnauthenticated, async (req, res) => {
+  const client = await pool.connect();
+  console.log(`/v1/buyMoreCoins/ =>`, req.body);
+  const nameLower = req.body.crypto_name.toLowerCase();
+  // Users Account balance
+  let account_balance = 0;
+  // Current Market Price of Coin
+  let coin_current_market_price = 0;
+  let purchasedPriceAmount = 0;
+  const queryGetText = `
+  SELECT * FROM user_profile
+  WHERE users_id=$1;
+  `;
 
-  
-})
+  const queryPutText = `
+  UPDATE coin_page SET amount_owned=amount_owned+$1 
+  WHERE user_profile_id=$2
+  `;
+
+  if (req.isAuthenticated) {
+    try {
+      // Let's gather some data
+      await client.query("BEGIN");
+      const coingeckoResponse = await axios
+        .get(
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${nameLower}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+        )
+        .then((result) => {
+          coin_current_market_price = Number(result.data[0].current_price);
+          purchasedPriceAmount = Number(
+            coin_current_market_price * req.body.amount
+          );
+          
+        })
+       
+
+      await console.log(
+        `coin_current_market_price => `,
+        coin_current_market_price
+      );
+      await console.log(`purchasedPriceAmount => `, purchasedPriceAmount);
+      const userProfileResponse = await pool
+        .query(queryGetText, [req.body.id])
+        .then((result) => {
+          account_balance = Number(result.rows[0].account_balance);
+        }).then(async ()  => {
+          // Send back a -1 "no" response to be set in coinInfoReducer
+          // This will in turn tell the user they don't have the funds
+          // to purchase this amount of the coin.
+          if (purchasedPriceAmount.toFixed(2) > account_balance) {
+            res.send([-1]);
+          } else {
+            const updatedCoinAmount = await pool.query(queryPutText, [req.body.amount, req.body.id])
+            // res.sendStatus(201) 
+          }
+        });
+      // await console.log(`userProfileResponse =>`, account_balance)
+      // await client.query("COMMIT");
+      // res.sendStatus(201);
+    } catch (error) {
+      console.log(`Sorry we a problem updating coin PUT route`, error);
+      res.sendStatus(500);
+    } finally {
+      client.release();
+    }
+  } else {
+    // Forbidden
+    res.sendStatus(403);
+  }
+});
 
 module.exports = router;

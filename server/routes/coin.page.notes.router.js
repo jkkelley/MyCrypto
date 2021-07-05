@@ -30,6 +30,8 @@ router.post("/v1/:name/:id", rejectUnauthenticated, async (req, res) => {
     } catch (error) {
       console.log(`We couldn't post your note... get it...`, error);
       res.sendStatus(500);
+    } finally {
+      client.release();
     }
   } else {
     // Forbidden
@@ -100,7 +102,7 @@ router.delete(
   async (req, res) => {
     console.log(`delete coin note params =>`, req.params);
     const { coin_page_id, notes_id } = req.params;
-    console.log(`Note id =>`, req.params.notes_id)
+    console.log(`Note id =>`, req.params.notes_id);
     if (req.isAuthenticated) {
       try {
         const queryNoteDeleteText = `

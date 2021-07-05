@@ -110,8 +110,13 @@ function* sellCoinAmount(action) {
 
 function* updateCoinAmount(action) {
   console.log(`Trying to buy more coins => `, action.payload)
+  const data = {
+    amount: action.payload.amount,
+    id: action.payload.id, 
+    crypto_name: action.payload.crypto_name,
+  }
   try {
-    const response = yield axios.put(`/api/CoinPage/v1/buyMoreCoins`)
+    const response = yield axios.put(`/api/CoinPage/v1/buyMoreCoins`, data)
   } catch(error) {
     console.log(`We buy more coins for you =>`, error)
   }
