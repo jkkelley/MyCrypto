@@ -81,12 +81,7 @@ function NavDrawer({ props }) {
     switch (event) {
       case "Home":
         try {
-          console.log(event);
-          dispatch({
-            type: "CLEAR_COIN_INFO",
-            type: "CLEAR_NOTES_FROM_COIN",
-            type: "CLEAR_FORM_SUBMISSION",
-          });
+          dispatch({type: "CLEAR_COIN_INFO"}, {type: "CLEAR_NOTES_FROM_COIN"})
           history.push("/homePage");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -94,12 +89,7 @@ function NavDrawer({ props }) {
         break;
       case "Profile":
         try {
-          console.log(event);
-          dispatch({
-            type: "CLEAR_COIN_INFO",
-            type: "CLEAR_NOTES_FROM_COIN",
-            type: "CLEAR_FORM_SUBMISSION",
-          });
+          dispatch({type: "CLEAR_COIN_INFO"}, {type: "CLEAR_NOTES_FROM_COIN"})
           history.push("/profile");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -107,12 +97,7 @@ function NavDrawer({ props }) {
         break;
       case "Coin Market":
         try {
-          console.log(event);
-          dispatch({
-            type: "CLEAR_COIN_INFO",
-            type: "CLEAR_NOTES_FROM_COIN",
-            type: "CLEAR_FORM_SUBMISSION",
-          });
+          dispatch({type: "CLEAR_COIN_INFO"}, {type: "CLEAR_NOTES_FROM_COIN"})
           history.push("/info");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -136,7 +121,6 @@ function NavDrawer({ props }) {
               {index === 1 ? <AccountBoxIcon value={1} /> : ""}
               {index === 2 ? <AccountBalanceIcon value={2} /> : ""}
               {index === 3 ? <ExitToAppIcon value={3} /> : ""}
-              {/* <MailIcon /> */}
             </ListItemIcon>
             <ListItemText primary={text} />
           </ListItem>

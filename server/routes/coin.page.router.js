@@ -133,14 +133,14 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
                 console.log(`Users Account balance =>`, account_balance);
                 // Amount user will be spending
                 let purchasePriceAmount =
-                  req.body.amount * coin_current_market_price;
+                  Number(req.body.amount) * Number(coin_current_market_price);
                 console.log(
                   `amount you'll spend => `,
                   purchasePriceAmount.toFixed(2)
                 );
                 console.log(
                   `Can you buy this coin => `,
-                  account_balance > purchasePriceAmount.toFixed(2)
+                  Number(account_balance) > purchasePriceAmount.toFixed(2)
                 );
                 // Send back a -1 "no" response to be set in coinInfoReducer
                 // This will in turn tell the user they don't have the funds
@@ -161,9 +161,9 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
                         pool
                           .query(queryPostText, [
                             nameUpper,
-                            req.body.amount,
-                            coin_current_market_price,
-                            req.body.id,
+                            Number(req.body.amount),
+                            Number(coin_current_market_price),
+                            Number(req.body.id),
                           ])
                           .then((response) => {
                             res.send([req.body.amount]);
