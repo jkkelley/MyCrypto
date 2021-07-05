@@ -71,7 +71,7 @@ router.put(
     console.log(
       `/api/coinNotes/v1/update/note/:name/${req.body.coin_page_id} => ${req.body.updated_note}`
     );
-    console.log(`req.body.name => `, req.query);
+    console.log(`/v1/update => `, req.body);
     if (req.isAuthenticated) {
       const queryPutText = `
     UPDATE notes SET notes=$1
@@ -82,7 +82,7 @@ router.put(
         await pool.query(queryPutText, [
           req.body.updated_note,
           req.body.coin_page_id,
-          req.body.note_id,
+          req.body.notes_id,
         ]);
         await res.sendStatus(201);
       } catch (error) {
