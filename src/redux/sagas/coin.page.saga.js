@@ -66,6 +66,8 @@ function* postAmountToBuy(action) {
     amount: action.payload.amount,
     crypto_name: action.payload.crypto_name,
     id: action.payload.id,
+    coin_symbol: action.payload.coin_symbol,
+    coin_image: action.payload.coin_image,
   };
   try {
     const response = yield axios.post(

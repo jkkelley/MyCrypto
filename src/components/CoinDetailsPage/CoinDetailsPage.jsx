@@ -160,7 +160,7 @@ function CoinDetailsPage({ coins }) {
             {/* If the User doesn't own any coins, disable user coin section */}
             <div className="buy-sell-delete-options-container">
               {!amountOwned ? (
-                <BuyCoinButton useStyles={useStyles} Button={Button} />
+                <BuyCoinButton useStyles={useStyles} Button={Button} coinsFromGecko={coinsFromGecko}/>
               ) : (
                 <>
                   {/* User Coin Section */}

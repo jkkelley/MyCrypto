@@ -14,6 +14,12 @@ function MyStashPage() {
   // Bring in dispatch
   const dispatch = useDispatch();
 
+  // useEffect(() => {
+  //   dispatch({
+  //     type: "GET_MYSTASH_PAGE_DETAILS",
+  //     payload: { id: user.id },
+  //   });
+  // }, []);
   return (
     <>
       {!profileData ? (
@@ -23,7 +29,8 @@ function MyStashPage() {
           <NavDrawer props={true} />
           <p>Welcome to My Stash</p>
           <div className="account-balance-container">
-            <h5>Balance</h5>
+            {/* Account Balance */}
+            <h5>User Balance</h5>
             <p>
               {Number(profileData[0]?.account_balance).toLocaleString("en-US", {
                 style: "currency",
@@ -31,6 +38,13 @@ function MyStashPage() {
               })}
             </p>
           </div>
+
+          {/* PlaceHolder for chart */}
+          <div>
+            <p>Chart</p>
+          </div>
+
+          {/* Component, table to map over user owned coins */}
         </div>
       )}
     </>
