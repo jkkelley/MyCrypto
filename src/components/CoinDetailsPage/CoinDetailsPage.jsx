@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams, Redirect, useLocation } from "react-router-dom";
+import React, { useEffect, useState } from "react";
 
 import "./CoinDetailsPageCSS/CoinDetailsPage.css";
 import axios from "axios";
 
-import { makeStyles } from "@material-ui/core/styles";
-
+// Components import Area
 import BuyCoinButton from "./CoinDetailsPageComponents/BuyCoinButton";
 import BuyMoreCoinsButton from "./CoinDetailsPageComponents/BuyMoreCoinsButton";
 import CoinPageNotes from "./CoinDetailsPageComponents/CoinPageNotes";
@@ -14,6 +13,9 @@ import DeleteCoinButton from "./CoinDetailsPageComponents/DeleteCoinButton";
 import NavDrawer from "../NavDrawer/NavDrawer";
 import NotesFromServer from "./CoinDetailsPageComponents/NotesFromServer";
 import SellCoinButton from "./CoinDetailsPageComponents/SellCoinButton";
+// Material-ui Imports
+import { makeStyles } from "@material-ui/core/styles";
+import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles({
   root1: {
@@ -38,41 +40,29 @@ const useStyles = makeStyles({
   },
 });
 
-// Custom CSS
-
-// Components import Area
-
-// Material-ui Imports
-import Button from "@material-ui/core/Button";
-// Sweetalert2
-import Swal from "sweetalert2";
-import { TextField, useRadioGroup } from "@material-ui/core";
-import { History101 } from "react-router-dom";
-
 function CoinDetailsPage({ coins }) {
   // We need to bring the store in.
   const profileData = useSelector((store) => store.profileData);
   const user = useSelector((store) => store.user);
   const coinInfoReducer = useSelector((store) => store.coinInfoReducer);
   const coinNotes = useSelector((store) => store.coinNotes);
+  const currentUserLocationReducer = useSelector(
+    (store) => store.currentUserLocationReducer
+  );
   // Bring Location in
   const location = useLocation();
+
+  // State Holding Area
   // Set our coin info from coingecko api
   const [coinsFromGecko, setCoinsFromGecko] = useState([]);
-  // Timer to update price from coin gecko api
-  const [timer, setTimer] = useState(false);
   const [amountUndefined, setAmountUndefined] = useState(false);
   const [amountOwned, setAmountOwned] = useState(
     coinInfoReducer[0]?.amount_owned?.crypto_name
   );
-  const [coinNotesState, setNotesState] = useState(coinNotes);
-  const [initialState, setInitialState] = useState(false);
 
-  // Bring in Custom CSS classes
-  const classes = useStyles();
   // Bring in params
   const params = useParams();
-  // console.log(location);
+
   // Bring in useHistory
   const history = useHistory();
   // Bring in dispatch
@@ -102,10 +92,6 @@ function CoinDetailsPage({ coins }) {
     }
   }, []);
 
-  const currentUserLocationReducer = useSelector(
-    (store) => store.currentUserLocationReducer
-  );
-
   const handleAsyncIssues = () => {
     if (coinInfoReducer.value_of_amount_owned == undefined) {
       console.log(`It was undefined`);
@@ -128,14 +114,10 @@ function CoinDetailsPage({ coins }) {
   });
 
   useEffect(() => {
-    /**
-     * Dispatch Location reducer current location
-     */
+    // Dispatch Location reducer current location
     dispatch({ type: "CURRENT_USER_LOCATION", payload: location.pathname });
   }, []);
 
-  console.log(`AmountOwned => `, amountOwned);
-  console.log(`pathname vs amountOwned => `, amountOwned == location.pathname);
   return (
     <>
       {!profileData ? (
@@ -143,6 +125,7 @@ function CoinDetailsPage({ coins }) {
       ) : (
         <div className="coin-page-container">
           <NavDrawer props={true} />
+
           <div className="coin-page-details-container">
             <h2>Coin Details Page</h2>
             <div className="account-balance-container">
@@ -157,21 +140,30 @@ function CoinDetailsPage({ coins }) {
                 )}
               </p>
             </div>
+
+            {/* Chart of Coin data */}
             <div>
               <p>PLACE HOLDER FOR CHART</p>
             </div>
-            <h3>{coinsFromGecko[0]?.name}</h3>
-            <p>
-              {coinsFromGecko[0]?.current_price.toLocaleString("en-US", {
-                style: "currency",
-                currency: "USD",
-              })}
-            </p>
+
+            {/* Name of coin and current price on page load. */}
+            <div>
+              <h3>{coinsFromGecko[0]?.name}</h3>
+              <p>
+                {coinsFromGecko[0]?.current_price.toLocaleString("en-US", {
+                  style: "currency",
+                  currency: "USD",
+                })}
+              </p>
+            </div>
+
+            {/* If the User doesn't own any coins, disable user coin section */}
             <div className="buy-sell-delete-options-container">
               {!amountOwned ? (
                 <BuyCoinButton useStyles={useStyles} Button={Button} />
               ) : (
                 <>
+                  {/* User Coin Section */}
                   <BuyMoreCoinsButton Button={Button} useStyles={useStyles} />
                   <SellCoinButton useStyles={useStyles} Button={Button} />
                   <DeleteCoinButton
@@ -205,9 +197,7 @@ function CoinDetailsPage({ coins }) {
               <p>$0.00</p>
             )}
 
-            <p>
-              {/* {coinInfoReducer?.amount_owned[0].amount_owned?.toLocaleString({minimumFractionDigits:0, maximumFractionDigits: 8})} */}
-            </p>
+            {/* If user doesn't own any coins, don't display Notes section */}
             {!amountOwned ? (
               <p></p>
             ) : (

@@ -14,6 +14,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import MailIcon from "@material-ui/icons/Mail";
 import MenuIcon from "@material-ui/icons/Menu";
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import AccountBoxIcon from "@material-ui/icons/AccountBox";
@@ -81,7 +82,10 @@ function NavDrawer({ props }) {
     switch (event) {
       case "Home":
         try {
-          dispatch({type: "CLEAR_COIN_INFO"}, {type: "CLEAR_NOTES_FROM_COIN"})
+          dispatch(
+            { type: "CLEAR_COIN_INFO" },
+            { type: "CLEAR_NOTES_FROM_COIN" }
+          );
           history.push("/homePage");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -89,7 +93,10 @@ function NavDrawer({ props }) {
         break;
       case "Profile":
         try {
-          dispatch({type: "CLEAR_COIN_INFO"}, {type: "CLEAR_NOTES_FROM_COIN"})
+          dispatch(
+            { type: "CLEAR_COIN_INFO" },
+            { type: "CLEAR_NOTES_FROM_COIN" }
+          );
           history.push("/profile");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -97,14 +104,33 @@ function NavDrawer({ props }) {
         break;
       case "Coin Market":
         try {
-          dispatch({type: "CLEAR_COIN_INFO"}, {type: "CLEAR_NOTES_FROM_COIN"})
+          dispatch(
+            { type: "CLEAR_COIN_INFO" },
+            { type: "CLEAR_NOTES_FROM_COIN" }
+          );
           history.push("/info");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
         }
         break;
+      case "My Stash":
+        try {
+          dispatch(
+            { type: "CLEAR_COIN_INFO" },
+            { type: "CLEAR_NOTES_FROM_COIN" }
+          );
+          history.push("/myStash");
+        } catch (error) {
+          console.log(`Had a Nav Error ${error}`);
+        }
+
+        break;
       case "Logout":
-        dispatch({ type: "CLEAR_NOTES_FROM_COIN", type: "CLEAR_FORM_SUBMISSION", type: "LOGOUT" });
+        dispatch({
+          type: "CLEAR_NOTES_FROM_COIN",
+          type: "CLEAR_FORM_SUBMISSION",
+          type: "LOGOUT",
+        });
         history.push("/");
     }
   };
@@ -114,17 +140,20 @@ function NavDrawer({ props }) {
       <h3>Menu</h3>
       <Divider className={classes.divider} />
       <List>
-        {["Home", "Profile", "Coin Market", "Logout"].map((text, index) => (
-          <ListItem button key={text} onClick={() => handleNavClick(text)}>
-            <ListItemIcon>
-              {index === 0 ? <HomeIcon value={0} /> : ""}
-              {index === 1 ? <AccountBoxIcon value={1} /> : ""}
-              {index === 2 ? <AccountBalanceIcon value={2} /> : ""}
-              {index === 3 ? <ExitToAppIcon value={3} /> : ""}
-            </ListItemIcon>
-            <ListItemText primary={text} />
-          </ListItem>
-        ))}
+        {["Home", "My Stash", "Coin Market", "Profile", "Logout"].map(
+          (text, index) => (
+            <ListItem button key={text} onClick={() => handleNavClick(text)}>
+              <ListItemIcon>
+                {index === 0 ? <HomeIcon value={0} /> : ""}
+                {index === 1 ? <MonetizationOnIcon value={1} /> : ""}
+                {index === 2 ? <AccountBalanceIcon value={2} /> : ""}
+                {index === 3 ? <AccountBoxIcon value={3} /> : ""}
+                {index === 4 ? <ExitToAppIcon value={4} /> : ""}
+              </ListItemIcon>
+              <ListItemText primary={text} />
+            </ListItem>
+          )
+        )}
       </List>
     </div>
   );
