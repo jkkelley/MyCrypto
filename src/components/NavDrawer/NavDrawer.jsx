@@ -21,7 +21,7 @@ import AccountBoxIcon from "@material-ui/icons/AccountBox";
 import AccountBalanceIcon from "@material-ui/icons/AccountBalance";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -69,14 +69,16 @@ function NavDrawer({ props }) {
   const { window } = props;
   const classes = useStyles();
   const theme = useTheme();
+  // State Area
   const [mobileOpen, setMobileOpen] = useState(false);
-
+  // User profile
+  const user = useSelector(store => store.user)
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const handleNavClick = (event) => {
-    event.preventDefault;
+    
     console.log(`You clicked a link on the nav bar`);
     // Based on the event, travel to the corresponding path
     switch (event) {
@@ -119,11 +121,11 @@ function NavDrawer({ props }) {
             { type: "CLEAR_COIN_INFO" },
             { type: "CLEAR_NOTES_FROM_COIN" }
           );
+          // dispatch({type: "GET_MYSTASH_PAGE_DETAILS", payload: {user_id: user.id}})
           history.push("/myStash");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
         }
-
         break;
       case "Logout":
         dispatch({

@@ -154,21 +154,26 @@ router.put("/:id", rejectUnauthenticated, (req, res) => {
   }
 });
 
-router.delete("/:id", (req, res) => {
+router.delete("/:id", rejectUnauthenticated, (req, res) => {
   console.log(`got to delete`);
   console.log(`Req params`, req.params);
-  const queryText = `
-  DELETE FROM user_profile WHERE users_id=$1;
-  `;
-  pool
-    .query(queryText, [Number(req.params.id)])
-    .then((result) => {
-      res.sendStatus(200);
-    })
-    .catch((error) => {
-      console.log(`We've have a DELETE profile error... ${error}`);
-      res.sendStatus(500);
-    });
+  if (req.isAuthenticated) {
+    const queryText = `
+    DELETE FROM user_profile WHERE users_id=$1;
+    `;
+    pool
+      .query(queryText, [Number(req.params.id)])
+      .then((result) => {
+        res.sendStatus(200);
+      })
+      .catch((error) => {
+        console.log(`We've have a DELETE profile error... ${error}`);
+        res.sendStatus(500);
+      });
+  } else {
+    // Forbidden
+    req.sendStatus(403);
+  }
 });
 
 module.exports = router;

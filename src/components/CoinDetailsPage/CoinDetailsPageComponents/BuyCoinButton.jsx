@@ -3,7 +3,7 @@ import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // import "./CoinDetailsPageCSS/CoinDetailsPage.css"
 
-function BuyCoinButton({ useStyles, Button }) {
+function BuyCoinButton({ useStyles, Button, coinsFromGecko }) {
   // Bring in dispatch
   const dispatch = useDispatch();
   // Bring in params
@@ -24,7 +24,7 @@ function BuyCoinButton({ useStyles, Button }) {
   // Function to handleBuy click
   const handleBuy = async () => {
     console.log(`You clicked handleBuy no coins`);
-
+    console.log(`coinsFromGecko buyCoinButton => `, coinsFromGecko[0]);
     const { value: coinAmountToBuy } = await Swal.fire({
       title: `${params.id}`,
       input: "text",
@@ -49,7 +49,13 @@ function BuyCoinButton({ useStyles, Button }) {
           console.log(Number(value));
           dispatch({
             type: "POST_COIN_AMOUNT",
-            payload: { amount: Number(value), crypto_name: params.id, id: user.id},
+            payload: {
+              amount: Number(value),
+              crypto_name: params.id,
+              id: user.id,
+              coin_symbol: coinsFromGecko[0].symbol,
+              coin_image: coinsFromGecko[0].image,
+            },
           });
         }
       },

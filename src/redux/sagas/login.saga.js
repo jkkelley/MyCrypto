@@ -56,7 +56,8 @@ function* logoutUser(action) {
     // the client-side code know the user is logged out
     yield put({ type: "CLEAR_CURRENT_USER_LOCATION" });
     yield put({ type: "CLEAR_PROFILE_INFO" });
-    yield put({ type: "CLEAR_NOTES_FROM_COIN" })
+    yield put({ type: "CLEAR_NOTES_FROM_COIN" });
+    yield put({ type: "CLEAR_MYSTASH_COINS" });
     yield put({ type: "UNSET_USER" });
   } catch (error) {
     console.log("Error with user logout:", error);

@@ -8,7 +8,10 @@ const axios = require("axios");
 
 router.get("/UpdatedAmount/:name/:id", rejectUnauthenticated, (req, res) => {
   console.log(`Got to get coin page`);
-  console.log(`/api/CoinPage/UpdatedAmount/:name/:id => Req Params`, req.params);
+  console.log(
+    `/api/CoinPage/UpdatedAmount/:name/:id => Req Params`,
+    req.params
+  );
   const queryText = `
     SELECT * FROM coin_page
     WHERE user_profile_id=$1 and crypto_name=$2;
@@ -98,9 +101,9 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
 
   const queryPostText = `
   INSERT INTO coin_page 
-    (crypto_name, amount_owned, price_purchased_at, user_profile_id)
+    (crypto_name, amount_owned, price_purchased_at, user_profile_id, coin_symbol, coin_image)
   VALUES
-    ($1, $2, $3, $4);
+    ($1, $2, $3, $4, $5, $6);
   `;
   const queryGetText = `
   SELECT * FROM user_profile
@@ -164,6 +167,8 @@ router.post("/Buy/:name/:id", rejectUnauthenticated, (req, res) => {
                             Number(req.body.amount),
                             Number(coin_current_market_price),
                             Number(req.body.id),
+                            req.body.coin_symbol,
+                            req.body.coin_image,
                           ])
                           .then((response) => {
                             res.send([req.body.amount]);
@@ -509,4 +514,5 @@ router.delete("/v1/:name/:id", rejectUnauthenticated, async (req, res) => {
     res.sendStatus(403);
   }
 });
+
 module.exports = router;
