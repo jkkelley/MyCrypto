@@ -7,7 +7,7 @@ import "./MyStashPageCSS/MyStashPage.css";
 // Components import Area
 import MyStashCoinsTable from "../MyStashPage/MyStashPageComponents/mystash.coins.table";
 import NavDrawer from "../NavDrawer/NavDrawer";
-
+import { MyChart } from "../ReactVisChart/ReactVisChart";
 function MyStashPage() {
   // We need to bring the store in.
   const profileData = useSelector((store) => store.profileData);
@@ -69,6 +69,7 @@ function MyStashPage() {
           {/* PlaceHolder for chart */}
           <div>
             <p>Chart</p>
+            <Example />
           </div>
 
           {/* Component, table to map over user owned coins */}
