@@ -24,6 +24,7 @@ import HomePage from "../HomePage/HomePage";
 import InfoPage from "../InfoPage/InfoPage";
 import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginPage/LoginPage";
+import MyStashPage from "../MyStashPage/MyStashPage";
 import ProfilePage from "../ProfilePage/ProfilePage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import UserPage from "../UserPage/UserPage";
@@ -42,7 +43,6 @@ function App() {
   return (
     <Router>
       <div>
-        
         <Switch>
           {/* Visiting localhost:3000 will redirect to localhost:3000/home */}
           <Redirect exact from="/" to="/home" />
@@ -55,17 +55,21 @@ function App() {
           >
             <AboutPage />
           </Route>
-          {/* </Switch> */}
 
           {/* For protected routes, the view could show one of several things on the same route.
             Visiting localhost:3000/user will show the UserPage if the user is logged in.
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
+          
+            <ProtectedRoute exact path="/myStash">
+              <MyStashPage />
+            </ProtectedRoute>
+
+
           <ProtectedRoute
             // logged in shows CreateProfilePage else shows LoginPage
             exact
             path="/createProfile"
-            // authRedirect="/profile"
           >
             <CreateProfilePage />
           </ProtectedRoute>
@@ -73,9 +77,6 @@ function App() {
           <ProtectedRoute
             exact
             path="/coinDetails/:id"
-
-            // onLeave={() => {console.log('hello')}}
-            // (dispatch({ type: "CLEAR_COIN_INFO" }))
           >
             <CoinDetailsPage />
           </ProtectedRoute>
