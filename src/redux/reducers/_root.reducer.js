@@ -3,7 +3,8 @@ import { combineReducers } from "redux";
 import { coinNotes } from "./notes.coin.page.reducer";
 import { currentUserLocationReducer } from "./current.user.location.reducer";
 import { formSubmission } from "./form.submission.reducer";
-import { myStashReducer } from "./myStash.page.reducer"
+import { myStashReducer } from "./myStash.page.reducer";
+import { myStashCoinPriceReducer } from "./current.value.ofCoin.reducer";
 import { profileData } from "./profile.reducer";
 
 import errors from "./errors.reducer";
@@ -18,6 +19,7 @@ import user from "./user.reducer";
 const rootReducer = combineReducers({
   coinInfoReducer, // users coin info
   myStashReducer, // users myStash coins info
+  myStashCoinPriceReducer,
   coinNotes, // contains users notes
   currentUserLocationReducer, // contains users current location
   formSubmission, // contains form for creating a user_profile

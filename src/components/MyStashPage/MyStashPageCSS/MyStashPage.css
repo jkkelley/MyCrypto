@@ -1,0 +1,36 @@
+.create-profile-container {
+  width: 95%;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+@media (max-width: 375px) {
+  .my-stash-page-container {
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    width: 275px;
+    padding-top: 50px;
+  }
+
+  .coin-search-input {
+    display: block;
+    margin: 0 auto 0 auto;
+  }
+
+  .coin {
+    display: block;
+    margin: 0 auto 0 auto;
+    text-align: center;
+    width: 350px;
+  }
+
+  .create-profile-page-form-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
