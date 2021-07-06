@@ -41,7 +41,7 @@ function MyStashCoinsTable({ coins }) {
   const [currentCoinPrice, setCurrentCoinPrice] = useState([]);
   let nameLower = coins.crypto_name.toLowerCase();
   let valueOfCoin = 0;
-  //   console.log(coins);
+
   useEffect(async () => {
     // Grab coin info from coingecko api
     await axios
@@ -49,10 +49,10 @@ function MyStashCoinsTable({ coins }) {
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${nameLower}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
       )
       .then(async (response) => {
-        // await console.log(`coingecko says response`, response.data);
+
         // Set our coin data to local state
         await setCurrentCoinApi(response.data);
-        // await console.log(currentCoinApi);
+
         valueOfCoin =
           (await Number(coins.amount_owned)) *
           Number(response?.data[0]?.current_price);
