@@ -18,7 +18,8 @@ router.get("/v1/:id", rejectUnauthenticated, async (req, res) => {
   // Query Area
   const queryGetText = `
   SELECT * FROM coin_page
-  WHERE user_profile_id=$1;
+  WHERE user_profile_id=$1
+  ORDER BY id DESC;
   `;
 
   if (req.isAuthenticated) {
@@ -31,10 +32,11 @@ router.get("/v1/:id", rejectUnauthenticated, async (req, res) => {
         `All users coins from coin_page => `,
         getUsersCoinPageCoins.rows
       );
+      await res.send(getUsersCoinPageCoins.rows);
       await client.query("COMMIT");
-      res.sendStatus(201);
     } catch (error) {
       console.log(`We couldn't get myStash coins`, error);
+      res.sendStatus(500);
     } finally {
       client.release();
     }

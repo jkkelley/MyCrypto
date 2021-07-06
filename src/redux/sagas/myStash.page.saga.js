@@ -4,8 +4,11 @@ import axios from "axios";
 function* getMyStashCoinDetails(action) {
   console.log(`getMyStashCoinDetails data => `, action.payload);
   try {
-    const responses = yield axios.get(`/api/myStash/v1/${action.payload.user_id}`)
-    yield console.log(responses)
+    const responses = yield axios.get(
+      `/api/myStash/v1/${action.payload.user_id}`
+    );
+    yield put({ type: "SET_MYSTASH_COINS", payload: responses.data });
+    yield console.log(`/api/myStash/v1/ response =>`, responses.data);
   } catch (error) {
     console.log(`We couldn't grab your MyStash details`, error);
   }

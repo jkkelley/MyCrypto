@@ -3,6 +3,7 @@ import { useHistory, useParams, Redirect, useLocation } from "react-router-dom";
 import React, { useEffect, useState } from "react";
 
 // Components import Area
+import MyStashCoinsTable from "../MyStashPage/MyStashPageComponents/mystash.coins.table";
 import NavDrawer from "../NavDrawer/NavDrawer";
 
 function MyStashPage() {
@@ -10,16 +11,19 @@ function MyStashPage() {
   const profileData = useSelector((store) => store.profileData);
   const user = useSelector((store) => store.user);
   const coinInfoReducer = useSelector((store) => store.coinInfoReducer);
+  const myStashReducer = useSelector((store) => store.myStashReducer);
 
-  // Bring in dispatch
+  // Bringing in dispatch
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   dispatch({
-  //     type: "GET_MYSTASH_PAGE_DETAILS",
-  //     payload: { id: user.id },
-  //   });
-  // }, []);
+
+  useEffect(() => {
+    dispatch({
+      type: "GET_MYSTASH_PAGE_DETAILS",
+      payload: { user_id: user.id },
+    });
+  }, []);
+
   return (
     <>
       {!profileData ? (
@@ -45,6 +49,11 @@ function MyStashPage() {
           </div>
 
           {/* Component, table to map over user owned coins */}
+          <div>
+            {myStashReducer.map((coins) => (
+              <MyStashCoinsTable key={coins.id} coins={coins}/>
+            ))}
+          </div>
         </div>
       )}
     </>

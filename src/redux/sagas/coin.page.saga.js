@@ -32,7 +32,7 @@ function* getCoinInfo2(action) {
     id: action.payload.id,
     crypto_name: action.payload.crypto_name,
   };
-  console.log(`Data => `, data);
+  console.log(`getCoinInfo2 Data => `, data);
   try {
     // Set a response for our axios get promise
     const coin_page_coin_info = yield axios.get(

@@ -121,7 +121,7 @@ function NavDrawer({ props }) {
             { type: "CLEAR_COIN_INFO" },
             { type: "CLEAR_NOTES_FROM_COIN" }
           );
-          dispatch({type: "GET_MYSTASH_PAGE_DETAILS", payload: {user_id: user.id}})
+          // dispatch({type: "GET_MYSTASH_PAGE_DETAILS", payload: {user_id: user.id}})
           history.push("/myStash");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
