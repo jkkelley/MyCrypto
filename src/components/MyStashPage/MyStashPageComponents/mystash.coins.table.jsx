@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useHistory, useParams, Redirect, useLocation } from "react-router-dom";
 import axios from "axios";
 
 // Material-ui imports
@@ -35,12 +36,20 @@ const useStyles = makeStyles({
 });
 
 function MyStashCoinsTable({ coins }) {
+  // Bring history in
+  const history = useHistory();
+  // Custom CSS
   const classes = useStyles();
   // Local State Area
-  const [currentCoinApi, setCurrentCoinApi] = useState([]);
   const [currentCoinPrice, setCurrentCoinPrice] = useState([]);
-  let nameLower = coins.crypto_name.toLowerCase();
+  // Coin name lower
+  const nameLower = coins.crypto_name.toLowerCase();
   let valueOfCoin = 0;
+
+  // Function to handle clicking a coin
+  const handleCoinClick = () => {
+    history.push(`/coinDetails/${nameLower}`);
+  };
 
   useEffect(async () => {
     // Grab coin info from coingecko api
@@ -49,14 +58,10 @@ function MyStashCoinsTable({ coins }) {
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${nameLower}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
       )
       .then(async (response) => {
-
-        // Set our coin data to local state
-        await setCurrentCoinApi(response.data);
-
+        // current_price * amount_owned
         valueOfCoin =
           (await Number(coins.amount_owned)) *
           Number(response?.data[0]?.current_price);
-
         await setCurrentCoinPrice(valueOfCoin);
       })
       .catch((error) => {
@@ -67,41 +72,45 @@ function MyStashCoinsTable({ coins }) {
 
   return (
     <>
-      <div className="coin-container">
-        <TableContainer>
-          <Table className={classes.table} aria-label="simple table">
-            <TableBody>
-              <TableRow>
-                <TableCell>
-                  <img src={coins?.coin_image} width="25px"></img>
-                </TableCell>
-                <TableCell>
-                  <p>{coins?.crypto_name}</p>
-                </TableCell>
-                <TableCell>
-                  <p>
-                    {currentCoinPrice?.toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    })}
-                  </p>
-                </TableCell>
-                <TableCell>
-                  <p>
-                    {(coins?.amount_owned).toLocaleString({
-                      minimumFractionDigits: 0,
-                      maximumFractionDigits: 8,
-                    })}
-                  </p>
-                </TableCell>
-              </TableRow>
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+    {/* If user has no amount of a coin, show nothing. */}
+      {!parseFloat(coins.amount_owned) == 0 ? (
+        <div className="coin-container" onClick={handleCoinClick}>
+          <TableContainer>
+            <Table className={classes.table} aria-label="simple table">
+              <TableBody>
+                <TableRow>
+                  <TableCell>
+                    <img src={coins?.coin_image} width="25px"></img>
+                  </TableCell>
+                  <TableCell>
+                    <p>{coins?.crypto_name}</p>
+                  </TableCell>
+                  <TableCell>
+                    <p>
+                      {currentCoinPrice?.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </p>
+                  </TableCell>
+                  <TableCell>
+                    <p>
+                      {(coins?.amount_owned).toLocaleString({
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 8,
+                      })}
+                    </p>
+                  </TableCell>
+                </TableRow>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+      ) : (
+        ""
+      )}
     </>
   );
 }
 
 export default MyStashCoinsTable;
-

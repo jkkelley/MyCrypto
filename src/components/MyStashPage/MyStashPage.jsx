@@ -16,7 +16,6 @@ function MyStashPage() {
   // Bringing in dispatch
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     dispatch({
       type: "GET_MYSTASH_PAGE_DETAILS",
@@ -51,7 +50,11 @@ function MyStashPage() {
           {/* Component, table to map over user owned coins */}
           <div>
             {myStashReducer.map((coins) => (
-              <MyStashCoinsTable key={coins.id} coins={coins}/>
+              <MyStashCoinsTable
+                coins={coins}
+                key={coins.id}
+                
+              />
             ))}
           </div>
         </div>
