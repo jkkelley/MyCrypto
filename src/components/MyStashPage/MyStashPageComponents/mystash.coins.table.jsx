@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams, Redirect, useLocation } from "react-router-dom";
 import axios from "axios";
 
@@ -36,6 +37,8 @@ const useStyles = makeStyles({
 });
 
 function MyStashCoinsTable({ coins }) {
+  // Bring in dispatch
+  const dispatch = useDispatch();
   // Bring history in
   const history = useHistory();
   // Custom CSS
@@ -43,7 +46,7 @@ function MyStashCoinsTable({ coins }) {
   // Local State Area
   const [currentCoinPrice, setCurrentCoinPrice] = useState([]);
   // Coin name lower
-  const nameLower = coins.crypto_name.toLowerCase();
+  const nameLower = coins?.crypto_name?.toLowerCase();
   let valueOfCoin = 0;
 
   // Function to handle clicking a coin
@@ -63,6 +66,14 @@ function MyStashCoinsTable({ coins }) {
           (await Number(coins.amount_owned)) *
           Number(response?.data[0]?.current_price);
         await setCurrentCoinPrice(valueOfCoin);
+        try {
+          await dispatch({
+            type: "MY_STASH_VALUE",
+            payload: parseFloat(valueOfCoin),
+          });
+        } catch (error) {
+          console.log(`We caught an error Boss, mystash.coins.table`, error);
+        }
       })
       .catch((error) => {
         console.log(`Ohh No, coingecko failed me! ${error}`);
@@ -72,7 +83,7 @@ function MyStashCoinsTable({ coins }) {
 
   return (
     <>
-    {/* If user has no amount of a coin, show nothing. */}
+      {/* If user has no amount of a coin, show nothing. */}
       {!parseFloat(coins.amount_owned) == 0 ? (
         <div className="coin-container" onClick={handleCoinClick}>
           <TableContainer>
@@ -86,7 +97,13 @@ function MyStashCoinsTable({ coins }) {
                     <p>{coins?.crypto_name}</p>
                   </TableCell>
                   <TableCell>
-                    <p>
+                    <p
+                      value={currentCoinPrice?.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                      className="current-price-of-coin"
+                    >
                       {currentCoinPrice?.toLocaleString("en-US", {
                         style: "currency",
                         currency: "USD",

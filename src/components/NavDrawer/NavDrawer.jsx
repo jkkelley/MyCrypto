@@ -72,13 +72,12 @@ function NavDrawer({ props }) {
   // State Area
   const [mobileOpen, setMobileOpen] = useState(false);
   // User profile
-  const user = useSelector(store => store.user)
+  const user = useSelector((store) => store.user);
   const handleDrawerToggle = () => {
     setMobileOpen(!mobileOpen);
   };
 
   const handleNavClick = (event) => {
-    
     console.log(`You clicked a link on the nav bar`);
     // Based on the event, travel to the corresponding path
     switch (event) {
@@ -88,6 +87,7 @@ function NavDrawer({ props }) {
             { type: "CLEAR_COIN_INFO" },
             { type: "CLEAR_NOTES_FROM_COIN" }
           );
+          dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
           history.push("/homePage");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -99,6 +99,7 @@ function NavDrawer({ props }) {
             { type: "CLEAR_COIN_INFO" },
             { type: "CLEAR_NOTES_FROM_COIN" }
           );
+          dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
           history.push("/profile");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -110,6 +111,7 @@ function NavDrawer({ props }) {
             { type: "CLEAR_COIN_INFO" },
             { type: "CLEAR_NOTES_FROM_COIN" }
           );
+          dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
           history.push("/info");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -117,6 +119,7 @@ function NavDrawer({ props }) {
         break;
       case "My Stash":
         try {
+          dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
           dispatch(
             { type: "CLEAR_COIN_INFO" },
             { type: "CLEAR_NOTES_FROM_COIN" }
