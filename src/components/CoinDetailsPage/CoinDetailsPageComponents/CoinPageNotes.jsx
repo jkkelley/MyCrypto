@@ -69,9 +69,7 @@ function CoinPageNotes({ notes, index }) {
             crypto_name: params.id,
             coin_page_id: coinInfoReducer?.amount_owned[0]?.id,
           },
-          // payload: notes
         });
-        // Swal.fire("Changes are not saved", "", "info");
       }
     });
   };

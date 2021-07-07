@@ -129,7 +129,7 @@ function CoinDetailsPage({ coins }) {
           <div className="coin-page-details-container">
             <h2>Coin Details Page</h2>
             <div className="account-balance-container">
-              <h5>Balance</h5>
+              <h5>User Balance</h5>
               <p>
                 {Number(profileData[0]?.account_balance).toLocaleString(
                   "en-US",
@@ -160,7 +160,11 @@ function CoinDetailsPage({ coins }) {
             {/* If the User doesn't own any coins, disable user coin section */}
             <div className="buy-sell-delete-options-container">
               {!amountOwned ? (
-                <BuyCoinButton useStyles={useStyles} Button={Button} coinsFromGecko={coinsFromGecko}/>
+                <BuyCoinButton
+                  useStyles={useStyles}
+                  Button={Button}
+                  coinsFromGecko={coinsFromGecko}
+                />
               ) : (
                 <>
                   {/* User Coin Section */}
