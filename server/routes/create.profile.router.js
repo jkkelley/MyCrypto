@@ -72,85 +72,90 @@ router.post("/", rejectUnauthenticated, (req, res) => {
 router.put("/:id", rejectUnauthenticated, (req, res) => {
   const { first, last, nickname, email, image, phone_number } = req.body;
 
-  if ("first" in req.body) {
-    console.log("in first name update");
-    const queryText = `
-      UPDATE user_profile SET users_first_name=$1
-      WHERE users_id=$2
-    `;
-    pool
-      .query(queryText, [first, req.user.id])
-      .then((results) => {
-        res.send(results.rows);
-      })
-      .catch((error) => {
-        console.log(`We had an error with first name UPDATE`, error);
-        res.sendStatus(500);
-      });
-  }
-  if ("last" in req.body) {
-    console.log("in last name update");
-    const queryText = `
-      UPDATE user_profile SET users_last_name=$1
-      WHERE users_id=$2
-    `;
-    pool
-      .query(queryText, [last, req.user.id])
-      .then((results) => {
-        res.send(results.rows);
-      })
-      .catch((error) => {
-        console.log(`We had an error with last name UPDATE`, error);
-        res.sendStatus(500);
-      });
-  }
-  if ("nickname" in req.body) {
-    console.log("in nickname update");
-    const queryText = `
-      UPDATE user_profile SET users_nickname=$1
-      WHERE users_id=$2
-    `;
-    pool
-      .query(queryText, [nickname, req.user.id])
-      .then((results) => {
-        res.send(results.rows);
-      })
-      .catch((error) => {
-        console.log(`We had an error with nickname UPDATE`, error);
-        res.sendStatus(500);
-      });
-  }
-  if ("email" in req.body) {
-    console.log("in email update");
-    const queryText = `
-      UPDATE user_profile SET email=$1
-      WHERE users_id=$2
-    `;
-    pool
-      .query(queryText, [email, req.user.id])
-      .then((results) => {
-        res.send(results.rows);
-      })
-      .catch((error) => {
-        console.log(`We had an error with email UPDATE`, error);
-        res.sendStatus(500);
-      });
-  }
-  if ("phone_number" in req.body) {
-    console.log("in phone_number update");
-    const queryText = `
-      UPDATE user_profile SET phone_number=$1
-      WHERE users_id=$2
-    `;
-    pool
-      .query(queryText, [phone_number, req.user.id])
-      .then((results) => {
-        res.send(results.rows);
-      })
-      .catch((error) => {
-        console.log(`We had an error with phone_number UPDATE`, error);
-        res.sendStatus(500);
-      });
+  if (req.isAuthenticated) {
+    if ("first" in req.body) {
+      console.log("in first name update");
+      const queryText = `
+        UPDATE user_profile SET users_first_name=$1
+        WHERE users_id=$2
+      `;
+      pool
+        .query(queryText, [first, req.user.id])
+        .then((results) => {
+          res.send(results.rows);
+        })
+        .catch((error) => {
+          console.log(`We had an error with first name UPDATE`, error);
+          res.sendStatus(500);
+        });
+    }
+    if ("last" in req.body) {
+      console.log("in last name update");
+      const queryText = `
+        UPDATE user_profile SET users_last_name=$1
+        WHERE users_id=$2
+      `;
+      pool
+        .query(queryText, [last, req.user.id])
+        .then((results) => {
+          res.send(results.rows);
+        })
+        .catch((error) => {
+          console.log(`We had an error with last name UPDATE`, error);
+          res.sendStatus(500);
+        });
+    }
+    if ("nickname" in req.body) {
+      console.log("in nickname update");
+      const queryText = `
+        UPDATE user_profile SET users_nickname=$1
+        WHERE users_id=$2
+      `;
+      pool
+        .query(queryText, [nickname, req.user.id])
+        .then((results) => {
+          res.send(results.rows);
+        })
+        .catch((error) => {
+          console.log(`We had an error with nickname UPDATE`, error);
+          res.sendStatus(500);
+        });
+    }
+    if ("email" in req.body) {
+      console.log("in email update");
+      const queryText = `
+        UPDATE user_profile SET email=$1
+        WHERE users_id=$2
+      `;
+      pool
+        .query(queryText, [email, req.user.id])
+        .then((results) => {
+          res.send(results.rows);
+        })
+        .catch((error) => {
+          console.log(`We had an error with email UPDATE`, error);
+          res.sendStatus(500);
+        });
+    }
+    if ("phone_number" in req.body) {
+      console.log("in phone_number update");
+      const queryText = `
+        UPDATE user_profile SET phone_number=$1
+        WHERE users_id=$2
+      `;
+      pool
+        .query(queryText, [phone_number, req.user.id])
+        .then((results) => {
+          res.send(results.rows);
+        })
+        .catch((error) => {
+          console.log(`We had an error with phone_number UPDATE`, error);
+          res.sendStatus(500);
+        });
+    }
+  } else {
+    // Forbidden
+    res.sendStatus(403);
   }
 });
 
