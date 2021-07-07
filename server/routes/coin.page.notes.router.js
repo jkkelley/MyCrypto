@@ -53,7 +53,7 @@ router.get("/v1/:name/:id", rejectUnauthenticated, async (req, res) => {
       const getFromServer = await pool.query(queryGetText, [
         Number(req.params.id),
       ]);
-      console.log(getFromServer.rows);
+      // console.log(getFromServer.rows);
       await res.send(getFromServer.rows);
     } catch (error) {
       console.log(`We had a problem GETTING your notes`, error);
