@@ -11,6 +11,7 @@ const passport = require("./strategies/user.strategy");
 const coinPageNotesRouter = require("./routes/coin.page.notes.router");
 const coinPageRouter = require("./routes/coin.page.router");
 const createProfileRouter = require("./routes/create.profile.router");
+const marketChartData = require('./routes/market.chart.data.router')
 const myStashRouter = require("./routes/myStash.page.router");
 const userRouter = require("./routes/user.router");
 // Body parser middleware
@@ -28,6 +29,7 @@ app.use(passport.session());
 app.use("/api/coinNotes", coinPageNotesRouter);
 app.use("/api/CoinPage", coinPageRouter);
 app.use("/api/CreateProfile", createProfileRouter);
+app.use("/api/marketChart", marketChartData)
 app.use("/api/myStash", myStashRouter);
 app.use("/api/user", userRouter);
 

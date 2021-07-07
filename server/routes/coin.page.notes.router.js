@@ -22,8 +22,8 @@ router.post("/v1/:name/:id", rejectUnauthenticated, async (req, res) => {
         req.body.note,
         req.body.id,
       ]);
-      const notesId = postNoteToServer.rows[0].id;
-      console.log(notesId);
+      const notesId = await postNoteToServer.rows[0].id;
+      await console.log(`notesId => `, notesId);
       await client.query("COMMIT");
       res.sendStatus(201);
     } catch (error) {
