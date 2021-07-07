@@ -96,28 +96,30 @@ function MyStashCoinsTable({ coins }) {
                   <TableCell>
                     <p>{coins?.crypto_name}</p>
                   </TableCell>
-                  <TableCell>
-                    <p
-                      value={currentCoinPrice?.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })}
-                      className="current-price-of-coin"
-                    >
-                      {currentCoinPrice?.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                      })}
-                    </p>
-                  </TableCell>
-                  <TableCell>
-                    <p>
-                      {(coins?.amount_owned).toLocaleString({
-                        minimumFractionDigits: 0,
-                        maximumFractionDigits: 8,
-                      })}
-                    </p>
-                  </TableCell>
+                  <div className="">
+                    <TableCell>
+                      <p
+                        value={currentCoinPrice?.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        })}
+                        className="current-price-of-coin"
+                      >
+                        {currentCoinPrice?.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        })}
+                      </p>
+                    </TableCell>
+                    <TableCell>
+                      <p>
+                        {(coins?.amount_owned).toLocaleString({
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 8,
+                        })}
+                      </p>
+                    </TableCell>
+                  </div>
                 </TableRow>
               </TableBody>
             </Table>

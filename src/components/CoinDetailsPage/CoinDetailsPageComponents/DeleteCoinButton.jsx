@@ -7,16 +7,16 @@ function DeleteCoinButton({ coins, useStyles, Button }) {
   const dispatch = useDispatch();
   // Bring in params
   const params = useParams();
-
+  // Bring in user
   const user = useSelector((store) => store.user);
-  console.log(`Coin name =>`, coins);
+
   // Bring in Custom CSS classes
   const classes = useStyles();
   // Function to handleDelete click
-  const handleDelete = async (coins) => {
+  const handleDelete = () => {
     Swal.fire({
       title: "Are you sure?",
-      text: "You won't be able to revert this!",
+      text: `ALL Note and ${params.id.toUpperCase()} data for this coin will be deleted!`,
       icon: "warning",
       showCancelButton: true,
       confirmButtonColor: "#3085d6",
@@ -33,10 +33,10 @@ function DeleteCoinButton({ coins, useStyles, Button }) {
         ).then(() => {
           const data = {
             crypto_name: params.id,
-            id: user.id
-          }
-          console.log(data)
-          dispatch({type: "DELETE_THIS_COIN", payload: data})
+            id: user.id,
+          };
+          console.log(data);
+          dispatch({ type: "DELETE_THIS_COIN", payload: data });
         });
       } else {
         return;
