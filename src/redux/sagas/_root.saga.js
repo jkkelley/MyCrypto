@@ -2,6 +2,7 @@ import { all } from "redux-saga/effects";
 import coinPageSaga from "./coin.page.saga";
 import createProfileSaga from "./form.submission.saga";
 import loginSaga from "./login.saga";
+import marketChartDataSaga from "./market.chart.data.saga"
 import myStashPageSaga from "./myStash.page.saga";
 import notesCoinPageSaga from "./notes.coin.page.saga";
 import profilePageSaga from "./profile.page.saga";
@@ -20,6 +21,7 @@ export default function* rootSaga() {
     coinPageSaga(),
     createProfileSaga(),
     loginSaga(), // login saga is now registered
+    marketChartDataSaga(),
     notesCoinPageSaga(),
     profilePageSaga(),
     registrationSaga(),

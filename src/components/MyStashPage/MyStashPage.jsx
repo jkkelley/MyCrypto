@@ -14,13 +14,20 @@ import NavDrawer from "../NavDrawer/NavDrawer";
 function MyStashPage() {
 
   // Return Time back right now.
-  let timeNow = new Date(Date.now() - 18_000_000);
+  let timeNow = new Date(Date.now());
+  let timeZ = new Date(Date.now())
   console.log(`Time now>`, timeNow);
   console.log(`ms time => `, Date.now())
   // Return timeNow back as string, slice first 11 indices off, and last 8 indices
   // Returns time back in HOUR:MINUTE FORMAT.
-  console.log(`Time right now => `, timeNow.toISOString().slice(11, -8));
-  console.log(`Time right now => `, timeNow.toISOString());
+  // console.log(`Time right now => `, timeNow.toISOString().slice(11, -8));
+  // console.log(`Time right now => `, timeNow.toISOString());
+  let millie = 1625676580000 
+  const hourago = new Date(millie)
+  let coingek = new Date(1625594495110 - 18_000_000)
+  console.log(`Hour ago => timeZ Price 10:19 ago => `, hourago.toISOString().slice(11, -8), coingek.toISOString().slice(11, -8))
+  // console.log(`Hour ago => timeZ`, timeZ.toISOString().slice(11, -8))
+  
   // let twitterFormat = twentyThreeHoursAgo.twitterShort();
   // console.log(`Time from moment package =>`, twitterFormat);
   // console.log(`Time 24 hours ago => `, (timeNow - 86_400_000))
@@ -33,8 +40,8 @@ function MyStashPage() {
 
   // Ok this is going to be nasty, brains fried and I'm on hour 12 of coding
   // Come back and refactor this code at a later time.
-  let timeTwentyThree = new Date(Date.now() - 18_000_000 - 82_800_000);
-  console.log(`23 hours ago => `, timeTwentyThree.toISOString().slice(11, -8));
+  // let timeTwentyThree = new Date(Date.now() - 18_000_000 - 82_800_000);
+  // console.log(`23 hours ago => `, timeTwentyThree.toISOString().slice(11, -8));
   // let timeYesterday = new Date((Date.now() - 82_800_000)).toISOString().slice(11, -8);
   // console.log(`Time 24 hours ago => `, timeYesterday);
 
@@ -51,7 +58,6 @@ function MyStashPage() {
 
   // Bringing in dispatch
   const dispatch = useDispatch();
-
 
   useEffect(async () => {
     await dispatch({
@@ -96,11 +102,11 @@ function MyStashPage() {
             </p>
           </div>
 
-          {/* PlaceHolder for chart */}
+          {/* PlaceHolder for chart
           <div>
             <p>Chart</p>
             <Line />
-          </div>
+          </div> */}
 
           {/* Component, table to map over user owned coins */}
           <div>

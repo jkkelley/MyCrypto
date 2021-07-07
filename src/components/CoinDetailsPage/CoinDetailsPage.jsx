@@ -8,6 +8,7 @@ import axios from "axios";
 // Components import Area
 import BuyCoinButton from "./CoinDetailsPageComponents/BuyCoinButton";
 import BuyMoreCoinsButton from "./CoinDetailsPageComponents/BuyMoreCoinsButton";
+import ChartData from "../ChartData/ChartData";
 import CoinPageNotes from "./CoinDetailsPageComponents/CoinPageNotes";
 import DeleteCoinButton from "./CoinDetailsPageComponents/DeleteCoinButton";
 import NavDrawer from "../NavDrawer/NavDrawer";
@@ -41,11 +42,19 @@ const useStyles = makeStyles({
 });
 
 function CoinDetailsPage({ coins }) {
+  useEffect(async () => {
+    await dispatch({ type: "FETCH_MARKET_CHART_DATA", payload: params.id });
+  }, []);
   // We need to bring the store in.
   const profileData = useSelector((store) => store.profileData);
   const user = useSelector((store) => store.user);
   const coinInfoReducer = useSelector((store) => store.coinInfoReducer);
   const coinNotes = useSelector((store) => store.coinNotes);
+  const marketChartDataReducer = useSelector(
+    (store) => store.marketChartDataReducer
+  );
+  // console.log(`marketChartDataReducer => `, marketChartDataReducer[22][1])
+
   const currentUserLocationReducer = useSelector(
     (store) => store.currentUserLocationReducer
   );
@@ -142,9 +151,17 @@ function CoinDetailsPage({ coins }) {
             </div>
 
             {/* Chart of Coin data */}
-            <div>
-              <p>PLACE HOLDER FOR CHART</p>
-            </div>
+            {marketChartDataReducer ? (
+              <div>
+                <ChartData
+                  currentPrice={coinsFromGecko}
+                  coinName={params.id}
+                  marketChartDataReducer={marketChartDataReducer}
+                />
+              </div>
+            ) : (
+              ""
+            )}
 
             {/* Name of coin and current price on page load. */}
             <div>
