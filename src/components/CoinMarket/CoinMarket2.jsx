@@ -35,9 +35,9 @@ const useStyles = makeStyles({
   },
 });
 
-function InfoPage2({ coins, name, price }) {
+function CoinMarket2({ coins, name, price }) {
   // Bring in dispatch
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   // Bring history in
   const history = useHistory();
   // Custom CSS classes
@@ -46,8 +46,13 @@ function InfoPage2({ coins, name, price }) {
   const handleCoinClick = (coins) => {
     console.log(`You clicked handleCoinClick.`);
     console.log(coins);
-    dispatch({type: "CLEAR_COIN_INFO", type: "CLEAR_FORM_SUBMISSION", type: "COIN_CLICK_INFO_PAGE_2", payload: coins})
-    history.push(`/coinDetails/${coins.id}`)
+    dispatch({
+      type: "CLEAR_COIN_INFO",
+      type: "CLEAR_FORM_SUBMISSION",
+      type: "COIN_CLICK_INFO_PAGE_2",
+      payload: coins,
+    });
+    history.push(`/coinDetails/${coins.id}`);
   };
   return (
     <>
@@ -55,13 +60,13 @@ function InfoPage2({ coins, name, price }) {
         <div className="coin" onClick={() => handleCoinClick(coins)}>
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
-              <TableHead>
+              {/* <TableHead>
                 <TableRow>
                   <TableCell className={classes.first}></TableCell>
                   <TableCell className={classes.middle}></TableCell>
                   <TableCell className={classes.last}></TableCell>
                 </TableRow>
-              </TableHead>
+              </TableHead> */}
 
               <TableBody>
                 <TableRow>
@@ -89,4 +94,4 @@ function InfoPage2({ coins, name, price }) {
   );
 }
 
-export default InfoPage2;
+export default CoinMarket2;

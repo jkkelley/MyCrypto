@@ -31,6 +31,8 @@ import Swal from "sweetalert2";
 
 function CreateProfilePage() {
 
+
+
   // Bring Location in
   const location = useLocation();
   // Bring in Params
@@ -49,6 +51,15 @@ function CreateProfilePage() {
     const re =
       /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     return re.test(email);
+  }
+
+  // Hidden Button to fill in form
+  const handleLukeButton = () => {
+    console.log(`button clicked`)
+    dispatch({ type: "SET_FIRST_NAME_CREATE_PROFILE", payload: 'Luke' });
+    dispatch({ type: "SET_LAST_NAME_CREATE_PROFILE", payload: 'Kelley' });
+    dispatch({ type: "SET_NICKNAME_CREATE_PROFILE", payload: 'SuperLu12' });
+    dispatch({ type: "SET_EMAIL_CREATE_PROFILE", payload: 'super.lu12@gmail.com' });
   }
 
   // Function to handle creation of profile
@@ -96,6 +107,7 @@ function CreateProfilePage() {
       {!profileData.length ? (
         <div className="create-profile-container">
           <NavDrawer props={true}/>
+          <div className="lucas-quick-login-button"><button className="luke-button" onClick={handleLukeButton} width="30px">Luke</button></div>
           <div className="create-form">
             {!alertState ? (
               <p>Create Profile Page</p>

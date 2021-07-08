@@ -10,6 +10,8 @@ const { default: axios } = require("axios");
 router.get("/v1/:coin", rejectUnauthenticated, async (req, res) => {
   const client = await pool.connect();
   console.log(`You got to /api/marketChart/v1/${req.params.coin}`);
+  let marketD = [];
+  let finallyRes = [];
   if (req.isAuthenticated) {
     try {
       await client.query("BEGIN");
@@ -22,12 +24,22 @@ router.get("/v1/:coin", rejectUnauthenticated, async (req, res) => {
       // );
       await console.log(
         `48 Hours prices slice =>`,
-        coingeckoMarketChartData.data.prices.slice(26, -1)
+        coingeckoMarketChartData.data.prices.slice(25, -1)
       );
-      // const data101 = await coingeckoMarketChartData.data.prices.slice(26, -1);
+      // Hour in ms: price
+      marketD = await coingeckoMarketChartData.data.prices.slice(25, -1);
+      
+      // Cut time out
+      for (let i = 0; i < marketD.length; i++) {
+        let data = marketD[i].slice(1);
+
+        finallyRes.push(data);
+      }
+      await console.log(`finallyRes =>`, finallyRes);
       // await console.log(data101);
       await client.query("COMMIT");
-      res.send(coingeckoMarketChartData.data.prices.slice(26, -1));
+      // Send back Prices for coin!
+      res.send(finallyRes);
     } catch (error) {
       console.log(`We couldn't get your Chart Data`, error);
       res.sendStatus(500);

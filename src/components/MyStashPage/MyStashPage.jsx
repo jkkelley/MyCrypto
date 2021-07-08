@@ -24,7 +24,7 @@ function MyStashPage() {
   // console.log(`Time right now => `, timeNow.toISOString());
   let millie = 1625676580000 
   const hourago = new Date(millie)
-  let coingek = new Date(1625594495110 - 18_000_000)
+  let coingek = new Date(1625759574000 - 18_000_000)
   console.log(`Hour ago => timeZ Price 10:19 ago => `, hourago.toISOString().slice(11, -8), coingek.toISOString().slice(11, -8))
   // console.log(`Hour ago => timeZ`, timeZ.toISOString().slice(11, -8))
   

@@ -21,7 +21,7 @@ import AboutPage from "../AboutPage/AboutPage";
 import CoinDetailsPage from "../CoinDetailsPage/CoinDetailsPage";
 import CreateProfilePage from "../CreateProfilePage/CreateProfilePage";
 import HomePage from "../HomePage/HomePage";
-import InfoPage from "../InfoPage/InfoPage";
+import CoinMarket from "../CoinMarket/CoinMarket";
 import LandingPage from "../LandingPage/LandingPage";
 import LoginPage from "../LoginPage/LoginPage";
 import MyStashPage from "../MyStashPage/MyStashPage";
@@ -60,11 +60,10 @@ function App() {
             Visiting localhost:3000/user will show the UserPage if the user is logged in.
             If the user is not logged in, the ProtectedRoute will show the LoginPage (component).
             Even though it seems like they are different pages, the user is always on localhost:3000/user */}
-          
-            <ProtectedRoute exact path="/myStash">
-              <MyStashPage />
-            </ProtectedRoute>
 
+          <ProtectedRoute exact path="/myStash">
+            <MyStashPage />
+          </ProtectedRoute>
 
           <ProtectedRoute
             // logged in shows CreateProfilePage else shows LoginPage
@@ -74,10 +73,7 @@ function App() {
             <CreateProfilePage />
           </ProtectedRoute>
 
-          <ProtectedRoute
-            exact
-            path="/coinDetails/:id"
-          >
+          <ProtectedRoute exact path="/coinDetails/:id">
             <CoinDetailsPage />
           </ProtectedRoute>
 
@@ -91,11 +87,11 @@ function App() {
           </ProtectedRoute>
 
           <ProtectedRoute
-            // logged in shows InfoPage else shows LoginPage
+            // logged in shows CoinMarket else shows LoginPage
             exact
-            path="/info"
+            path="/coinMarket"
           >
-            <InfoPage />
+            <CoinMarket />
           </ProtectedRoute>
 
           <ProtectedRoute

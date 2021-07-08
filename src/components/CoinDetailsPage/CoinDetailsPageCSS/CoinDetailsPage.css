@@ -4,7 +4,7 @@
   margin: 0 auto;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 414px) {
   .coin-page-details-container {
     margin: 0 auto;
     display: flex;
@@ -12,7 +12,7 @@
     align-items: center;
     justify-items: center;
     justify-content: center;
-    width: 275px;
+    width: 385px;
   }
 
   .buy-sell-delete-options-container {
@@ -21,7 +21,13 @@
     align-items: center;
     justify-content: space-between;
   }
-  input.swal2-input {
-    /* text-align: center; */
+
+  .value-amount-owned-container {
+    display: flex;
+    flex-direction: column;
   }
+}
+
+.value-of-amount-owned-cell {
+  padding-left: 100px;
 }

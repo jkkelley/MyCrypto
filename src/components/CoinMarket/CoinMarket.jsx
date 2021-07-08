@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import InfoPage2 from "./InfoPage2";
+import CoinMarket2 from "./CoinMarket2";
 import "./CreateProfilePage.css";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
@@ -11,7 +11,7 @@ import NavDrawer from "../NavDrawer/NavDrawer";
 // It doesn't dispatch any redux actions or display any part of redux state
 // or even care what the redux state is
 
-function InfoPage() {
+function CoinMarket() {
   //#region useState area
   const [coinsFromGecko, setCoinsFromGecko] = useState([]);
   const [resultsSearch, setResultsSearch] = useState("");
@@ -51,7 +51,7 @@ function InfoPage() {
 
   return (
     <>
-      {!profileData ? (
+      {!profileData.length ? (
         <Redirect to="/createProfile" />
       ) : (
         <div className="create-profile-container">
@@ -70,7 +70,7 @@ function InfoPage() {
               </div>
               {coinsSort.map((coins) => {
                 return (
-                  <InfoPage2
+                  <CoinMarket2
                     key={coins.id}
                     name={coins.name}
                     price={coins.current_price}
@@ -86,4 +86,4 @@ function InfoPage() {
   );
 }
 
-export default InfoPage;
+export default CoinMarket;

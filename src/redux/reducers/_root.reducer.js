@@ -4,6 +4,7 @@ import { coinNotes } from "./notes.coin.page.reducer";
 import { currentUserLocationReducer } from "./current.user.location.reducer";
 import { formSubmission } from "./form.submission.reducer";
 import { marketChartDataReducer } from "./market.chart.data.reducer"
+import {marketChartStatus} from "./market.data.fulfilled.reducer"
 import { myStashReducer } from "./myStash.page.reducer";
 import { myStashCoinPriceReducer } from "./current.value.ofCoin.reducer";
 import { profileData } from "./profile.reducer";
@@ -20,6 +21,7 @@ import user from "./user.reducer";
 const rootReducer = combineReducers({
   coinInfoReducer, // users coin info
   marketChartDataReducer, // past 23 hours of prices from coingecko api call
+  marketChartStatus, // marketChartData status
   myStashReducer, // users myStash coins info
   myStashCoinPriceReducer,
   coinNotes, // contains users notes

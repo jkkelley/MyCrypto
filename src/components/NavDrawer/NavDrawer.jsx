@@ -88,6 +88,9 @@ function NavDrawer({ props }) {
             { type: "CLEAR_NOTES_FROM_COIN" }
           );
           dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
+
+          dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });
+          dispatch({ type: "SET_MARKET_CHART_DATA_STATUS", payload: false });
           history.push("/homePage");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -100,6 +103,9 @@ function NavDrawer({ props }) {
             { type: "CLEAR_NOTES_FROM_COIN" }
           );
           dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
+
+          dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });
+          dispatch({ type: "SET_MARKET_CHART_DATA_STATUS", payload: false });
           history.push("/profile");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
@@ -111,8 +117,10 @@ function NavDrawer({ props }) {
             { type: "CLEAR_COIN_INFO" },
             { type: "CLEAR_NOTES_FROM_COIN" }
           );
-          dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
-          history.push("/info");
+          // dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
+          dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });
+          dispatch({ type: "SET_MARKET_CHART_DATA_STATUS", payload: false });
+          history.push("/coinMarket");
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
         }
@@ -124,8 +132,13 @@ function NavDrawer({ props }) {
             { type: "CLEAR_COIN_INFO" },
             { type: "CLEAR_NOTES_FROM_COIN" }
           );
+
+          dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });
+          dispatch({ type: "SET_MARKET_CHART_DATA_STATUS", payload: false });
+
           // dispatch({type: "GET_MYSTASH_PAGE_DETAILS", payload: {user_id: user.id}})
           history.push("/myStash");
+          break;
         } catch (error) {
           console.log(`Had a Nav Error ${error}`);
         }
@@ -139,6 +152,7 @@ function NavDrawer({ props }) {
         history.push("/");
     }
   };
+
   const drawer = (
     <div>
       <div className={classes.toolbar} />

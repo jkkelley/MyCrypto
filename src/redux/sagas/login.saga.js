@@ -54,11 +54,14 @@ function* logoutUser(action) {
     // now that the session has ended on the server
     // remove the client-side user object to let
     // the client-side code know the user is logged out
+
+    yield put({ type: "SET_MARKET_CHART_DATA_STATUS", payload: false });
     yield put({ type: "CLEAR_CURRENT_USER_LOCATION" });
     yield put({ type: "CLEAR_PROFILE_INFO" });
     yield put({ type: "CLEAR_NOTES_FROM_COIN" });
     yield put({ type: "CLEAR_MYSTASH_COINS" });
-    yield put({type: "CLEAR_MY_STASH_COINS_PRICE"})
+    yield put({ type: "CLEAR_MY_STASH_COINS_PRICE" });
+    yield put({ type: "CLEAR_MARKET_CHART_REDUCER" });
     yield put({ type: "UNSET_USER" });
   } catch (error) {
     console.log("Error with user logout:", error);

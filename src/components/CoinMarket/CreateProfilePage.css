@@ -4,7 +4,7 @@
   margin: 0 auto;
 }
 
-@media (max-width: 375px) {
+@media (max-width: 414px) {
   .create-form {
     margin: 0 auto;
     display: flex;
@@ -26,7 +26,7 @@
 
   .coin {
     display: block;
-    margin: 0 auto 0 auto;
+    margin: 20px auto 0 auto;
     text-align: center;
     width: 350px;
   }

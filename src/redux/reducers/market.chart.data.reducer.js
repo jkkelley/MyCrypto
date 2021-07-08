@@ -4,6 +4,8 @@ export const marketChartDataReducer = (state = [], action) => {
       return action.payload;
     case "GET_MARKET_CHART_REDUCER":
       return state;
+    case "CLEAR_MARKET_CHART_REDUCER":
+      return [];
     default:
       return state;
   }
