@@ -70,9 +70,20 @@ const useStyles = makeStyles({
     paddingLeft: 200,
     border: 0,
   },
-  hello: {
-    paddingLeft: 250,
+  amountCoin: {
+    paddingLeft: 200,
     border: 0,
+  },
+  notesButton: {
+    background: "linear-gradient(45deg, #FF8E53 30%, #003366 90%)",
+    border: 0,
+    borderRadius: 3,
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+    color: "white",
+    height: 40,
+    width: 100,
+    padding: "0 30px",
+    marginTop: 20,
   },
 });
 
@@ -331,7 +342,7 @@ function CoinDetailsPage({ coins }) {
                                 }
                               )}
                             </TableCell>
-                            <TableCell className={classes.hello}>
+                            <TableCell className={classes.amountCoin}>
                               {coinInfoReducer?.amount_owned[0]?.amount_owned?.toLocaleString(
                                 {
                                   minimumFractionDigits: 0,
@@ -367,10 +378,10 @@ function CoinDetailsPage({ coins }) {
               ) : (
                 <>
                   <div className="notes-container">
-                    <NotesFromServer />
+                    <NotesFromServer useStyles={useStyles} />
                   </div>
 
-                  <div>
+                  <div className="notes-from-server">
                     {coinNotes?.map((notes, index) => {
                       return (
                         <CoinPageNotes

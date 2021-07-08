@@ -8,7 +8,7 @@ function LoginPage() {
   return (
     <div>
       <LoginForm />
-
+      
       <center>
         <button
           type="button"

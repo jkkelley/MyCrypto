@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router-dom";
 
@@ -14,6 +14,17 @@ export const UsersPhoneNumber = () => {
   const profileData = useSelector((store) => store.profileData);
   // Bring in dispatch
   const dispatch = useDispatch();
+  // Function to handle valid loose phone numbers, below are valid numbers
+  // (123) 456-7890
+  // 123-456-7890
+  // 123.456.7890
+  // 1234567890
+
+  function phoneNumberCheck(phoneNumber) {
+    const regex =
+      /^[(]{0,1}[0-9]{3}[)]{0,1}[-\s\.]{0,1}[0-9]{3}[-\s\.]{0,1}[0-9]{4}$/;
+    return regex.test(phoneNumber);
+  }
 
   const handlePhoneNumber = async () => {
     const { value: phone_number } = await Swal.fire({
@@ -25,8 +36,8 @@ export const UsersPhoneNumber = () => {
       allowEnterKey: true,
       backdrop: true,
       inputValidator: (value) => {
-        if (!value) {
-          return "You need to write something!";
+        if (!phoneNumberCheck(value)) {
+          return "We need a Valid Phone!\r\n eg. 777-777-7777";
         }
       },
     });
@@ -36,9 +47,12 @@ export const UsersPhoneNumber = () => {
         text: `Phone number Changed to ${phone_number}`,
       });
       // Dispatch Users phone number and their id to Saga.
-      dispatch({ type: "UPDATE_PROFILE_PAGE", payload: { id: Number(params.id), phone_number: phone_number } });
+      dispatch({
+        type: "UPDATE_PROFILE_PAGE",
+        payload: { id: Number(params.id), phone_number: phone_number },
+      });
       // Show Updated phone number after User changes name.
-      dispatch({type: "GET_CREATE_PROFILE"})
+      dispatch({ type: "GET_CREATE_PROFILE" });
     }
   };
   useEffect(() => {

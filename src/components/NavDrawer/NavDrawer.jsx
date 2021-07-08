@@ -87,6 +87,7 @@ function NavDrawer({ props }) {
             { type: "CLEAR_COIN_INFO" },
             { type: "CLEAR_NOTES_FROM_COIN" }
           );
+          dispatch({ type: "CLEAR_NOTES_FROM_COIN" })
           dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
 
           dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });

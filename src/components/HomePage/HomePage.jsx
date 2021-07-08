@@ -29,8 +29,8 @@ function HomePage() {
           </div>
           <br></br>
           <div>
-            <h3>Balance</h3>
-            <p className="home-page-nickname">
+            <h3 className="home-page-nickname">User Balance</h3>
+            <p className="user-account-balance-home-page">
               {Number(profileData[0]?.account_balance).toLocaleString("en-US", {
                 style: "currency",
                 currency: "USD",

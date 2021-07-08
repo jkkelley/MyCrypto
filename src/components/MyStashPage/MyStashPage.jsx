@@ -8,26 +8,26 @@ import "./MyStashPageCSS/MyStashPage.css";
 import MyStashCoinsTable from "../MyStashPage/MyStashPageComponents/mystash.coins.table";
 import NavDrawer from "../NavDrawer/NavDrawer";
 
-
-
-
 function MyStashPage() {
-
   // Return Time back right now.
   let timeNow = new Date(Date.now());
-  let timeZ = new Date(Date.now())
+  let timeZ = new Date(Date.now());
   console.log(`Time now>`, timeNow);
-  console.log(`ms time => `, Date.now())
+  console.log(`ms time => `, Date.now());
   // Return timeNow back as string, slice first 11 indices off, and last 8 indices
   // Returns time back in HOUR:MINUTE FORMAT.
   // console.log(`Time right now => `, timeNow.toISOString().slice(11, -8));
   // console.log(`Time right now => `, timeNow.toISOString());
-  let millie = 1625676580000 
-  const hourago = new Date(millie)
-  let coingek = new Date(1625759574000 - 18_000_000)
-  console.log(`Hour ago => timeZ Price 10:19 ago => `, hourago.toISOString().slice(11, -8), coingek.toISOString().slice(11, -8))
+  let millie = 1625676580000;
+  const hourago = new Date(millie);
+  let coingek = new Date(1625759574000 - 18_000_000);
+  console.log(
+    `Hour ago => timeZ Price 10:19 ago => `,
+    hourago.toISOString().slice(11, -8),
+    coingek.toISOString().slice(11, -8)
+  );
   // console.log(`Hour ago => timeZ`, timeZ.toISOString().slice(11, -8))
-  
+
   // let twitterFormat = twentyThreeHoursAgo.twitterShort();
   // console.log(`Time from moment package =>`, twitterFormat);
   // console.log(`Time 24 hours ago => `, (timeNow - 86_400_000))
@@ -77,8 +77,11 @@ function MyStashPage() {
 
           {/* MyStash Balance */}
           <div className="my-stash-balance-container">
-            {!myStashReducer ? (
-              "$0.00"
+            {!myStashReducer.length ? (
+              <>
+                <h5>MyStash Balance</h5>
+                <p>$0.00</p>
+              </>
             ) : (
               <>
                 <h5>MyStash Balance</h5>

@@ -8,8 +8,9 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Swal from "sweetalert2";
 
-function NotesFromServer({notes}) {
-  console.log(notes)
+function NotesFromServer({ notes, useStyles }) {
+  // Bring in Custom CSS classes
+  const classes = useStyles();
   // Bring in dispatch
   const dispatch = useDispatch();
   // Bring in params
@@ -17,7 +18,7 @@ function NotesFromServer({notes}) {
   // Need the user from store
   const user = useSelector((store) => store.user);
   const coinInfoReducer = useSelector((store) => store.coinInfoReducer);
-  
+
   const handleAddNote = async () => {
     console.log(`You clicked handleAddNote`);
     const { value: text } = await Swal.fire({
@@ -51,7 +52,9 @@ function NotesFromServer({notes}) {
   };
   return (
     <>
-      <Button onClick={handleAddNote}>Add Note</Button>
+      <Button className={classes.notesButton} onClick={handleAddNote}>
+        Add Note
+      </Button>
     </>
   );
 }
