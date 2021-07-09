@@ -13,13 +13,15 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import createSpacing from "@material-ui/core/styles/createSpacing";
+import { CenterFocusStrong } from "@material-ui/icons";
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 350,
+    minWidth: 390,
+    alignItems: "center",
   },
   image: {
-    height: 25,
+    maxHeight: 25,
     width: 25,
   },
   first: {
@@ -33,6 +35,9 @@ const useStyles = makeStyles({
   last: {
     width: 5,
     height: 5,
+  },
+  name: {
+    fontSize: 13,
   },
 });
 
@@ -91,35 +96,27 @@ function MyStashCoinsTable({ coins }) {
               <TableBody>
                 <TableRow>
                   <TableCell>
-                    <img src={coins?.coin_image} width="25px"></img>
+                    <img src={coins?.coin_image} width="20px"></img>
                   </TableCell>
-                  <TableCell>
-                    <p>{coins?.crypto_name}</p>
+                  <TableCell className={classes.name}>
+                    {coins?.crypto_name}
                   </TableCell>
-                  <div className="">
+
                     <TableCell>
-                      <p
-                        value={currentCoinPrice?.toLocaleString("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                        })}
-                        className="current-price-of-coin"
-                      >
+                      <>
                         {currentCoinPrice?.toLocaleString("en-US", {
                           style: "currency",
                           currency: "USD",
                         })}
-                      </p>
+                      </>
                     </TableCell>
-                    <TableCell>
-                      <p>
+                    <TableCell justifyContent="flex-end">
                         {(coins?.amount_owned).toLocaleString({
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 8,
                         })}
-                      </p>
                     </TableCell>
-                  </div>
+
                 </TableRow>
               </TableBody>
             </Table>

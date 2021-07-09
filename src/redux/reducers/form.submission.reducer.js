@@ -14,7 +14,7 @@ export const formSubmission = (state = [], action) => {
     case "SET_PHONE_NUMBER_CREATE_PROFILE":
       return { ...state, phone_number: action.payload };
     case "CLEAR_FORM_SUBMISSION":
-      return {};
+      return [];
     case "GET_FORM_STATE":
       return state;
     default:

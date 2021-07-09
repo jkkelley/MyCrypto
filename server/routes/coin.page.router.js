@@ -515,4 +515,89 @@ router.delete("/v1/:name/:id", rejectUnauthenticated, async (req, res) => {
   }
 });
 
+router.post("/Buy2/:name/:id", rejectUnauthenticated, async (req, res) => {
+  console.log(`Got to /api/CoinPage/Buy2`);
+  const nameUpper = req.body.crypto_name.toUpperCase();
+  // console.log(req.params.name);
+  let coin_current_market_price = 0;
+  let account_balance = 0;
+
+  const client = await pool.connect();
+
+  const queryPostText = `
+  INSERT INTO coin_page 
+    (crypto_name, amount_owned, price_purchased_at, user_profile_id, coin_symbol, coin_image)
+  VALUES
+    ($1, $2, $3, $4, $5, $6);
+  `;
+  const queryGetText = `
+  SELECT * FROM user_profile
+  WHERE users_id=$1;
+  `;
+
+  const queryUpdateText = `
+  UPDATE user_profile SET account_balance=account_balance-$1 WHERE users_id=$2;
+  `;
+
+  if (req.isAuthenticated) {
+    try {
+      await client.query("BEGIN");
+      const responseAPI = await axios.get(
+        `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${req.params.name}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+      );
+      coin_current_market_price = Number(responseAPI.data[0].current_price);
+      console.log(`responseAPI.data.current_price`, coin_current_market_price);
+      const responseUserProfile = await pool.query(queryGetText, [req.body.id]);
+      console.log(`responseUserProfile`, responseUserProfile.rows);
+      // Users Account Balance
+      account_balance = Number(responseUserProfile.rows[0].account_balance);
+      console.log(`Users Account balance =>`, account_balance);
+      // Amount user will be spending
+      let purchasePriceAmount =
+        Number(req.body.amount) * Number(coin_current_market_price);
+      console.log(`amount you'll spend => `, purchasePriceAmount.toFixed(2));
+      console.log(
+        `Can you buy this coin => `,
+        Number(account_balance) > purchasePriceAmount.toFixed(2)
+      );
+
+      // Send back a -1 "no" response to be set in coinInfoReducer
+      // This will in turn tell the user they don't have the funds
+      // to purchase this amount of the coin.
+      if (purchasePriceAmount.toFixed(2) > account_balance) {
+        res.send([-1]);
+      } else {
+        // The query we send Subtracts purchasePriceAmount
+        // from table user_profile, column account_balance.
+        const responseUserProfileBalance = await pool.query(queryUpdateText, [
+          Number(purchasePriceAmount).toFixed(2),
+          req.body.id,
+        ]);
+        console.log(
+          `responseUserProfileBalance =>`,
+          responseUserProfileBalance
+        );
+        const responseCoinPage = await pool.query(queryPostText, [
+          nameUpper,
+          Number(req.body.amount),
+          Number(coin_current_market_price),
+          Number(req.body.id),
+          req.body.coin_symbol,
+          req.body.coin_image,
+        ]);
+      }
+      await client.query("COMMIT");
+      res.sendStatus(201);
+    } catch (error) {
+      console.log(`We couldn't buy you're coins for you`, error);
+      res.sendStatus(500);
+    } finally {
+      client.release();
+    }
+  } else {
+    // Forbidden
+    res.sendStatus(403);
+  }
+});
+
 module.exports = router;

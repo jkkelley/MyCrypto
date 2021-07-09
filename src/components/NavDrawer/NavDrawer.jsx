@@ -83,10 +83,9 @@ function NavDrawer({ props }) {
     switch (event) {
       case "Home":
         try {
-          dispatch(
-            { type: "CLEAR_COIN_INFO" },
-            { type: "CLEAR_NOTES_FROM_COIN" }
-          );
+          dispatch({ type: "RESET_ERROR_COIN_MESSAGE" });
+          dispatch({ type: "CLEAR_COIN_INFO" },);
+          dispatch({ type: "CLEAR_NOTES_FROM_COIN" })
           dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
 
           dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });
@@ -98,10 +97,9 @@ function NavDrawer({ props }) {
         break;
       case "Profile":
         try {
-          dispatch(
-            { type: "CLEAR_COIN_INFO" },
-            { type: "CLEAR_NOTES_FROM_COIN" }
-          );
+          dispatch({ type: "RESET_ERROR_COIN_MESSAGE" });
+          dispatch({ type: "CLEAR_COIN_INFO" },);
+          dispatch({ type: "CLEAR_NOTES_FROM_COIN" })
           dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
 
           dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });
@@ -113,10 +111,9 @@ function NavDrawer({ props }) {
         break;
       case "Coin Market":
         try {
-          dispatch(
-            { type: "CLEAR_COIN_INFO" },
-            { type: "CLEAR_NOTES_FROM_COIN" }
-          );
+          dispatch({ type: "RESET_ERROR_COIN_MESSAGE" });
+          dispatch({ type: "CLEAR_COIN_INFO" },);
+          dispatch({ type: "CLEAR_NOTES_FROM_COIN" })
           // dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
           dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });
           dispatch({ type: "SET_MARKET_CHART_DATA_STATUS", payload: false });
@@ -127,12 +124,10 @@ function NavDrawer({ props }) {
         break;
       case "My Stash":
         try {
+          dispatch({ type: "RESET_ERROR_COIN_MESSAGE" });
           dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
-          dispatch(
-            { type: "CLEAR_COIN_INFO" },
-            { type: "CLEAR_NOTES_FROM_COIN" }
-          );
-
+          dispatch({ type: "CLEAR_COIN_INFO" },);
+          dispatch({ type: "CLEAR_NOTES_FROM_COIN" })
           dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });
           dispatch({ type: "SET_MARKET_CHART_DATA_STATUS", payload: false });
 
@@ -144,6 +139,7 @@ function NavDrawer({ props }) {
         }
         break;
       case "Logout":
+        
         dispatch({
           type: "CLEAR_NOTES_FROM_COIN",
           type: "CLEAR_FORM_SUBMISSION",

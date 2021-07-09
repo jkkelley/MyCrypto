@@ -48,7 +48,9 @@ function ProfilePage() {
             type: "DELETE_USERS_PROFILE",
             payload: Number(profileData[0].users_id),
           });
+          dispatch({ type: "CLEAR_MYSTASH_COINS" });
           dispatch({ type: "CLEAR_PROFILE_INFO" });
+          dispatch({ type: "CLEAR_MYSTASH_COINS" });
           history.push(`/createProfile`);
         }
       })
@@ -67,7 +69,7 @@ function ProfilePage() {
         <Redirect to="/createProfile" />
       ) : (
         <div className="create-profile-container">
-          <NavDrawer props={true}/>
+          <NavDrawer props={true} />
           <div className="create-form">
             <p>Profile Page</p>
             <form className="create-profile-page-form-container">

@@ -31,4 +31,16 @@
     border: none !important;
     font-size: 0;
   }
+
+  .quick-login-button {
+    position: absolute;
+    padding-top: 100px;
+    background: transparent;
+    border: none !important;
+    font-size: 0;
+  }
+
+  .quick-login-button-container {
+    margin-left: 325px;
+  }
 }
