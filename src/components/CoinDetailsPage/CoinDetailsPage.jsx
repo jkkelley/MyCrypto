@@ -15,9 +15,11 @@ import DeleteCoinButton from "./CoinDetailsPageComponents/DeleteCoinButton";
 import NavDrawer from "../NavDrawer/NavDrawer";
 import NotesFromServer from "./CoinDetailsPageComponents/NotesFromServer";
 import SellCoinButton from "./CoinDetailsPageComponents/SellCoinButton";
+
 // Material-ui Imports
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import CircularProgress from "@material-ui/core/CircularProgress";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
@@ -26,7 +28,16 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-const useStyles = makeStyles({
+// const useStyles = makeStyles((theme) => ({
+//   loadingStill: {
+//     display: "flex",
+//     "& > * + *": {
+//       marginLeft: theme.spacing(2),
+//     },
+//   },
+// }));
+
+const useStyles = makeStyles((theme) => ({
   root1: {
     background: "linear-gradient(45deg, #003366 30%, #FF8E53 90%)",
     border: 0,
@@ -85,11 +96,17 @@ const useStyles = makeStyles({
     padding: "0 30px",
     marginTop: 20,
   },
-});
+  loadingStill: {
+    display: "flex",
+    "& > * + *": {
+      marginLeft: theme.spacing(2),
+    },
+  },
+}));
 
 function CoinDetailsPage({ coins }) {
   const classes = useStyles();
-
+  // const classes = useStyles2();
   // We need to bring the store in.
   const profileData = useSelector((store) => store.profileData);
   const user = useSelector((store) => store.user);
@@ -104,6 +121,8 @@ function CoinDetailsPage({ coins }) {
   const currentUserLocationReducer = useSelector(
     (store) => store.currentUserLocationReducer
   );
+
+  const errorMessageReducer = useSelector((store) => store.errorMessageReducer);
   // Bring Location in
   const location = useLocation();
 
@@ -222,6 +241,14 @@ function CoinDetailsPage({ coins }) {
     }
   }, []);
 
+  // const handleErrorMessage =
+  //   setTimeout(() => {
+  //     // <div>
+  //     //   <p>{errorMessageReducer.message}</p>
+  //     // </div>;
+  //     dispatch({ type: "RESET_ERROR_COIN_MESSAGE" });
+  //   }, 3000);
+
   const handleAsyncIssues = () => {
     if (coinInfoReducer.value_of_amount_owned == undefined) {
       // console.log(`It was undefined`);
@@ -274,7 +301,7 @@ function CoinDetailsPage({ coins }) {
                 </p>
               </div>
 
-              <div>
+              <div  className="account-balance-container">
                 {/* Name of coin and current price on page load. */}
                 <h3>{coinsFromGecko[0]?.name}</h3>
                 <p>
@@ -285,7 +312,7 @@ function CoinDetailsPage({ coins }) {
                 </p>
               </div>
 
-              {!chartData ? (
+              {/* {!chartData ? (
                 <>
                   <p>Loading...</p>
                 </>
@@ -301,60 +328,88 @@ function CoinDetailsPage({ coins }) {
                     marketChartStatus={marketChartStatus}
                   />
                 </div>
-              )}
+              )} */}
 
               {/* If the User doesn't own any coins, disable user coin section */}
               <div className="buy-sell-delete-options-container">
-                {!amountOwned ? (
-                  <BuyCoinButton
-                    useStyles={useStyles}
-                    Button={Button}
-                    coinsFromGecko={coinsFromGecko}
-                  />
-                ) : (
-                  <>
-                    {/* User Coin Section */}
-                    <BuyMoreCoinsButton Button={Button} useStyles={useStyles} />
-                    <SellCoinButton useStyles={useStyles} Button={Button} />
-                    <DeleteCoinButton
-                      coins={coins}
+                <>
+                  {!amountOwned ? (
+                    <BuyCoinButton
                       useStyles={useStyles}
                       Button={Button}
+                      coinsFromGecko={coinsFromGecko}
                     />
-                  </>
-                )}
+                  ) : (
+                    <>
+                      {/* User Coin Section */}
+                      <BuyMoreCoinsButton
+                        Button={Button}
+                        useStyles={useStyles}
+                      />
+                      <SellCoinButton useStyles={useStyles} Button={Button} />
+                      <DeleteCoinButton
+                        coins={coins}
+                        useStyles={useStyles}
+                        Button={Button}
+                      />
+                    </>
+                  )}
+                  {errorMessageReducer.message ? (
+                    <>
+                      <div>
+                        {/* {handleErrorMessage} */}
+                        <p>{errorMessageReducer.message}</p>
+                      </div>
+                      {/* <div>
+                      <p>{errorMessageReducer.message}</p>
+                    </div> */}
+                    </>
+                  ) : (
+                    ""
+                  )}
+                </>
               </div>
 
-              {coinInfoReducer && coinInfoReducer.amount_owned ? (
+              {coinInfoReducer &&
+              coinInfoReducer.amount_owned &&
+              !errorMessageReducer.message ? (
                 <>
-                  <TableContainer component={Paper}>
-                    <Table className={classes.table} aria-label="simple table">
-                      <TableBody>
-                        <TableRow>
-                          <TableCell>{coinsFromGecko[0]?.name}</TableCell>
-                          <div className="value-amount-owned-container">
-                            <TableCell className={classes.valueCoin}>
-                              {coinInfoReducer?.value_of_amount_owned?.toLocaleString(
-                                "en-US",
-                                {
-                                  style: "currency",
-                                  currency: "USD",
-                                }
-                              )}
-                            </TableCell>
-                            <TableCell className={classes.amountCoin}>
-                              {coinInfoReducer?.amount_owned[0]?.amount_owned?.toLocaleString(
-                                {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 8,
-                                }
-                              )}
-                            </TableCell>
-                          </div>
-                        </TableRow>
-                      </TableBody>
-                    </Table>
-                  </TableContainer>
+                  {!coinInfoReducer.value_of_amount_owned &&
+                  !coinInfoReducer.amount_owned[0].amount_owned ? (
+                    <CircularProgress className={classes.loadingStill}/>
+                  ) : (
+                    <TableContainer component={Paper}>
+                      <Table
+                        className={classes.table}
+                        aria-label="simple table"
+                      >
+                        <TableBody>
+                          <TableRow>
+                            <TableCell>{coinsFromGecko[0]?.name}</TableCell>
+                            <div className="value-amount-owned-container">
+                              <TableCell className={classes.valueCoin}>
+                                {coinInfoReducer?.value_of_amount_owned?.toLocaleString(
+                                  "en-US",
+                                  {
+                                    style: "currency",
+                                    currency: "USD",
+                                  }
+                                )}
+                              </TableCell>
+                              <TableCell className={classes.amountCoin}>
+                                {coinInfoReducer?.amount_owned[0]?.amount_owned?.toLocaleString(
+                                  {
+                                    minimumFractionDigits: 0,
+                                    maximumFractionDigits: 8,
+                                  }
+                                )}
+                              </TableCell>
+                            </div>
+                          </TableRow>
+                        </TableBody>
+                      </Table>
+                    </TableContainer>
+                  )}
                 </>
               ) : (
                 <TableContainer component={Paper}>

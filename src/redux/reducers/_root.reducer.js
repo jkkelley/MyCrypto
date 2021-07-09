@@ -2,9 +2,10 @@ import { coinInfoReducer } from "./coin.page.reducer";
 import { combineReducers } from "redux";
 import { coinNotes } from "./notes.coin.page.reducer";
 import { currentUserLocationReducer } from "./current.user.location.reducer";
+import { errorMessageReducer } from "./error.messages.reducer";
 import { formSubmission } from "./form.submission.reducer";
-import { marketChartDataReducer } from "./market.chart.data.reducer"
-import {marketChartStatus} from "./market.data.fulfilled.reducer"
+import { marketChartDataReducer } from "./market.chart.data.reducer";
+import { marketChartStatus } from "./market.data.fulfilled.reducer";
 import { myStashReducer } from "./myStash.page.reducer";
 import { myStashCoinPriceReducer } from "./current.value.ofCoin.reducer";
 import { profileData } from "./profile.reducer";
@@ -20,6 +21,7 @@ import user from "./user.reducer";
 // This is what we get when we use 'state' inside of 'mapStateToProps'
 const rootReducer = combineReducers({
   coinInfoReducer, // users coin info
+  errorMessageReducer, // Errors messages
   marketChartDataReducer, // past 23 hours of prices from coingecko api call
   marketChartStatus, // marketChartData status
   myStashReducer, // users myStash coins info

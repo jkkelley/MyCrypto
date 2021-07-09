@@ -62,6 +62,7 @@ function* logoutUser(action) {
     yield put({ type: "CLEAR_MYSTASH_COINS" });
     yield put({ type: "CLEAR_MY_STASH_COINS_PRICE" });
     yield put({ type: "CLEAR_MARKET_CHART_REDUCER" });
+    yield put({ type: "RESET_ERROR_COIN_MESSAGE" });
     yield put({ type: "UNSET_USER" });
   } catch (error) {
     console.log("Error with user logout:", error);

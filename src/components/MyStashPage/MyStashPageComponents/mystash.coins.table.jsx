@@ -13,10 +13,11 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 import createSpacing from "@material-ui/core/styles/createSpacing";
+import { CenterFocusStrong } from "@material-ui/icons";
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 350,
+    minWidth: 390,
   },
   image: {
     height: 25,
@@ -33,6 +34,9 @@ const useStyles = makeStyles({
   last: {
     width: 5,
     height: 5,
+  },
+  name: {
+    fontSize: 13,
   },
 });
 
@@ -91,9 +95,9 @@ function MyStashCoinsTable({ coins }) {
               <TableBody>
                 <TableRow>
                   <TableCell>
-                    <img src={coins?.coin_image} width="25px"></img>
+                    <img src={coins?.coin_image} width="20px"></img>
                   </TableCell>
-                  <TableCell>
+                  <TableCell className={classes.name}>
                     <p>{coins?.crypto_name}</p>
                   </TableCell>
                   <div className="">

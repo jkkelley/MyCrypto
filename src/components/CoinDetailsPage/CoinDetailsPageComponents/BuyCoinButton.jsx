@@ -23,6 +23,7 @@ function BuyCoinButton({ useStyles, Button, coinsFromGecko }) {
   }
   // Function to handleBuy click
   const handleBuy = async () => {
+    dispatch({ type: "RESET_ERROR_COIN_MESSAGE" });
     console.log(`You clicked handleBuy no coins`);
     console.log(`coinsFromGecko buyCoinButton => `, coinsFromGecko[0]);
     const { value: coinAmountToBuy } = await Swal.fire({
