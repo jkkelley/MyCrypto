@@ -36,8 +36,13 @@ const useStyles = makeStyles({
   },
   coinName: {
     justifyContent: "flex-start",
-    fontSize: 13,
+    fontSize: 15,
+    paddingLeft: 20,
   },
+  coinImage : {
+    width: 55,
+    height: 50,
+  }
 });
 
 function CoinMarket2({ coins, name, price }) {
@@ -67,8 +72,8 @@ function CoinMarket2({ coins, name, price }) {
             <Table className={classes.table} aria-label="simple table">
               <TableBody>
                 <TableRow>
-                  <TableCell>
-                    <img  className={classes.image} src={coins.image} />
+                  <TableCell className={classes.coinImage}>
+                    <img src={coins.image} />
                   </TableCell>
                   <TableCell
                     justifyContent="flex-start"
