@@ -8,7 +8,35 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Swal from "sweetalert2";
 
+import Card from "@material-ui/core/Card";
+import CardActions from "@material-ui/core/CardActions";
+import CardContent from "@material-ui/core/CardContent";
+import Typography from "@material-ui/core/Typography";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({
+  root: {
+    minWidth: 275,
+    margin: "10 2px",
+    hover: {
+      cursor: "default",
+    },
+  },
+  bullet: {
+    display: "inline-block",
+    margin: "0 2px",
+    transform: "scale(0.8)",
+  },
+  title: {
+    fontSize: 14,
+  },
+  pos: {
+    marginBottom: 12,
+  },
+});
+
 function CoinPageNotes({ notes, index }) {
+  const classes = useStyles();
   const coinInfoReducer = useSelector((store) => store.coinInfoReducer);
   console.log(`Notes page => `, notes);
   console.log(`index page => `, index);
@@ -75,9 +103,23 @@ function CoinPageNotes({ notes, index }) {
   };
   return (
     <>
-      <p onClick={() => handleNoteClick(notes)}>{notes.notes}</p>
+      <Card
+        className={classes.root}
+        onClick={() => handleNoteClick(notes)}
+        variant="outlined"
+      >
+        <CardContent className={classes.pos}>
+          <Typography className={classes.pos} color="textSecondary">
+            {notes.notes}
+          </Typography>
+        </CardContent>
+      </Card>
+      {/* <p onClick={() => handleNoteClick(notes)}>{notes.notes}</p> */}
     </>
   );
 }
 
 export default CoinPageNotes;
+
+// 500 chars
+// asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdfaasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdfaasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdfaasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdfaasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdfa
