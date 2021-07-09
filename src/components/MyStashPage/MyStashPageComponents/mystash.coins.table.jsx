@@ -18,9 +18,10 @@ import { CenterFocusStrong } from "@material-ui/icons";
 const useStyles = makeStyles({
   table: {
     minWidth: 390,
+    alignItems: "center",
   },
   image: {
-    height: 25,
+    maxHeight: 25,
     width: 25,
   },
   first: {
@@ -98,32 +99,24 @@ function MyStashCoinsTable({ coins }) {
                     <img src={coins?.coin_image} width="20px"></img>
                   </TableCell>
                   <TableCell className={classes.name}>
-                    <p>{coins?.crypto_name}</p>
+                    {coins?.crypto_name}
                   </TableCell>
-                  <div className="">
+
                     <TableCell>
-                      <p
-                        value={currentCoinPrice?.toLocaleString("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                        })}
-                        className="current-price-of-coin"
-                      >
+                      <>
                         {currentCoinPrice?.toLocaleString("en-US", {
                           style: "currency",
                           currency: "USD",
                         })}
-                      </p>
+                      </>
                     </TableCell>
-                    <TableCell>
-                      <p>
+                    <TableCell justifyContent="flex-end">
                         {(coins?.amount_owned).toLocaleString({
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 8,
                         })}
-                      </p>
                     </TableCell>
-                  </div>
+
                 </TableRow>
               </TableBody>
             </Table>

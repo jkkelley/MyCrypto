@@ -16,6 +16,7 @@ import createSpacing from "@material-ui/core/styles/createSpacing";
 const useStyles = makeStyles({
   table: {
     minWidth: 350,
+    alignItems: "center",
   },
   image: {
     height: 25,
@@ -32,6 +33,10 @@ const useStyles = makeStyles({
   last: {
     width: 5,
     height: 5,
+  },
+  coinName: {
+    justifyContent: "flex-start",
+    fontSize: 13,
   },
 });
 
@@ -60,24 +65,18 @@ function CoinMarket2({ coins, name, price }) {
         <div className="coin" onClick={() => handleCoinClick(coins)}>
           <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
-              {/* <TableHead>
-                <TableRow>
-                  <TableCell className={classes.first}></TableCell>
-                  <TableCell className={classes.middle}></TableCell>
-                  <TableCell className={classes.last}></TableCell>
-                </TableRow>
-              </TableHead> */}
-
               <TableBody>
                 <TableRow>
                   <TableCell>
-                    <img
-                      className={classes.image}
-                      src={coins.image}
-                      height="25px"
-                    ></img>
+                    <img  className={classes.image} src={coins.image} />
                   </TableCell>
-                  <TableCell align="left">{name}</TableCell>
+                  <TableCell
+                    justifyContent="flex-start"
+                    className={classes.coinName}
+                    align="left"
+                  >
+                    {name}
+                  </TableCell>
                   <TableCell align="right">
                     {price.toLocaleString("en-US", {
                       style: "currency",
