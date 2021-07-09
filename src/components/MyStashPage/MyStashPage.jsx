@@ -68,7 +68,7 @@ function MyStashPage() {
 
   return (
     <>
-      {!profileData ? (
+      {!profileData.length ? (
         <Redirect to="/createProfile" />
       ) : (
         <div className="my-stash-page-container">
