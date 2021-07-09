@@ -17,7 +17,7 @@ import { CenterFocusStrong } from "@material-ui/icons";
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 390,
+    minWidth: 350,
     alignItems: "center",
   },
   image: {
@@ -37,14 +37,15 @@ const useStyles = makeStyles({
     height: 5,
   },
   name: {
-    fontSize: 13,
-    width: 170,
+    paddingRight: 30,
+    fontSize: 12,
+    width: 90,
     height: 50,
   },
-  coinImage : {
+  coinImage: {
     width: 50,
     height: 50,
-  }
+  },
 });
 
 function MyStashCoinsTable({ coins }) {
@@ -104,25 +105,24 @@ function MyStashCoinsTable({ coins }) {
                   <TableCell className={classes.coinImage} align="left">
                     <img src={coins?.coin_image} />
                   </TableCell>
-                  <TableCell className={classes.name}>
-                    {coins?.crypto_name}
+                  <TableCell align="left" className={classes.name} >
+                    {coins?.coin_symbol.toUpperCase()}
                   </TableCell>
 
-                    <TableCell align="left">
-                      <>
-                        {currentCoinPrice?.toLocaleString("en-US", {
-                          style: "currency",
-                          currency: "USD",
-                        })}
-                      </>
-                    </TableCell>
-                    <TableCell align="right">
-                        {(coins?.amount_owned).toLocaleString({
-                          minimumFractionDigits: 0,
-                          maximumFractionDigits: 8,
-                        })}
-                    </TableCell>
-
+                  <TableCell align="left">
+                    <>
+                      {currentCoinPrice?.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </>
+                  </TableCell>
+                  <TableCell align="right">
+                    {(coins?.amount_owned).toLocaleString({
+                      minimumFractionDigits: 0,
+                      maximumFractionDigits: 8,
+                    })}
+                  </TableCell>
                 </TableRow>
               </TableBody>
             </Table>

@@ -59,7 +59,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "0 30px",
   },
   table: {
-    minWidth: 380,
+    width: 380,
+    minHeight: 100,
+    flexWrap: "nowrap",
   },
   image: {
     height: 25,
@@ -78,12 +80,18 @@ const useStyles = makeStyles((theme) => ({
     height: 5,
   },
   valueCoin: {
-    paddingLeft: 200,
+    maxWidth: 50,
+    height: 10,
     border: 0,
+    flexWrap: "wrap",
+    flexDirection: "column",
   },
   amountCoin: {
-    paddingLeft: 200,
+    maxWidth: 50,
+    height: 10,
     border: 0,
+    flexWrap: "wrap",
+    flexDirection: "column",
   },
   notesButton: {
     background: "linear-gradient(45deg, #FF8E53 30%, #003366 90%)",
@@ -102,6 +110,14 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(2),
     },
   },
+  name: {
+    fontSize: 13,
+    width: 170,
+    height: 50,
+  },
+  accountBalance: {
+    visibility: "hidden"
+  }
 }));
 
 function CoinDetailsPage({ coins }) {
@@ -162,73 +178,6 @@ function CoinDetailsPage({ coins }) {
             payload: { id: user.id, crypto_name: params.id },
           });
         })
-        // .then(() => {
-        //   setChartData({
-        //     labels: [
-        //       "23h",
-        //       "22h",
-        //       "21h",
-        //       "20h",
-        //       "19h",
-        //       "18h",
-        //       "17h",
-        //       "16h",
-        //       "15h",
-        //       "14h",
-        //       "13h",
-        //       "12h",
-        //       "11h",
-        //       "10h",
-        //       "9h",
-        //       "8h",
-        //       "7h",
-        //       "6h",
-        //       "5h",
-        //       "4h",
-        //       "3h",
-        //       "2h",
-        //       "1h",
-        //       "Now",
-        //     ],
-        //     datasets: [
-        //       {
-        //         label: `${params.id}`,
-        //         data: [
-        //           marketChartDataReducer[0],
-        //           marketChartDataReducer[1],
-        //           marketChartDataReducer[2],
-        //           marketChartDataReducer[3],
-
-        //           marketChartDataReducer[4],
-        //           marketChartDataReducer[5],
-        //           marketChartDataReducer[6],
-        //           marketChartDataReducer[7],
-
-        //           marketChartDataReducer[8],
-        //           marketChartDataReducer[9],
-        //           marketChartDataReducer[10],
-        //           marketChartDataReducer[11],
-
-        //           marketChartDataReducer[12],
-        //           marketChartDataReducer[13],
-        //           marketChartDataReducer[14],
-        //           marketChartDataReducer[15],
-
-        //           marketChartDataReducer[16],
-        //           marketChartDataReducer[17],
-        //           marketChartDataReducer[18],
-        //           marketChartDataReducer[19],
-
-        //           marketChartDataReducer[20],
-        //           marketChartDataReducer[21],
-        //           marketChartDataReducer[22],
-        //           coinsFromGecko[0]?.current_price,
-        //         ],
-        //         backgroundColor: [`rgba(75, 192, 192, 0.6)`],
-        //       },
-        //     ],
-        //   });
-        // })
         .catch((error) => {
           console.log(`Ohh No, coingecko failed me! ${error}`);
         });
@@ -240,14 +189,6 @@ function CoinDetailsPage({ coins }) {
       console.log("marketChartDataReducer =>", marketChartDataReducer);
     }
   }, []);
-
-  // const handleErrorMessage =
-  //   setTimeout(() => {
-  //     // <div>
-  //     //   <p>{errorMessageReducer.message}</p>
-  //     // </div>;
-  //     dispatch({ type: "RESET_ERROR_COIN_MESSAGE" });
-  //   }, 3000);
 
   const handleAsyncIssues = () => {
     if (coinInfoReducer.value_of_amount_owned == undefined) {
@@ -301,7 +242,7 @@ function CoinDetailsPage({ coins }) {
                 </p>
               </div>
 
-              <div  className="account-balance-container">
+              <div className="account-balance-container">
                 {/* Name of coin and current price on page load. */}
                 <h3>{coinsFromGecko[0]?.name}</h3>
                 <p>
@@ -376,7 +317,7 @@ function CoinDetailsPage({ coins }) {
                 <>
                   {!coinInfoReducer.value_of_amount_owned &&
                   !coinInfoReducer.amount_owned[0].amount_owned ? (
-                    <CircularProgress className={classes.loadingStill}/>
+                    <CircularProgress className={classes.loadingStill} />
                   ) : (
                     <TableContainer component={Paper}>
                       <Table
@@ -385,26 +326,35 @@ function CoinDetailsPage({ coins }) {
                       >
                         <TableBody>
                           <TableRow>
-                            <TableCell>{coinsFromGecko[0]?.name}</TableCell>
-                            <div className="value-amount-owned-container">
-                              <TableCell className={classes.valueCoin}>
-                                {coinInfoReducer?.value_of_amount_owned?.toLocaleString(
-                                  "en-US",
-                                  {
-                                    style: "currency",
-                                    currency: "USD",
-                                  }
-                                )}
-                              </TableCell>
-                              <TableCell className={classes.amountCoin}>
-                                {coinInfoReducer?.amount_owned[0]?.amount_owned?.toLocaleString(
-                                  {
-                                    minimumFractionDigits: 0,
-                                    maximumFractionDigits: 8,
-                                  }
-                                )}
-                              </TableCell>
-                            </div>
+                            <TableCell flexGrow={1} className={classes.name}>
+                              {coinsFromGecko[0]?.name}
+                            </TableCell>
+
+                            <TableCell
+                              className={classes.valueCoin}
+                              justifyContent="flex-end"
+                              align="right"
+                            >
+                              {coinInfoReducer?.value_of_amount_owned?.toLocaleString(
+                                "en-US",
+                                {
+                                  style: "currency",
+                                  currency: "USD",
+                                }
+                              )}
+                            </TableCell>
+                            <TableCell
+                              className={classes.amountCoin}
+                              justifyContent="flex-end"
+                              align="right"
+                            >
+                              {coinInfoReducer?.amount_owned[0]?.amount_owned?.toLocaleString(
+                                {
+                                  minimumFractionDigits: 0,
+                                  maximumFractionDigits: 8,
+                                }
+                              )}
+                            </TableCell>
                           </TableRow>
                         </TableBody>
                       </Table>
@@ -416,11 +366,24 @@ function CoinDetailsPage({ coins }) {
                   <Table className={classes.table} aria-label="simple table">
                     <TableBody>
                       <TableRow>
-                        <TableCell>{coinsFromGecko[0]?.name}</TableCell>
-                        <div className="value-amount-owned-container">
-                          <TableCell>{<div>$0.00</div>}</TableCell>
-                          <TableCell>{<div>0</div>}</TableCell>
-                        </div>
+                        <TableCell flexGrow={1} className={classes.name}>
+                          {coinsFromGecko[0]?.name}
+                        </TableCell>
+
+                        <TableCell
+                          className={classes.valueCoin}
+                          justifyContent="flex-end"
+                          align="right"
+                        >
+                          {<div>$0.00</div>}
+                        </TableCell>
+                        <TableCell
+                          className={classes.amountCoin}
+                          justifyContent="flex-end"
+                          align="right"
+                        >
+                          {<div>0</div>}
+                        </TableCell>
                       </TableRow>
                     </TableBody>
                   </Table>

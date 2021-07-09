@@ -76,7 +76,7 @@ function CoinMarket2({ coins, name, price }) {
                     <img src={coins.image} />
                   </TableCell>
                   <TableCell
-                    justifyContent="flex-start"
+                    justifycontent="flex-start"
                     className={classes.coinName}
                     align="left"
                   >
