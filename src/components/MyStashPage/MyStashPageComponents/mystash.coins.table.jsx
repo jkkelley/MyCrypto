@@ -38,7 +38,13 @@ const useStyles = makeStyles({
   },
   name: {
     fontSize: 13,
+    width: 170,
+    height: 50,
   },
+  coinImage : {
+    width: 50,
+    height: 50,
+  }
 });
 
 function MyStashCoinsTable({ coins }) {
@@ -95,14 +101,14 @@ function MyStashCoinsTable({ coins }) {
             <Table className={classes.table} aria-label="simple table">
               <TableBody>
                 <TableRow>
-                  <TableCell>
-                    <img src={coins?.coin_image} width="20px"></img>
+                  <TableCell className={classes.coinImage} align="left">
+                    <img src={coins?.coin_image} />
                   </TableCell>
                   <TableCell className={classes.name}>
                     {coins?.crypto_name}
                   </TableCell>
 
-                    <TableCell>
+                    <TableCell align="left">
                       <>
                         {currentCoinPrice?.toLocaleString("en-US", {
                           style: "currency",
@@ -110,7 +116,7 @@ function MyStashCoinsTable({ coins }) {
                         })}
                       </>
                     </TableCell>
-                    <TableCell justifyContent="flex-end">
+                    <TableCell align="right">
                         {(coins?.amount_owned).toLocaleString({
                           minimumFractionDigits: 0,
                           maximumFractionDigits: 8,
