@@ -56,7 +56,7 @@ function BuyMoreCoinsButton({ useStyles, Button }) {
 
   return (
     <>
-      <Button className={classes.root1} onClick={handleBuyingMoreCoins}> Buy</Button>
+      <Button className={classes.notesButton} onClick={handleBuyingMoreCoins}> Buy</Button>
     </>
   );
 }

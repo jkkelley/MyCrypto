@@ -45,7 +45,7 @@ function DeleteCoinButton({ coins, useStyles, Button }) {
   };
   return (
     <>
-      <Button className={classes.root1} onClick={handleDelete}>
+      <Button className={classes.notesButton} onClick={handleDelete}>
         Delete
       </Button>
     </>

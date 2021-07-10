@@ -64,7 +64,7 @@ function BuyCoinButton({ useStyles, Button, coinsFromGecko }) {
   };
   return (
     <>
-      <Button onClick={handleBuy}>Buy</Button>
+      <Button className={classes.notesButton} onClick={handleBuy}>Buy</Button>
     </>
   );
 }

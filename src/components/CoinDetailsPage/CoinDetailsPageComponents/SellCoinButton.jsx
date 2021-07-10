@@ -54,7 +54,7 @@ function SellCoinButton({ useStyles, Button }) {
   };
   return (
     <>
-      <Button className={classes.root2} onClick={handleSell}>
+      <Button className={classes.notesButton} onClick={handleSell}>
         Sell
       </Button>
     </>
