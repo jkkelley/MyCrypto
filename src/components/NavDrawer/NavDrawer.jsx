@@ -8,6 +8,7 @@ import Hidden from "@material-ui/core/Hidden";
 import HomeIcon from "@material-ui/icons/Home";
 import IconButton from "@material-ui/core/IconButton";
 import InboxIcon from "@material-ui/icons/MoveToInbox";
+import InfoIcon from "@material-ui/icons/Info";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -23,8 +24,9 @@ import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
+import { CenterFocusStrong } from "@material-ui/icons";
 
-const drawerWidth = 240;
+const drawerWidth = 190;
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -58,9 +60,26 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(3),
   },
-  divider: {
-    marginTop: -5,
+  divider1: {
+    marginTop: 20,
+    background: "#3f51b5",
   },
+  divider2: {
+    marginTop: 20,
+    background: "#3f51b5",
+  },
+  navHeading: {
+    height: 39,
+    // marginTop: 10,
+    // marginBottom: -10,
+    paddingTop: 20,
+    margin: "0 auto",
+    alignItems: "center",
+    textAlign: "center",
+  },
+  listItemIcon: {
+    color: "#3f51b5",
+  }
 }));
 
 function NavDrawer({ props }) {
@@ -84,8 +103,8 @@ function NavDrawer({ props }) {
       case "Home":
         try {
           dispatch({ type: "RESET_ERROR_COIN_MESSAGE" });
-          dispatch({ type: "CLEAR_COIN_INFO" },);
-          dispatch({ type: "CLEAR_NOTES_FROM_COIN" })
+          dispatch({ type: "CLEAR_COIN_INFO" });
+          dispatch({ type: "CLEAR_NOTES_FROM_COIN" });
           dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
 
           dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });
@@ -98,8 +117,8 @@ function NavDrawer({ props }) {
       case "Profile":
         try {
           dispatch({ type: "RESET_ERROR_COIN_MESSAGE" });
-          dispatch({ type: "CLEAR_COIN_INFO" },);
-          dispatch({ type: "CLEAR_NOTES_FROM_COIN" })
+          dispatch({ type: "CLEAR_COIN_INFO" });
+          dispatch({ type: "CLEAR_NOTES_FROM_COIN" });
           dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
 
           dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });
@@ -112,8 +131,8 @@ function NavDrawer({ props }) {
       case "Coin Market":
         try {
           dispatch({ type: "RESET_ERROR_COIN_MESSAGE" });
-          dispatch({ type: "CLEAR_COIN_INFO" },);
-          dispatch({ type: "CLEAR_NOTES_FROM_COIN" })
+          dispatch({ type: "CLEAR_COIN_INFO" });
+          dispatch({ type: "CLEAR_NOTES_FROM_COIN" });
           // dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
           dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });
           dispatch({ type: "SET_MARKET_CHART_DATA_STATUS", payload: false });
@@ -126,8 +145,8 @@ function NavDrawer({ props }) {
         try {
           dispatch({ type: "RESET_ERROR_COIN_MESSAGE" });
           dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
-          dispatch({ type: "CLEAR_COIN_INFO" },);
-          dispatch({ type: "CLEAR_NOTES_FROM_COIN" })
+          dispatch({ type: "CLEAR_COIN_INFO" });
+          dispatch({ type: "CLEAR_NOTES_FROM_COIN" });
           dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });
           dispatch({ type: "SET_MARKET_CHART_DATA_STATUS", payload: false });
 
@@ -138,8 +157,16 @@ function NavDrawer({ props }) {
           console.log(`Had a Nav Error ${error}`);
         }
         break;
+      case "About":
+        dispatch({ type: "RESET_ERROR_COIN_MESSAGE" });
+        dispatch({ type: "CLEAR_MY_STASH_COINS_PRICE" });
+        dispatch({ type: "CLEAR_COIN_INFO" });
+        dispatch({ type: "CLEAR_NOTES_FROM_COIN" });
+        dispatch({ type: "CLEAR_MARKET_CHART_REDUCER" });
+        dispatch({ type: "SET_MARKET_CHART_DATA_STATUS", payload: false });
+        history.push("/about");
+        break;
       case "Logout":
-        
         dispatch({
           type: "CLEAR_NOTES_FROM_COIN",
           type: "CLEAR_FORM_SUBMISSION",
@@ -152,24 +179,31 @@ function NavDrawer({ props }) {
   const drawer = (
     <div>
       <div className={classes.toolbar} />
-      <h3>Menu</h3>
-      <Divider className={classes.divider} />
+      <Typography className={classes.navHeading}>Nav Bar</Typography>
+      <Divider className={classes.divider1} />
       <List>
-        {["Home", "My Stash", "Coin Market", "Profile", "Logout"].map(
-          (text, index) => (
-            <ListItem button key={text} onClick={() => handleNavClick(text)}>
-              <ListItemIcon>
-                {index === 0 ? <HomeIcon value={0} /> : ""}
-                {index === 1 ? <MonetizationOnIcon value={1} /> : ""}
-                {index === 2 ? <AccountBalanceIcon value={2} /> : ""}
-                {index === 3 ? <AccountBoxIcon value={3} /> : ""}
-                {index === 4 ? <ExitToAppIcon value={4} /> : ""}
-              </ListItemIcon>
-              <ListItemText primary={text} />
-            </ListItem>
-          )
-        )}
+        {["Home", "My Stash", "Coin Market"].map((text, index) => (
+          <ListItem button key={text} onClick={() => handleNavClick(text)}>
+            <ListItemIcon >
+              {index === 0 ? <HomeIcon className={classes.listItemIcon} value={0} /> : ""}
+              {index === 1 ? <MonetizationOnIcon className={classes.listItemIcon} value={1} /> : ""}
+              {index === 2 ? <AccountBalanceIcon className={classes.listItemIcon} value={2} /> : ""}
+            </ListItemIcon>
+            <ListItemText primary={text} />
+          </ListItem>
+        ))}
       </List>
+      <Divider className={classes.divider2} />
+      {["Profile", "About", "Logout"].map((text, index) => (
+        <ListItem button key={text} onClick={() => handleNavClick(text)}>
+          <ListItemIcon>
+            {index === 0 ? <AccountBoxIcon className={classes.listItemIcon} value={0} /> : ""}
+            {index === 1 ? <InfoIcon className={classes.listItemIcon} value={1} /> : ""}
+            {index === 2 ? <ExitToAppIcon className={classes.listItemIcon} value={2} /> : ""}
+          </ListItemIcon>
+          <ListItemText primary={text} />
+        </ListItem>
+      ))}
     </div>
   );
 
@@ -191,7 +225,7 @@ function NavDrawer({ props }) {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" noWrap>
-            MyCrypto
+           <>My<i>Crypto</i></> 
           </Typography>
         </Toolbar>
       </AppBar>

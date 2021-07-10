@@ -7,7 +7,7 @@ function LoginPage() {
 
   return (
     <div>
-      <LoginForm />
+      <LoginForm history={history}/>
       
       <center>
         <button
@@ -17,7 +17,7 @@ function LoginPage() {
             history.push('/registration');
           }}
         >
-          Register
+          Need to Sign Up?
         </button>
       </center>
     </div>
