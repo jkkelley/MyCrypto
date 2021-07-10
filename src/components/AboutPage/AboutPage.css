@@ -1,0 +1,39 @@
+.overall-wrapper-about-page {
+  width: 95%;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+@media (max-width: 414px) {
+  .about-page-container {
+    margin: 57px auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    width: 385px;
+    text-align: center;
+  }
+
+  li.MuiListItem-root.MuiListItem-gutters, a:link, a:visited {
+    width: 250px;
+    text-align: center;
+    justify-content: space-around;
+    text-decoration: none;
+    color: blue;
+  }
+
+  li.MuiListItem-root.MuiListItem-gutters:hover {
+    cursor: hand;
+  }
+  li.MuiListItem-root.MuiListItem-gutters:last-child {
+    color: black;
+  }
+
+  .tech-used-container {
+    font-size: 20px;
+    text-decoration: none;
+    color: blue;
+  }
+}

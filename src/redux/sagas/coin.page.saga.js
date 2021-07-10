@@ -41,6 +41,7 @@ function* getCoinInfo2(action) {
     const response = yield axios.get(
       `/api/CoinPage/UpdatedAmount/${action.payload.crypto_name}/${action.payload.id}`
     );
+    yield put({ type: "SET_VALUE_AMOUNT_OWNED", payload: response.data });
 
     // Set reducer with our data from database
     yield put({
@@ -52,7 +53,6 @@ function* getCoinInfo2(action) {
       payload: coin_page_coin_info.data[0],
     });
     // yield console.log(`Coin data from server => `, coin_page_coin_info.data[0]);
-    yield put({ type: "SET_VALUE_AMOUNT_OWNED", payload: response.data });
     // yield put({ type: "GET_COIN_INFO_REDUCER" });
   } catch (error) {
     console.log(`Sorry we had a problem with GET coin info`, error);
@@ -75,27 +75,27 @@ function* postAmountToBuy(action) {
     //   data
     // );
     const response = yield axios.post(
-      `/api/CoinPage/Buy/${data.crypto_name}/${action.payload.id}`,
+      `/api/CoinPage/Buy2/${data.crypto_name}/${action.payload.id}`,
       data
     );
-      // console.log(`server response on buying coin =>`, response.data )
+    // console.log(`server response on buying coin =>`, response.data )
 
-      /**
-       * Dev Note to self, This info comes back quickly, the following info
-       * takes quite a bit of time.
-       * We get a -1 response from server because we can't buy the amount listed.
-       */
+    /**
+     * Dev Note to self, This info comes back quickly, the following info
+     * takes quite a bit of time.
+     * We get a -1 response from server because we can't buy the amount listed.
+     */
     if (response.data[0] === -1) {
       yield put({ type: "CANT_BUY_COIN_AMOUNT" });
     } else {
       // Set reducer with our data from database
       yield put({ type: "SET_ACCOUNT_COIN_AMOUNT", payload: response.data });
-      // console.log(response.data);
+      console.log(`data set, whats fetch coin doing now?`)
       yield put({
         type: "FETCH_COIN_INFO2",
         payload: data,
       });
-      yield put({ type: "GET_COIN_INFO_REDUCER" });
+      // yield put({ type: "GET_COIN_INFO_REDUCER" });
 
       // Updates users coin info
       yield put({ type: "UPDATE_COIN_INFO", payload: action.payload });
@@ -128,7 +128,7 @@ function* sellCoinAmount(action) {
     // Show updated account_balance by GET request dispatch.
     yield put({ type: "GET_CREATE_PROFILE" });
   } catch (error) {
-    console.log(`We had an error Deleting coin amount`, error);
+    console.log(`We had an error Selling that coin amount`, error);
   }
 }
 
@@ -172,7 +172,7 @@ function* deleteCoin(action) {
 function* coinPageSaga() {
   // yield takeLatest("FETCH_COIN_INFO", getCoinInfo);
   // yield takeLatest("FETCH_COIN_INFO2", getCoinInfo2);
-  
+
   yield takeEvery("FETCH_COIN_INFO", getCoinInfo);
   yield takeEvery("FETCH_COIN_INFO2", getCoinInfo2);
 

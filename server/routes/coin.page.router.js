@@ -565,6 +565,7 @@ router.post("/Buy2/:name/:id", rejectUnauthenticated, async (req, res) => {
       // This will in turn tell the user they don't have the funds
       // to purchase this amount of the coin.
       if (purchasePriceAmount.toFixed(2) > account_balance) {
+        await client.query("COMMIT");
         res.send([-1]);
       } else {
         // The query we send Subtracts purchasePriceAmount
@@ -573,10 +574,10 @@ router.post("/Buy2/:name/:id", rejectUnauthenticated, async (req, res) => {
           Number(purchasePriceAmount).toFixed(2),
           req.body.id,
         ]);
-        console.log(
-          `responseUserProfileBalance =>`,
-          responseUserProfileBalance
-        );
+        // console.log(
+        //   `responseUserProfileBalance =>`,
+        //   responseUserProfileBalance.data
+        // );
         const responseCoinPage = await pool.query(queryPostText, [
           nameUpper,
           Number(req.body.amount),
@@ -592,6 +593,7 @@ router.post("/Buy2/:name/:id", rejectUnauthenticated, async (req, res) => {
       console.log(`We couldn't buy you're coins for you`, error);
       res.sendStatus(500);
     } finally {
+      console.log(`We're done buying this coin!`)
       client.release();
     }
   } else {
@@ -600,4 +602,46 @@ router.post("/Buy2/:name/:id", rejectUnauthenticated, async (req, res) => {
   }
 });
 
+router.get(
+  "/coinPageCoinInfo/v2/:name/:id",
+  rejectUnauthenticated,
+  async (req, res) => {
+    console.log(`/coinPageCoinInfo/v2/:name/:id`);
+    if (req.isAuthenticated) {
+      try {
+      } catch (error) {
+        console.log(``);
+      } finally {
+      }
+    } else {
+      // Forbidden
+      res.sendStatus(403);
+    }
+  }
+);
+
+router.get(
+  "/UpdatedAmount/v2/:name/:id",
+  rejectUnauthenticated,
+  async (req, res) => {
+    console.log(
+      `/api/CoinPage/UpdatedAmount/:name/:id => Req Params`,
+      req.params
+    );
+
+    if (req.isAuthenticated) {
+      try {
+      } catch (error) {
+        console.log(``);
+      } finally {
+      }
+    } else {
+      // Forbidden
+      res.sendStatus(403);
+    }
+  }
+);
+
 module.exports = router;
+
+//"/UpdatedAmount/v2/:name/:id"

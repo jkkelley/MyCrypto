@@ -315,8 +315,8 @@ function CoinDetailsPage({ coins }) {
               coinInfoReducer.amount_owned &&
               !errorMessageReducer.message ? (
                 <>
-                  {!coinInfoReducer.value_of_amount_owned &&
-                  !coinInfoReducer.amount_owned[0].amount_owned ? (
+                  {!coinInfoReducer?.value_of_amount_owned &&
+                  !coinInfoReducer?.amount_owned[0]?.amount_owned ? (
                     <CircularProgress className={classes.loadingStill} />
                   ) : (
                     <TableContainer component={Paper}>

@@ -32,14 +32,19 @@
     margin-top: -20px;
     text-align: center;
   }
-  /* 
-  p.account-balance-container{
-    margin-top: -15px;
-  } */
+
+  .coin-notes-container:hover {
+    cursor: -webkit-grab;
+  }
 
   .notes-from-server {
     margin-top: 20px;
   }
+
+  .notes-from-server:hover {
+    cursor: -webkit-grab;
+  }
+  
 }
 
 .value-of-amount-owned-cell {

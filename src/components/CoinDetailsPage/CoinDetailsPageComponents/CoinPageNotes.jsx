@@ -2,6 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useParams } from "react-router-dom";
+import "../CoinDetailsPageCSS/CoinDetailsPage.css"
+
 
 // Material-ui Imports
 import TextField from "@material-ui/core/TextField";
@@ -16,10 +18,11 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   root: {
-    minWidth: 275,
-    margin: "10 2px",
-    hover: {
-      cursor: "default",
+    width: 380,
+    // margin: "10 2px",
+    margin: "5px 0",
+    cursor: {
+      hoover: "default",
     },
   },
   bullet: {
@@ -103,17 +106,19 @@ function CoinPageNotes({ notes, index }) {
   };
   return (
     <>
-      <Card
-        className={classes.root}
-        onClick={() => handleNoteClick(notes)}
-        variant="outlined"
-      >
-        <CardContent className={classes.pos}>
-          <Typography className={classes.pos} color="textSecondary">
-            {notes.notes}
-          </Typography>
-        </CardContent>
-      </Card>
+      <div className="coin-notes-container">
+        <Card
+          className={classes.root}
+          onClick={() => handleNoteClick(notes)}
+          variant="outlined"
+        >
+          <CardContent className={classes.pos}>
+            <Typography className={classes.pos} color="textSecondary">
+              {notes.notes}
+            </Typography>
+          </CardContent>
+        </Card>
+      </div>
       {/* <p onClick={() => handleNoteClick(notes)}>{notes.notes}</p> */}
     </>
   );

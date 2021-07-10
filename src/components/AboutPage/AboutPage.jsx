@@ -1,17 +1,46 @@
-import React from 'react';
-
-// This is one of our simplest components
-// It doesn't have local state,
-// It doesn't dispatch any redux actions or display any part of redux state
-// or even care what the redux state is'
+import React from "react";
+import { useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
+import "./AboutPage.css";
+import ListItem from "@material-ui/core/ListItem";
+import NavDrawer from "../NavDrawer/NavDrawer";
 
 function AboutPage() {
+  const profileData = useSelector((store) => store.profileData);
   return (
-    <div className="container">
-      <div>
-        <p>This about page is for anyone to read!</p>
-      </div>
-    </div>
+    <>
+      {!profileData.length ? (
+        <Redirect to="/createProfile" />
+      ) : (
+        <div className="overall-wrapper-about-page">
+          <NavDrawer props={true} />
+          <div className="about-page-container">
+            <h2>List of techs used</h2>
+            <div className="tech-used-container">
+              <ListItem>
+                <a href="https://www.javascript.com/">JavaScript</a>
+              </ListItem>
+              <ListItem>
+                <a href="https://reactjs.org/">Reactjs</a>
+              </ListItem>
+              <ListItem>
+                <a href="https://react-redux.js.org/">React Redux</a>
+              </ListItem>
+              <ListItem>
+                <a href="https://redux-saga.js.org/">Redux-Saga</a>
+              </ListItem>
+              <ListItem>
+                <a href="https://www.postgresql.org/">PostgreSQL</a>
+              </ListItem>
+              <ListItem>
+                <a href="https://www.coingecko.com/en">CoinGecko API</a>
+              </ListItem>
+              <ListItem>And the list goes on...</ListItem>
+            </div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
