@@ -1,18 +1,24 @@
+@import url("https://fonts.googleapis.com/css?family=Exo:400,700");
 .create-profile-container {
   width: 95%;
   max-width: 850px;
   margin: 0 auto;
 }
 
+body {
+  font-family: "Exo", sans-serif;
+}
+
 @media (max-width: 414px) {
   .create-form {
     margin: 0 auto;
+    padding: 0;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-items: center;
     justify-content: center;
-    width: 275px;
+    width: 350px;
   }
 
   .create-profile-page-form-container {

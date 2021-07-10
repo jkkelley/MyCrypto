@@ -9,7 +9,6 @@ import { Grid, Paper, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-
   paperStyle: {
     padding: 20,
     height: "50vh",
@@ -102,8 +101,8 @@ function RegisterForm() {
         </div>
       </form> */}
 
-      <div class="area">
-        <ul class="circles">
+      <div className="area">
+        <ul className="circles">
           <Grid className={classes.root}>
             <Paper elevation={10} className={classes.paperStyle}>
               <Grid align="center">
@@ -120,7 +119,7 @@ function RegisterForm() {
                 fullWidth
                 label="Username"
                 onChange={(event) => setUsername(event.target.value)}
-                placeholder="Enter Username"
+                placeHolder="Enter Username"
                 required
                 value={username}
                 variant="outlined"

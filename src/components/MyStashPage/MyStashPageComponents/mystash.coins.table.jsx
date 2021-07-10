@@ -37,6 +37,7 @@ const useStyles = makeStyles({
     height: 5,
   },
   name: {
+    fontFamily: "'Exo', sans-serif",
     paddingRight: 30,
     fontSize: 12,
     width: 90,
@@ -46,6 +47,9 @@ const useStyles = makeStyles({
     width: 50,
     height: 50,
   },
+  fontsForTable: {
+    fontFamily: "'Exo', sans-serif",
+  }
 });
 
 function MyStashCoinsTable({ coins }) {
@@ -109,7 +113,7 @@ function MyStashCoinsTable({ coins }) {
                     {coins?.coin_symbol.toUpperCase()}
                   </TableCell>
 
-                  <TableCell align="left">
+                  <TableCell align="left" className={classes.fontsForTable}>
                     <>
                       {currentCoinPrice?.toLocaleString("en-US", {
                         style: "currency",
@@ -117,7 +121,7 @@ function MyStashCoinsTable({ coins }) {
                       })}
                     </>
                   </TableCell>
-                  <TableCell align="right">
+                  <TableCell align="right" className={classes.fontsForTable}>
                     {(coins?.amount_owned).toLocaleString({
                       minimumFractionDigits: 0,
                       maximumFractionDigits: 8,

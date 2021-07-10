@@ -77,8 +77,8 @@ function LoginForm({ history }) {
   return (
     <>
 
-      <div class="area">
-        <ul class="circles">
+      <div className="area">
+        <ul className="circles">
           <Grid className={classes.root}>
             <Paper elevation={10} className={classes.paperStyle}>
               <Grid align="center">
@@ -95,7 +95,7 @@ function LoginForm({ history }) {
                 fullWidth
                 label="Username"
                 onChange={(event) => setUsername(event.target.value)}
-                placeholder="Enter Username"
+                placeHolder="Enter Username"
                 required
                 value={username}
                 variant="outlined"

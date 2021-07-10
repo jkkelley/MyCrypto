@@ -1,7 +1,13 @@
+@import url("https://fonts.googleapis.com/css?family=Exo:400,700");
+
 .home-page-wrapper {
   width: 95%;
   max-width: 850px;
   margin: 0 auto;
+}
+
+body {
+  font-family: "Exo", sans-serif;
 }
 
 @media (max-width: 414px) {
@@ -13,6 +19,7 @@
     justify-items: center;
     justify-content: center;
     width: 300px;
+    font-family: "Exo", sans-serif;
   }
 
   .home-page-welcome-container {

@@ -356,8 +356,8 @@ function CoinDetailsPage({ coins }) {
                   )}
                 </>
               ) : (
-                <TableContainer component={Paper}>
-                  <Table className={classes.table} aria-label="simple table">
+                <TableContainer component={Paper} className={classes.table}>
+                  <Table aria-label="simple table">
                     <TableBody>
                       <TableRow>
                         <TableCell flexGrow={1} className={classes.name}>
