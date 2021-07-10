@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import CoinMarket2 from "./CoinMarket2";
-import "./CreateProfilePage.css";
+import "./CoinMarket.css";
 import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import NavDrawer from "../NavDrawer/NavDrawer";
