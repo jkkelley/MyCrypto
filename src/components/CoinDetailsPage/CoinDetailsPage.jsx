@@ -18,7 +18,7 @@ import SellCoinButton from "./CoinDetailsPageComponents/SellCoinButton";
 
 // Material-ui Imports
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
+import { Button, Grid } from "@material-ui/core";
 import CircularProgress from "@material-ui/core/CircularProgress";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -28,40 +28,33 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
-// const useStyles = makeStyles((theme) => ({
-//   loadingStill: {
-//     display: "flex",
-//     "& > * + *": {
-//       marginLeft: theme.spacing(2),
-//     },
-//   },
-// }));
-
 const useStyles = makeStyles((theme) => ({
-  root1: {
-    background: "linear-gradient(45deg, #003366 30%, #FF8E53 90%)",
-    border: 0,
-    borderRadius: 3,
-    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-    color: "white",
-    height: 30,
-    width: 50,
-    padding: "0 30px",
-  },
-  root2: {
-    background: "linear-gradient(45deg, #FF8E53 30%, #003366 90%)",
-    border: 0,
-    borderRadius: 3,
-    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-    color: "white",
-    height: 30,
-    width: 50,
-    padding: "0 30px",
-  },
+  // root1: {
+  //   background: "linear-gradient(45deg, #003366 30%, #FF8E53 90%)",
+  //   border: 0,
+  //   borderRadius: 3,
+  //   boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+  //   color: "white",
+  //   height: 30,
+  //   width: 50,
+  //   padding: "0 30px",
+  // },
+  // root2: {
+  //   background: "linear-gradient(45deg, #FF8E53 30%, #003366 90%)",
+  //   border: 0,
+  //   borderRadius: 3,
+  //   boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+  //   color: "white",
+  //   height: 30,
+  //   width: 50,
+  //   padding: "0 30px",
+  // },
   table: {
     width: 380,
-    minHeight: 100,
-    flexWrap: "nowrap",
+    boxShadow: "0 3px 5px 2px #3f51b5",
+    marginTop: "10px",
+    borderColor: "none",
+    fontFamily: "'Exo', sans-serif",
   },
   image: {
     height: 25,
@@ -80,28 +73,25 @@ const useStyles = makeStyles((theme) => ({
     height: 5,
   },
   valueCoin: {
+    fontFamily: "'Exo', sans-serif",
     maxWidth: 50,
     height: 10,
-    border: 0,
+    border: "0",
     flexWrap: "wrap",
     flexDirection: "column",
   },
   amountCoin: {
+    fontFamily: "'Exo', sans-serif",
     maxWidth: 50,
     height: 10,
-    border: 0,
+    border: "0",
     flexWrap: "wrap",
     flexDirection: "column",
   },
   notesButton: {
-    background: "linear-gradient(45deg, #FF8E53 30%, #003366 90%)",
-    border: 0,
-    borderRadius: 3,
+    backgroundColor: "#3f51b5",
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
     color: "white",
-    height: 40,
-    width: 100,
-    padding: "0 30px",
     marginTop: 20,
   },
   loadingStill: {
@@ -111,13 +101,20 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   name: {
+    fontFamily: "'Exo', sans-serif",
     fontSize: 13,
     width: 170,
     height: 50,
+    borderColor: "white",
   },
   accountBalance: {
-    visibility: "hidden"
-  }
+    visibility: "hidden",
+  },
+  buySellDeleteBtn: {
+    display: "flex",
+    width: "375px",
+    justifyContent: "space-around",
+  },
 }));
 
 function CoinDetailsPage({ coins }) {
@@ -282,17 +279,19 @@ function CoinDetailsPage({ coins }) {
                     />
                   ) : (
                     <>
-                      {/* User Coin Section */}
-                      <BuyMoreCoinsButton
-                        Button={Button}
-                        useStyles={useStyles}
-                      />
-                      <SellCoinButton useStyles={useStyles} Button={Button} />
-                      <DeleteCoinButton
-                        coins={coins}
-                        useStyles={useStyles}
-                        Button={Button}
-                      />
+                      <Grid className={classes.buySellDeleteBtn}>
+                        {/* User Coin Section */}
+                        <BuyMoreCoinsButton
+                          Button={Button}
+                          useStyles={useStyles}
+                        />
+                        <SellCoinButton useStyles={useStyles} Button={Button} />
+                        <DeleteCoinButton
+                          coins={coins}
+                          useStyles={useStyles}
+                          Button={Button}
+                        />
+                      </Grid>
                     </>
                   )}
                   {errorMessageReducer.message ? (
@@ -301,9 +300,6 @@ function CoinDetailsPage({ coins }) {
                         {/* {handleErrorMessage} */}
                         <p>{errorMessageReducer.message}</p>
                       </div>
-                      {/* <div>
-                      <p>{errorMessageReducer.message}</p>
-                    </div> */}
                     </>
                   ) : (
                     ""
@@ -319,11 +315,8 @@ function CoinDetailsPage({ coins }) {
                   !coinInfoReducer?.amount_owned[0]?.amount_owned ? (
                     <CircularProgress className={classes.loadingStill} />
                   ) : (
-                    <TableContainer component={Paper}>
-                      <Table
-                        className={classes.table}
-                        aria-label="simple table"
-                      >
+                    <TableContainer className={classes.table} component={Paper}>
+                      <Table aria-label="simple table">
                         <TableBody>
                           <TableRow>
                             <TableCell flexGrow={1} className={classes.name}>
@@ -344,6 +337,7 @@ function CoinDetailsPage({ coins }) {
                               )}
                             </TableCell>
                             <TableCell
+                              border={0}
                               className={classes.amountCoin}
                               justifyContent="flex-end"
                               align="right"

@@ -52,7 +52,7 @@ function NotesFromServer({ notes, useStyles }) {
   };
   return (
     <>
-      <Button className={classes.notesButton} onClick={handleAddNote}>
+      <Button fullWidth className={classes.notesButton} onClick={handleAddNote}>
         Add Note
       </Button>
     </>

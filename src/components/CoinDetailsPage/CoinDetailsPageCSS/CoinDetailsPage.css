@@ -1,18 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Exo:400,700');
+
 .coin-page-container {
   width: 95%;
   max-width: 850px;
   margin: 0 auto;
+  font-family: 'Exo', sans-serif;
 }
 
 @media (max-width: 414px) {
   .coin-page-details-container {
-    margin: 50px auto;
+    margin: 60px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-items: center;
     justify-content: center;
     width: 385px;
+    
   }
 
   .buy-sell-delete-options-container {

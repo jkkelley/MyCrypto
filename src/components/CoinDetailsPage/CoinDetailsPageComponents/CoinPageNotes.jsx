@@ -2,8 +2,7 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { useParams } from "react-router-dom";
-import "../CoinDetailsPageCSS/CoinDetailsPage.css"
-
+import "../CoinDetailsPageCSS/CoinDetailsPage.css";
 
 // Material-ui Imports
 import TextField from "@material-ui/core/TextField";
@@ -20,10 +19,11 @@ const useStyles = makeStyles({
   root: {
     width: 380,
     // margin: "10 2px",
-    margin: "5px 0",
+    margin: "15px 0",
     cursor: {
       hoover: "default",
     },
+    boxShadow:  "0 3px 5px 2px #3f51b5",
   },
   bullet: {
     display: "inline-block",
@@ -34,7 +34,9 @@ const useStyles = makeStyles({
     fontSize: 14,
   },
   pos: {
-    marginBottom: 12,
+    fontFamily: "'Exo', sans-serif",
+    textAlign: "left",
+    color: "black",
   },
 });
 
@@ -112,19 +114,15 @@ function CoinPageNotes({ notes, index }) {
           onClick={() => handleNoteClick(notes)}
           variant="outlined"
         >
-          <CardContent className={classes.pos}>
+          <CardContent>
             <Typography className={classes.pos} color="textSecondary">
               {notes.notes}
             </Typography>
           </CardContent>
         </Card>
       </div>
-      {/* <p onClick={() => handleNoteClick(notes)}>{notes.notes}</p> */}
     </>
   );
 }
 
 export default CoinPageNotes;
-
-// 500 chars
-// asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdfaasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdfaasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdfaasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdfaasdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdf asdfa
