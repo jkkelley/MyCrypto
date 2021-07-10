@@ -19,23 +19,28 @@ function HomePage() {
       {!profileData.length ? (
         <Redirect to="/createProfile" />
       ) : (
-        <div className="home-page-container">
-        <NavDrawer props={true}/>
-          <div className="home-page-welcome-container">
-            <h3>Welcome</h3>
-            <p className="home-page-nickname">
-              {profileData[0]?.users_nickname}
-            </p>
-          </div>
-          <br></br>
-          <div>
-            <h3 className="home-page-nickname">User Balance</h3>
-            <p className="user-account-balance-home-page">
-              {Number(profileData[0]?.account_balance).toLocaleString("en-US", {
-                style: "currency",
-                currency: "USD",
-              })}
-            </p>
+        <div className="home-page-wrapper">
+          <div className="home-page-container">
+            <NavDrawer props={true} />
+            <div className="home-page-welcome-container">
+              <h3>Welcome</h3>
+              <p className="home-page-nickname">
+                {profileData[0]?.users_nickname}
+              </p>
+            </div>
+            <br></br>
+            <div>
+              <h3 className="home-page-nickname">User Balance</h3>
+              <p className="user-account-balance-home-page">
+                {Number(profileData[0]?.account_balance).toLocaleString(
+                  "en-US",
+                  {
+                    style: "currency",
+                    currency: "USD",
+                  }
+                )}
+              </p>
+            </div>
           </div>
         </div>
       )}

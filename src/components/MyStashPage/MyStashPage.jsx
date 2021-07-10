@@ -59,8 +59,8 @@ function MyStashPage() {
   // Bringing in dispatch
   const dispatch = useDispatch();
 
-  useEffect(async () => {
-    await dispatch({
+  useEffect(() => {
+    dispatch({
       type: "GET_MYSTASH_PAGE_DETAILS",
       payload: { user_id: user.id },
     });
@@ -68,57 +68,69 @@ function MyStashPage() {
 
   return (
     <>
-      {!profileData.length ? (
-        <Redirect to="/createProfile" />
-      ) : (
-        <div className="my-stash-page-container">
-          <NavDrawer props={true} />
-          <h3>Welcome to My Stash</h3>
+      <div className="my-stash-wrapper">
+        {!profileData.length ? (
+          <Redirect to="/createProfile" />
+        ) : (
+          <div className="my-stash-page-container">
+            <NavDrawer props={true} />
+            <h3>Welcome to My Stash</h3>
 
-          {/* MyStash Balance */}
-          <div className="my-stash-balance-container">
+            {/* MyStash Balance */}
             {!myStashReducer.length ? (
               <>
-                <h5>MyStash Balance</h5>
-                <p>$0.00</p>
+                <div className="my-stash-balance-container">
+                  <div className="my-stash-balances-fake-data">
+                    <h5>MyStash Balance</h5>
+                    <p>$0.00</p>
+                  </div>
+                </div>
               </>
             ) : (
               <>
-                <h5>MyStash Balance</h5>
-                <p>
-                  {myStashCoinPriceReducer.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  })}
-                </p>
+                <div className="my-stash-balance-container">
+                  <div className="my-stash-balances">
+                    <h5>MyStash Balance</h5>
+                    <p>
+                      {myStashCoinPriceReducer.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </p>
+                  </div>
+                </div>
               </>
             )}
-          </div>
-          <div className="account-balance-container">
-            {/* Account Balance */}
-            <h5>User Balance</h5>
-            <p>
-              {Number(profileData[0]?.account_balance).toLocaleString("en-US", {
-                style: "currency",
-                currency: "USD",
-              })}
-            </p>
-          </div>
 
-          {/* PlaceHolder for chart
+            <div className="account-balance-container">
+              {/* Account Balance */}
+              <h5>User Balance</h5>
+              <p>
+                {Number(profileData[0]?.account_balance).toLocaleString(
+                  "en-US",
+                  {
+                    style: "currency",
+                    currency: "USD",
+                  }
+                )}
+              </p>
+            </div>
+
+            {/* PlaceHolder for chart
           <div>
             <p>Chart</p>
             <Line />
           </div> */}
 
-          {/* Component, table to map over user owned coins */}
-          <div>
-            {myStashReducer.map((coins) => (
-              <MyStashCoinsTable coins={coins} key={coins.id} />
-            ))}
+            {/* Component, table to map over user owned coins */}
+            <div>
+              {myStashReducer.map((coins) => (
+                <MyStashCoinsTable coins={coins} key={coins.id} />
+              ))}
+            </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </>
   );
 }

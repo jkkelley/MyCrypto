@@ -1,4 +1,4 @@
-.create-profile-container {
+.home-page-wrapper {
   width: 95%;
   max-width: 850px;
   margin: 0 auto;
@@ -22,10 +22,10 @@
   }
 
   .home-page-nickname {
-    margin-top: -15px;
+    margin-top: 0;
   }
   .user-account-balance-home-page {
-    margin-top: -15px;
+    margin-top: 0;
     text-align: center;
   }
 }

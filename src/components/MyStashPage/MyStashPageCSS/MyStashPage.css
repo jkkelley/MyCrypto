@@ -1,22 +1,48 @@
-.create-profile-container {
+@import url("https://fonts.googleapis.com/css?family=Exo:400,700");
+
+.my-stash-wrapper {
   width: 95%;
   max-width: 850px;
   margin: 0 auto;
 }
 
 @media (max-width: 414px) {
+  body {
+    font-family: "Exo", sans-serif;
+  }
+  
   .my-stash-page-container {
-    margin: 0 auto;
+    margin: 20px auto;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-items: center;
-    justify-content: center;
     width: 375px;
     padding-top: 50px;
   }
 
-  .coin-search-input {
+  .my-stash-balance-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .my-stash-balances-fake-data,
+  h5,
+  p {
+    margin: 5px 5px;
+  }
+
+  .my-stash-balances,
+  h5,
+  p {
+    margin: 5px 5px;
+  }
+
+  .account-balance-container {
+    margin: 5px auto;
+  }
+  /* .coin-search-input {
     display: block;
     margin: 0 auto 0 auto;
   }
@@ -26,11 +52,11 @@
     margin: 0 auto 0 auto;
     text-align: center;
     width: 350px;
-  }
+  } */
 
-  .create-profile-page-form-container {
+  /* .create-profile-page-form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-  }
+  } */
 }
