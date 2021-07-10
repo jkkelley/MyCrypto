@@ -9,7 +9,7 @@ import { Grid, Paper, Avatar, TextField, Button } from "@material-ui/core";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
-  root: {},
+
   paperStyle: {
     padding: 20,
     height: "50vh",
@@ -30,7 +30,10 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
   },
   signUpButton: {
-    margin: "130px auto",
+    display: "relative",
+    position: "fixed",
+    width: "225px",
+    margin: "90px -225px",
     backgroundColor: "#3f51b5",
     color: "white",
   },
@@ -48,6 +51,7 @@ function LoginForm({ history }) {
   const errors = useSelector((store) => store.errors);
   const dispatch = useDispatch();
 
+  // This function needs to go if Deployed, DEMO only! ******
   const quickLogin = () => {
     console.log(`Clicked`);
     setUsername("SuperLu");
