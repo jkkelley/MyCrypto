@@ -146,7 +146,7 @@ function CoinDetailsPage({ coins }) {
         <Redirect to="/createProfile" />
       ) : (
         <>
-          {!coinInfoReducer[0] && !marketChartDataReducer[0] ? (
+          {coinInfoReducer[0] === undefined && marketChartDataReducer[0] === undefined ? (
             <CircularProgress className={classes.loadingStill} />
           ) : (
             <>
@@ -173,7 +173,7 @@ function CoinDetailsPage({ coins }) {
                 <>
                   <Grid>
                     <Typography>{params.id.toUpperCase()}</Typography>
-                    {coinInfoReducer[0][0]?.no_stock}
+                    <Typography>{coinInfoReducer[0][0]?.no_stock}</Typography>
                   </Grid>
                 </>
               ) : !coinInfoReducer[0][1]?.current_price_of_coin ? (
