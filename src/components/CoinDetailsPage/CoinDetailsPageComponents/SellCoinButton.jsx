@@ -2,14 +2,13 @@ import Swal from "sweetalert2";
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-function SellCoinButton({ useStyles, Button }) {
+function SellCoinButton({ Button, classes }) {
   // Bring in dispatch
   const dispatch = useDispatch();
   // Bring in params
   const params = useParams();
   const user = useSelector((store) => store.user);
-  // Bring in Custom CSS classes
-  const classes = useStyles();
+
   // Function to handleBuy click
   const handleSell = async () => {
     console.log(`You clicked handleSell`);
@@ -46,7 +45,11 @@ function SellCoinButton({ useStyles, Button }) {
           console.log(Number(value));
           dispatch({
             type: "SELL_COIN_AMOUNT",
-            payload: { amount: Number(value), crypto_name: params.id, id: user.id },
+            payload: {
+              amount: Number(value),
+              crypto_name: params.id,
+              id: user.id,
+            },
           });
         }
       },

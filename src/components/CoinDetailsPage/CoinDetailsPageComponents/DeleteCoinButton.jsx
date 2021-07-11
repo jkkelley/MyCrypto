@@ -2,7 +2,7 @@ import Swal from "sweetalert2";
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-function DeleteCoinButton({ coins, useStyles, Button }) {
+function DeleteCoinButton({ Button, classes, coins }) {
   // Bring in dispatch
   const dispatch = useDispatch();
   // Bring in params
@@ -10,8 +10,6 @@ function DeleteCoinButton({ coins, useStyles, Button }) {
   // Bring in user
   const user = useSelector((store) => store.user);
 
-  // Bring in Custom CSS classes
-  const classes = useStyles();
   // Function to handleDelete click
   const handleDelete = () => {
     Swal.fire({

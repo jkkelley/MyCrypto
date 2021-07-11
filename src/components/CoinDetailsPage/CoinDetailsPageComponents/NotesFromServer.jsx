@@ -8,16 +8,14 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Swal from "sweetalert2";
 
-function NotesFromServer({ notes, useStyles }) {
-  // Bring in Custom CSS classes
-  const classes = useStyles();
+function NotesFromServer({ notes, classes, coinInfoReducer }) {
+
   // Bring in dispatch
   const dispatch = useDispatch();
   // Bring in params
   const params = useParams();
   // Need the user from store
   const user = useSelector((store) => store.user);
-  const coinInfoReducer = useSelector((store) => store.coinInfoReducer);
 
   const handleAddNote = async () => {
     console.log(`You clicked handleAddNote`);
@@ -43,7 +41,7 @@ function NotesFromServer({ notes, useStyles }) {
             payload: {
               note: value,
               crypto_name: params.id,
-              id: coinInfoReducer?.amount_owned[0]?.id,
+              id: coinInfoReducer[0][0]?.id,
             },
           });
         }

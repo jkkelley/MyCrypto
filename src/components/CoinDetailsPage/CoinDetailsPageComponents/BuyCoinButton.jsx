@@ -3,15 +3,12 @@ import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // import "./CoinDetailsPageCSS/CoinDetailsPage.css"
 
-function BuyCoinButton({ useStyles, Button, coinsFromGecko }) {
+function BuyCoinButton({ Button, classes, coinsFromGecko }) {
   // Bring in dispatch
   const dispatch = useDispatch();
   // Bring in params
   const params = useParams();
   const user = useSelector((store) => store.user);
-
-  // Bring in Custom CSS classes
-  const classes = useStyles();
 
   // Function to validate numbers and one decimal
   function validateCoinAmount(coinAmountToBuy) {
@@ -64,7 +61,9 @@ function BuyCoinButton({ useStyles, Button, coinsFromGecko }) {
   };
   return (
     <>
-      <Button className={classes.notesButton} onClick={handleBuy}>Buy</Button>
+      <Button className={classes.notesButton} onClick={handleBuy}>
+        Buy
+      </Button>
     </>
   );
 }

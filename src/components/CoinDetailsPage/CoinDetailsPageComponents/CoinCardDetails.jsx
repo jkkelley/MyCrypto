@@ -41,14 +41,6 @@ function CoinCardDetails({ coins, name, price, amount }) {
       <div className="coin-container">
         <TableContainer component={Paper}>
           <Table className={classes.table} aria-label="simple table">
-            {/* <TableHead>
-                <TableRow>
-                  <TableCell className={classes.first}></TableCell>
-                  <TableCell className={classes.middle}></TableCell>
-                  <TableCell className={classes.last}></TableCell>
-                </TableRow>
-              </TableHead> */}
-
             <TableBody>
               <TableRow>
                 <TableCell>

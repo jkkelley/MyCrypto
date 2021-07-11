@@ -4,7 +4,9 @@ export const coinInfoReducer = (state = [], action) => {
     case "SET_VALUE_AMOUNT_OWNED":
       return { ...state, value_of_amount_owned: action.payload };
     case "SET_ACCOUNT_COIN_AMOUNT":
-      return { ...state, amount_owned: action.payload };
+      return  [action.payload] ;
+    // case "SET_ACCOUNT_COIN_AMOUNT":
+    //   return action.payload;
     case "UPDATE_COIN_INFO":
       return { ...state, user_updated_coin_info: action.payload };
     case "GET_COIN_INFO_REDUCER":
