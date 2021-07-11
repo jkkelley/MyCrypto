@@ -9,7 +9,7 @@ function AboutPage() {
   const profileData = useSelector((store) => store.profileData);
   return (
     <>
-      {!profileData.length ? (
+      {!profileData.length === 0 ? (
         <Redirect to="/createProfile" />
       ) : (
         <div className="background-wrapper">
@@ -38,8 +38,12 @@ function AboutPage() {
                 </ListItem>
                 <ListItem>And the list goes on...</ListItem>
               </div>
+              
             </div>
           </div>
+          <footer className="footer-container">
+                &copy; My<i>Crypto</i>
+              </footer>
         </div>
       )}
     </>

@@ -142,11 +142,12 @@ function CoinDetailsPage({ coins }) {
 
   return (
     <>
-      {!profileData.length ? (
+      {!profileData.length === 0 ? (
         <Redirect to="/createProfile" />
       ) : (
         <>
-          {coinInfoReducer[0] === undefined && marketChartDataReducer[0] === undefined ? (
+          {coinInfoReducer[0] === undefined &&
+          marketChartDataReducer[0] === undefined ? (
             <CircularProgress className={classes.loadingStill} />
           ) : (
             <>
@@ -198,13 +199,17 @@ function CoinDetailsPage({ coins }) {
                 </div>
               )}
 
-              <CoinPageButtonOptions
-                Button={Button}
-                classes={classes}
-                coinInfoReducer={coinInfoReducer}
-                coins={coins}
-                errorMessageReducer={coins}
-              />
+              <div className="buy-sell-delete-options-container">
+                <CoinPageButtonOptions
+                  Button={Button}
+                  classes={classes}
+                  coinInfoReducer={coinInfoReducer}
+                  coins={coins}
+                  errorMessageReducer={coins}
+                />
+              </div>
+
+              
 
               {!coinInfoReducer[0] ? (
                 ""
