@@ -59,6 +59,28 @@ function* getCoinInfo2(action) {
   }
 }
 
+function* getCoinInfo3(action) {
+  console.log(`What we get for coin info => `, action.payload);
+  let data = {
+    amount: action.payload.amount,
+    id: action.payload.id,
+    crypto_name: action.payload.crypto_name,
+  };
+  try {
+    // Set a response for our axios get promise
+    const coin_page_coin_info = yield axios.get(
+      `/api/CoinPage/coinPageCoinInfo/v2/${action.payload.crypto_name}/${action.payload.id}`
+    );
+    // Set reducer with our data from database
+    yield put({
+      type: "SET_ACCOUNT_COIN_AMOUNT",
+      payload: coin_page_coin_info.data,
+    });
+  } catch (error) {
+    console.log(`Sorry we had a problem with GET coin info`, error);
+  }
+}
+
 function* postAmountToBuy(action) {
   // Set our action.payload to a data object
   // to send on our POST promise
@@ -90,7 +112,7 @@ function* postAmountToBuy(action) {
     } else {
       // Set reducer with our data from database
       yield put({ type: "SET_ACCOUNT_COIN_AMOUNT", payload: response.data });
-      console.log(`data set, whats fetch coin doing now?`)
+      console.log(`data set, whats fetch coin doing now?`);
       yield put({
         type: "FETCH_COIN_INFO2",
         payload: data,
@@ -173,9 +195,11 @@ function* coinPageSaga() {
   // yield takeLatest("FETCH_COIN_INFO", getCoinInfo);
   // yield takeLatest("FETCH_COIN_INFO2", getCoinInfo2);
 
-  yield takeEvery("FETCH_COIN_INFO", getCoinInfo);
-  yield takeEvery("FETCH_COIN_INFO2", getCoinInfo2);
+  // yield takeEvery("FETCH_COIN_INFO", getCoinInfo);
+  yield takeLatest("FETCH_COIN_INFO2", getCoinInfo2);
 
+  yield takeLatest("FETCH_COIN_INFO3", getCoinInfo3)
+  
   yield takeLatest("UPDATE_COIN_AMOUNT", updateCoinAmount);
   yield takeLatest("POST_COIN_AMOUNT", postAmountToBuy);
   yield takeLatest("SELL_COIN_AMOUNT", sellCoinAmount);
