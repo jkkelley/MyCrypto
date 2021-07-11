@@ -1,13 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import "../CreateProfilePage.css";
+
 // Material-ui Imports
 import TextField from "@material-ui/core/TextField";
 
 import Swal from "sweetalert2";
 
-export const UsersNickname = () => {
-
+export const UsersNickname = ({ classes }) => {
   // Hey store, we need a profile.
   const formSubmission = useSelector((store) => store.formSubmission);
 
@@ -18,7 +19,7 @@ export const UsersNickname = () => {
     const { value: nickname } = await Swal.fire({
       title: "Nickname",
       input: "text",
-    //   inputValue: formSubmission?.nickname,
+      //   inputValue: formSubmission?.nickname,
       showCancelButton: true,
       allowOutsideClick: true,
       allowEnterKey: true,
@@ -36,7 +37,6 @@ export const UsersNickname = () => {
       });
       // Dispatch Users Nickname and their id to reducer.
       dispatch({ type: "SET_NICKNAME_CREATE_PROFILE", payload: nickname });
-
     }
   };
 
@@ -51,6 +51,8 @@ export const UsersNickname = () => {
   return (
     <>
       <TextField
+        className={classes.textStyling}
+        fullWidth
         required
         placeholder="Nickname"
         onChange={handleNicknameChange}

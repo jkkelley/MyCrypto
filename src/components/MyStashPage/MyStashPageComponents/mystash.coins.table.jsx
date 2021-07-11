@@ -19,6 +19,7 @@ const useStyles = makeStyles({
   table: {
     minWidth: 350,
     alignItems: "center",
+    boxShadow: "0 1px 2px 1px #3f51b5",
   },
   image: {
     maxHeight: 25,
@@ -49,7 +50,7 @@ const useStyles = makeStyles({
   },
   fontsForTable: {
     fontFamily: "'Exo', sans-serif",
-  }
+  },
 });
 
 function MyStashCoinsTable({ coins }) {
@@ -102,35 +103,37 @@ function MyStashCoinsTable({ coins }) {
       {/* If user has no amount of a coin, show nothing. */}
       {!parseFloat(coins.amount_owned) == 0 ? (
         <div className="coin-container" onClick={handleCoinClick}>
-          <TableContainer>
-            <Table className={classes.table} aria-label="simple table">
-              <TableBody>
-                <TableRow>
-                  <TableCell className={classes.coinImage} align="left">
-                    <img src={coins?.coin_image} />
-                  </TableCell>
-                  <TableCell align="left" className={classes.name} >
-                    {coins?.coin_symbol.toUpperCase()}
-                  </TableCell>
+          <div className="coin-table-container">
+            <TableContainer className={classes.table}>
+              <Table aria-label="simple table">
+                <TableBody>
+                  <TableRow>
+                    <TableCell className={classes.coinImage} align="left">
+                      <img src={coins?.coin_image} />
+                    </TableCell>
+                    <TableCell align="left" className={classes.name}>
+                      {coins?.coin_symbol.toUpperCase()}
+                    </TableCell>
 
-                  <TableCell align="left" className={classes.fontsForTable}>
-                    <>
-                      {currentCoinPrice?.toLocaleString("en-US", {
-                        style: "currency",
-                        currency: "USD",
+                    <TableCell align="left" className={classes.fontsForTable}>
+                      <>
+                        {currentCoinPrice?.toLocaleString("en-US", {
+                          style: "currency",
+                          currency: "USD",
+                        })}
+                      </>
+                    </TableCell>
+                    <TableCell align="right" className={classes.fontsForTable}>
+                      {(coins?.amount_owned).toLocaleString({
+                        minimumFractionDigits: 0,
+                        maximumFractionDigits: 8,
                       })}
-                    </>
-                  </TableCell>
-                  <TableCell align="right" className={classes.fontsForTable}>
-                    {(coins?.amount_owned).toLocaleString({
-                      minimumFractionDigits: 0,
-                      maximumFractionDigits: 8,
-                    })}
-                  </TableCell>
-                </TableRow>
-              </TableBody>
-            </Table>
-          </TableContainer>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </div>
         </div>
       ) : (
         ""

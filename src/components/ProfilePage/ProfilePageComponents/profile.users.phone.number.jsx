@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
+
+import "../ProfilePage.css"
 
 // Material-ui Imports
 import TextField from "@material-ui/core/TextField";
 
 import Swal from "sweetalert2";
 
-export const UsersPhoneNumber = () => {
+export const UsersPhoneNumber = ({ useStyles, classes }) => {
   const params = useParams();
 
   // Hey store, we need a profile.
@@ -61,6 +63,8 @@ export const UsersPhoneNumber = () => {
   return (
     <>
       <TextField
+        className={classes.textStyling}
+        fullWidth
         required
         placeholder="Phone Number"
         onClick={handlePhoneNumber}

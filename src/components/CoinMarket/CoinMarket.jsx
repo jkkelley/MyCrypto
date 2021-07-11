@@ -6,10 +6,11 @@ import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import NavDrawer from "../NavDrawer/NavDrawer";
 
-// This is one of our simplest components
-// It doesn't have local state
-// It doesn't dispatch any redux actions or display any part of redux state
-// or even care what the redux state is
+import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
+
+const useStyles = makeStyles({ 
+  
+})
 
 function CoinMarket() {
   //#region useState area

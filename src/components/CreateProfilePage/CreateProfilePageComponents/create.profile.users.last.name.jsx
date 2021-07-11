@@ -1,15 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { useParams } from "react-router-dom";
+
+import "../CreateProfilePage.css";
 
 // Material-ui Imports
 import TextField from "@material-ui/core/TextField";
 
 import Swal from "sweetalert2";
 
-
-export const UsersLastName = () => {
+export const UsersLastName = ({ classes }) => {
   const params = useParams();
 
   // Hey store, we need a profile.
@@ -23,7 +23,7 @@ export const UsersLastName = () => {
     const { value: lastName } = await Swal.fire({
       title: "Last Name",
       input: "text",
-    //   inputValue: formSubmission?.last,
+      //   inputValue: formSubmission?.last,
       showCancelButton: true,
       allowOutsideClick: true,
       allowEnterKey: true,
@@ -41,7 +41,6 @@ export const UsersLastName = () => {
       });
       // Dispatch Users Last name and their id to reducer.
       dispatch({ type: "SET_LAST_NAME_CREATE_PROFILE", payload: lastName });
-
     }
   };
 
@@ -56,6 +55,8 @@ export const UsersLastName = () => {
   return (
     <>
       <TextField
+        className={classes.textStyling}
+        fullWidth
         required
         placeholder="Last Name"
         onChange={handleLastNameChange}

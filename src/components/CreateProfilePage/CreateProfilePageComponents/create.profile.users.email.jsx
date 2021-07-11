@@ -1,12 +1,14 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import "../CreateProfilePage.css";
+
 // Material-ui Imports
 import TextField from "@material-ui/core/TextField";
 
 import Swal from "sweetalert2";
 
-export const UsersEmail = ({setAlertState}) => {
+export const UsersEmail = ({ setAlertState, classes }) => {
   // Hey store, we need formSubmission.
   const formSubmission = useSelector((store) => store.formSubmission);
 
@@ -56,6 +58,8 @@ export const UsersEmail = ({setAlertState}) => {
   return (
     <>
       <TextField
+        className={classes.textStyling}
+        fullWidth
         required
         placeholder="Email"
         onChange={handleEmailChange}

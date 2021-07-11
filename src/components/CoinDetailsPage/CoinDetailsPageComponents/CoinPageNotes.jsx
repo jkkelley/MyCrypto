@@ -17,13 +17,13 @@ import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles({
   root: {
-    width: 380,
+    width: 350,
     // margin: "10 2px",
     margin: "15px 0",
     cursor: {
       hoover: "default",
     },
-    boxShadow:  "0 3px 5px 2px #3f51b5",
+    boxShadow:  "0 3px 5px 2px #6699ff",
   },
   bullet: {
     display: "inline-block",
