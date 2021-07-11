@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams, Redirect, useLocation } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { Redirect} from "react-router-dom";
+import React, { useEffect} from "react";
 
 import "./MyStashPageCSS/MyStashPage.css";
 
@@ -115,12 +115,6 @@ function MyStashPage() {
                 )}
               </p>
             </div>
-
-            {/* PlaceHolder for chart
-          <div>
-            <p>Chart</p>
-            <Line />
-          </div> */}
 
             {/* Component, table to map over user owned coins */}
             <div>

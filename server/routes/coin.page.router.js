@@ -635,20 +635,33 @@ router.get(
           coinGeckoApiReturn.data[0].current_price
         );
         console.log(`coin_current_market_price => `, coin_current_market_price);
+
         const coinPageResponse = await pool.query(getCoinInfoText, [
           Number(req.params.id),
           nameUpper,
         ]);
-        console.log(`coinPageResponse => `, coinPageResponse.rows);
-        amount_owned = Number(coinPageResponse.rows[0].amount_owned);
-        console.log(`amount_owned => `, amount_owned);
-        current_value_of_coins_held = coin_current_market_price * amount_owned;
-        console.log(
-          `current_value_of_coins_held => `,
-          current_value_of_coins_held
-        );
+
         await client.query("COMMIT");
-        res.send([coinPageResponse.rows[0], {valueOfCurrentCoin: current_value_of_coins_held}])
+        if (coinPageResponse.rows[0] === undefined) {
+          res.send([{no_stock: coin_current_market_price}]);
+        } else {
+          console.log(`coinPageResponse => `, coinPageResponse.rows);
+          amount_owned = Number(coinPageResponse.rows[0].amount_owned);
+          console.log(`amount_owned => `, amount_owned);
+          current_value_of_coins_held =
+            coin_current_market_price * amount_owned;
+          console.log(
+            `current_value_of_coins_held => `,
+            current_value_of_coins_held
+          );
+          res.send([
+            coinPageResponse.rows[0],
+            {
+              valueOfCurrentCoin: current_value_of_coins_held,
+              current_price_of_coin: coin_current_market_price,
+            },
+          ]);
+        }
       } catch (error) {
         console.log(
           `Sorry we couldn't get your /coinPageCoinInfo/v2/${req.params.name}/${req.params.id} info`,

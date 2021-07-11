@@ -6,10 +6,8 @@ import "./ChartData.css";
 import { Line, update } from "react-chartjs-2";
 import { marketChartDataReducer } from "../../redux/reducers/market.chart.data.reducer";
 
-function ChartData({ coinName, coinPrice, marketChartStatus }) {
-  const marketChartDataReducer = useSelector(
-    (store) => store.marketChartDataReducer
-  );
+function ChartData({ coinName, coinPrice, marketChartDataReducer }) {
+
   const [chartData, setChartData] = useState({});
   const [coinLabels, setCoinLabels] = useState([
     "23h",
@@ -67,11 +65,10 @@ function ChartData({ coinName, coinPrice, marketChartStatus }) {
     marketChartDataReducer[20],
     marketChartDataReducer[21],
     marketChartDataReducer[22],
-    coinPrice,
+    // coinPrice,
   ]);
 
-  function addData(chart, label, data) {
-    // chart.data.labels.push(label);
+  function addData(chart, data) {
     chart.data.datasets.forEach((dataset) => {
       dataset.data.push(data);
     });
@@ -79,7 +76,6 @@ function ChartData({ coinName, coinPrice, marketChartStatus }) {
   }
 
   function removeData(chart) {
-    // chart.data.labels.pop();
     chart.data.datasets.forEach((dataset) => {
       dataset.data.pop();
     });
@@ -99,24 +95,13 @@ function ChartData({ coinName, coinPrice, marketChartStatus }) {
     });
   };
 
-  console.log(`marketChartDataReducer => `, marketChartDataReducer);
-  // // updateChartData();
   useEffect(() => {
     chart();
-  }, []);
-  // addData(chart, coinLabels, coinPriceData);
+  }, [marketChartDataReducer]);
+
   return (
     <>
-      {/* {!marketChartStatus ? (
-        <p>help</p>
-      ) : (
-        <Line
-          data={chartData}
-          options={{
-            responsive: true,
-          }}
-        />
-      )} */}
+     
       <Line
         data={chartData}
         options={{

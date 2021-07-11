@@ -2,15 +2,12 @@ import Swal from "sweetalert2";
 import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
-function BuyMoreCoinsButton({ useStyles, Button }) {
+function BuyMoreCoinsButton({ classes, Button }) {
   // Bring in dispatch
   const dispatch = useDispatch();
   // Bring in params
   const params = useParams();
   const user = useSelector((store) => store.user);
-
-  // Bring in Custom CSS classes
-  const classes = useStyles();
 
   // Function to validate numbers and one decimal
   function validateCoinAmount(coinAmountToBuy) {

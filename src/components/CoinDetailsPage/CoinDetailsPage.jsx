@@ -6,27 +6,26 @@ import "./CoinDetailsPageCSS/CoinDetailsPage.css";
 import axios from "axios";
 
 // Components import Area
-import BuyCoinButton from "./CoinDetailsPageComponents/BuyCoinButton";
-import BuyMoreCoinsButton from "./CoinDetailsPageComponents/BuyMoreCoinsButton";
 import ChartData from "../ChartData/ChartData";
 import CoinCardDetails from "./CoinDetailsPageComponents/CoinCardDetails";
+import CoinPageButtonOptions from "./CoinDetailsPageComponents/CoinPageButtonOptions";
 import CoinPageNotes from "./CoinDetailsPageComponents/CoinPageNotes";
-import DeleteCoinButton from "./CoinDetailsPageComponents/DeleteCoinButton";
 import NavDrawer from "../NavDrawer/NavDrawer";
 import NotesFromServer from "./CoinDetailsPageComponents/NotesFromServer";
-import SellCoinButton from "./CoinDetailsPageComponents/SellCoinButton";
+import PriceOfCoin from "./CoinDetailsPageComponents/PriceOfCoin";
 
 // Material-ui Imports
-import { makeStyles } from "@material-ui/core/styles";
 import { Button, Grid } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Paper from "@material-ui/core/Paper";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
+import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
   table: {
@@ -99,7 +98,6 @@ const useStyles = makeStyles((theme) => ({
 
 function CoinDetailsPage({ coins }) {
   const classes = useStyles();
-  // const classes = useStyles2();
   // We need to bring the store in.
   const profileData = useSelector((store) => store.profileData);
   const user = useSelector((store) => store.user);
@@ -109,8 +107,6 @@ function CoinDetailsPage({ coins }) {
     (store) => store.marketChartDataReducer
   );
   const marketChartStatus = useSelector((store) => store.marketChartStatus);
-  // console.log(`marketChartDataReducer => `, marketChartDataReducer)
-
   const currentUserLocationReducer = useSelector(
     (store) => store.currentUserLocationReducer
   );
@@ -120,257 +116,105 @@ function CoinDetailsPage({ coins }) {
   const location = useLocation();
 
   // State Holding Area
-  // Set our coin info from coingecko api
-  const [coinsFromGecko, setCoinsFromGecko] = useState([]);
-  const [amountUndefined, setAmountUndefined] = useState(false);
-  const [amountOwned, setAmountOwned] = useState(
-    coinInfoReducer[0]?.amount_owned?.crypto_name
-  );
   const [loadingData, setLoadingData] = useState(false);
-  const [chartData, setChartData] = useState({});
 
   // Bring in params
   const params = useParams();
 
-  // Bring in useHistory
-  const history = useHistory();
   // Bring in dispatch
   const dispatch = useDispatch();
 
-  useEffect(async () => {
-    try {
-      await axios
-        .get(
-          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${params.id}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
-        )
-        .then(async (response) => {
-          setCoinsFromGecko(response.data);
-          setAmountUndefined(true);
-          dispatch({
-            type: "FETCH_MARKET_CHART_DATA",
-            payload: params.id,
-          });
-          dispatch({
-            type: "FETCH_COIN_INFO2",
-            payload: { id: user.id, crypto_name: params.id },
-          });
-        })
-        .catch((error) => {
-          console.log(`Ohh No, coingecko failed me! ${error}`);
-        });
-      // await marketChartDataReducer;
-    } catch (error) {
-      console.log(`Error`);
-    } finally {
-      setLoadingData(!loadingData);
-      console.log("marketChartDataReducer =>", marketChartDataReducer);
-    }
+  useEffect(() => {
+    dispatch({
+      type: "FETCH_COIN_INFO3",
+      payload: { id: user.id, crypto_name: params.id },
+    });
   }, []);
 
-  const handleAsyncIssues = () => {
-    if (coinInfoReducer.value_of_amount_owned == undefined) {
-      // console.log(`It was undefined`);
-      setAmountUndefined(false);
-    } else {
-      setAmountUndefined(true);
-    }
-  };
-
-  const handleCoinReducerIssues = () => {
-    if (coinInfoReducer.amount_owned == undefined) {
-      setAmountOwned(false);
-    } else {
-      setAmountOwned(true);
-    }
-  };
   useEffect(() => {
-    handleCoinReducerIssues();
-    handleAsyncIssues();
-  });
+    dispatch({ type: "FETCH_MARKET_CHART_DATA", payload: params.id });
+  }, []);
 
   useEffect(() => {
     // Dispatch Location reducer current location
     dispatch({ type: "CURRENT_USER_LOCATION", payload: location.pathname });
-  }, [chartData]);
+  }, []);
 
-  if (!marketChartStatus && !marketChartDataReducer) {
-    return "Loading...";
-  } else {
-    return (
-      <>
-        {!profileData.length ? (
-          <Redirect to="/createProfile" />
-        ) : (
-          <div className="coin-page-container">
-            <NavDrawer props={true} />
-
-            <div className="coin-page-details-container">
-              <h2>Coin Details Page</h2>
-              <div className="account-balance-container">
-                <h5>User Balance</h5>
-                <p>
-                  {Number(profileData[0]?.account_balance).toLocaleString(
-                    "en-US",
-                    {
-                      style: "currency",
-                      currency: "USD",
-                    }
-                  )}
-                </p>
+  return (
+    <>
+      {!profileData.length ? (
+        <Redirect to="/createProfile" />
+      ) : (
+        <>
+          {!coinInfoReducer[0] && !marketChartDataReducer[0] ? (
+            <CircularProgress className={classes.loadingStill} />
+          ) : (
+            <>
+              <div className="coin-page-container">
+                <NavDrawer props={true} />
+                <div className="coin-page-details-container">
+                  <h2>Coin Details Page</h2>
+                  <div className="account-balance-container">
+                    <h5>User Balance</h5>
+                    <p>
+                      {Number(profileData[0]?.account_balance).toLocaleString(
+                        "en-US",
+                        {
+                          style: "currency",
+                          currency: "USD",
+                        }
+                      )}
+                    </p>
+                  </div>
+                </div>
               </div>
 
-              <div className="account-balance-container">
-                {/* Name of coin and current price on page load. */}
-                <h3>{coinsFromGecko[0]?.name}</h3>
-                <p>
-                  {coinsFromGecko[0]?.current_price.toLocaleString("en-US", {
-                    style: "currency",
-                    currency: "USD",
-                  })}
-                </p>
-              </div>
-
-              {/* {!chartData ? (
+              {coinInfoReducer[0][0]?.no_stock ? (
                 <>
-                  <p>Loading...</p>
+                  <Grid>
+                    <Typography>{params.id.toUpperCase()}</Typography>
+                    {coinInfoReducer[0][0]?.no_stock}
+                  </Grid>
                 </>
+              ) : !coinInfoReducer[0][1]?.current_price_of_coin ? (
+                <CircularProgress className={classes.loadingStill} />
+              ) : (
+                <PriceOfCoin
+                  classes={classes}
+                  coinName={params.id}
+                  coinInfoReducer={coinInfoReducer}
+                />
+              )}
+
+              {!marketChartDataReducer[0] ? (
+                <CircularProgress className={classes.loadingStill} />
               ) : (
                 <div>
                   <ChartData
-                    // currentPrice={coinsFromGecko}
                     coinName={params.id}
-                    // marketChartDataReducer={marketChartDataReducer}
-                    // loadingData={loadingData}
-                    coinPrice={coinsFromGecko[0]?.current_price}
-                    chartData={chartData}
+                    marketChartDataReducer={marketChartDataReducer}
                     marketChartStatus={marketChartStatus}
                   />
                 </div>
-              )} */}
-
-              {/* If the User doesn't own any coins, disable user coin section */}
-              <div className="buy-sell-delete-options-container">
-                <>
-                  {!amountOwned ? (
-                    <BuyCoinButton
-                      useStyles={useStyles}
-                      Button={Button}
-                      coinsFromGecko={coinsFromGecko}
-                    />
-                  ) : (
-                    <>
-                      <Grid className={classes.buySellDeleteBtn}>
-                        {/* User Coin Section */}
-                        <BuyMoreCoinsButton
-                          Button={Button}
-                          useStyles={useStyles}
-                        />
-                        <SellCoinButton useStyles={useStyles} Button={Button} />
-                        <DeleteCoinButton
-                          coins={coins}
-                          useStyles={useStyles}
-                          Button={Button}
-                        />
-                      </Grid>
-                    </>
-                  )}
-                  {errorMessageReducer.message ? (
-                    <>
-                      <div>
-                        {/* {handleErrorMessage} */}
-                        <p>{errorMessageReducer.message}</p>
-                      </div>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </>
-              </div>
-
-              {coinInfoReducer &&
-              coinInfoReducer.amount_owned &&
-              !errorMessageReducer.message ? (
-                <>
-                  {!coinInfoReducer?.value_of_amount_owned &&
-                  !coinInfoReducer?.amount_owned[0]?.amount_owned ? (
-                    <CircularProgress className={classes.loadingStill} />
-                  ) : (
-                    <TableContainer className={classes.table} component={Paper}>
-                      <Table aria-label="simple table">
-                        <TableBody>
-                          <TableRow>
-                            <TableCell flexGrow={1} className={classes.name}>
-                              {coinsFromGecko[0]?.name}
-                            </TableCell>
-
-                            <TableCell
-                              className={classes.valueCoin}
-                              justifyContent="flex-end"
-                              align="right"
-                            >
-                              {coinInfoReducer?.value_of_amount_owned?.toLocaleString(
-                                "en-US",
-                                {
-                                  style: "currency",
-                                  currency: "USD",
-                                }
-                              )}
-                            </TableCell>
-                            <TableCell
-                              border={0}
-                              className={classes.amountCoin}
-                              justifyContent="flex-end"
-                              align="right"
-                            >
-                              {coinInfoReducer?.amount_owned[0]?.amount_owned?.toLocaleString(
-                                {
-                                  minimumFractionDigits: 0,
-                                  maximumFractionDigits: 8,
-                                }
-                              )}
-                            </TableCell>
-                          </TableRow>
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  )}
-                </>
-              ) : (
-                <TableContainer component={Paper} className={classes.table}>
-                  <Table aria-label="simple table">
-                    <TableBody>
-                      <TableRow>
-                        <TableCell flexGrow={1} className={classes.name}>
-                          {coinsFromGecko[0]?.name}
-                        </TableCell>
-
-                        <TableCell
-                          className={classes.valueCoin}
-                          justifyContent="flex-end"
-                          align="right"
-                        >
-                          {<div>$0.00</div>}
-                        </TableCell>
-                        <TableCell
-                          className={classes.amountCoin}
-                          justifyContent="flex-end"
-                          align="right"
-                        >
-                          {<div>0</div>}
-                        </TableCell>
-                      </TableRow>
-                    </TableBody>
-                  </Table>
-                </TableContainer>
               )}
 
-              {/* If user doesn't own any coins, don't display Notes section */}
-              {!amountOwned ? (
-                <p></p>
+              <CoinPageButtonOptions
+                Button={Button}
+                classes={classes}
+                coinInfoReducer={coinInfoReducer}
+                coins={coins}
+                errorMessageReducer={coins}
+              />
+
+              {!coinInfoReducer[0] ? (
+                ""
               ) : (
                 <>
                   <div className="notes-container">
-                    <NotesFromServer useStyles={useStyles} />
+                    <NotesFromServer
+                      classes={classes}
+                      coinInfoReducer={coinInfoReducer}
+                    />
                   </div>
 
                   <div className="notes-from-server">
@@ -386,12 +230,12 @@ function CoinDetailsPage({ coins }) {
                   </div>
                 </>
               )}
-            </div>
-          </div>
-        )}
-      </>
-    );
-  }
+            </>
+          )}
+        </>
+      )}
+    </>
+  );
 }
 
 export default CoinDetailsPage;

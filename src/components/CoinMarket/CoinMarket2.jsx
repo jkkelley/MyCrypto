@@ -2,7 +2,7 @@ import "./CoinMarket.css";
 
 import React from "react";
 import { useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector  } from "react-redux";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -20,9 +20,9 @@ const useStyles = makeStyles({
     boxShadow: "0 1px 2px 1px #3f51b5",
     marginBottom: {
       "&:last-child": {
-        marginBottom: "20px"
-      }
-    }
+        marginBottom: "20px",
+      },
+    },
   },
   image: {
     height: 25,
@@ -59,16 +59,22 @@ function CoinMarket2({ coins, name, price }) {
   const history = useHistory();
   // Custom CSS classes
   const classes = useStyles();
+  const user = useSelector((store) => store.user);
+
   // Function to handle going to /coinDetails/:id
   const handleCoinClick = (coins) => {
     console.log(`You clicked handleCoinClick.`);
     console.log(coins);
-    dispatch({
-      type: "CLEAR_COIN_INFO",
-      type: "CLEAR_FORM_SUBMISSION",
-      type: "COIN_CLICK_INFO_PAGE_2",
-      payload: coins,
-    });
+    // dispatch({
+    //   type: "CLEAR_COIN_INFO",
+    //   type: "CLEAR_FORM_SUBMISSION",
+    //   type: "COIN_CLICK_INFO_PAGE_2",
+    //   payload: coins,
+    // });
+    // dispatch({
+    //   type: "FETCH_COIN_INFO3",
+    //   payload: { crypto_name: coins.id, id: user.id },
+    // });
     history.push(`/coinDetails/${coins.id}`);
   };
   return (
