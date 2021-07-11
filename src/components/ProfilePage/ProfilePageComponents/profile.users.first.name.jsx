@@ -1,15 +1,16 @@
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import {  useParams } from "react-router-dom";
 
-import { useHistory, useParams } from "react-router-dom";
+import "../ProfilePage.css"
 
 // Material-ui Imports
 import TextField from "@material-ui/core/TextField";
 
 import Swal from "sweetalert2";
 
-
-export const UsersFirstName = () => {
+export const UsersFirstName = ({ useStyles, classes }) => {
+  useStyles();
   const params = useParams();
 
   // Hey store, we need a profile.
@@ -38,10 +39,12 @@ export const UsersFirstName = () => {
         text: `First Name Changed to ${firstName}`,
       });
       // Dispatch Users First name and their id to Saga.
-      dispatch({ type: "UPDATE_PROFILE_PAGE", payload: { id: Number(params.id), first: firstName } });
+      dispatch({
+        type: "UPDATE_PROFILE_PAGE",
+        payload: { id: Number(params.id), first: firstName },
+      });
       // Show Updated name after User changes name.
-      dispatch({type: "GET_CREATE_PROFILE"})
-
+      dispatch({ type: "GET_CREATE_PROFILE" });
     }
   };
   useEffect(() => {
@@ -50,8 +53,10 @@ export const UsersFirstName = () => {
   return (
     <>
       <TextField
+        className={classes.textStyling}
+        fullWidth
         required
-        placeholder="First Name"
+        placeHolder="First Name"
         onClick={handleFirstName}
         value={profileData[0]?.users_first_name}
       />

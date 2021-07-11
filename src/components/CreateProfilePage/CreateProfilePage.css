@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css?family=Exo:400,700");
+
 .create-profile-container {
   width: 95%;
   max-width: 600px;
@@ -42,5 +44,13 @@
 
   .quick-login-button-container {
     margin-left: 325px;
+  }
+
+  .swal2-input {
+    font-family: "Exo", sans-serif;
+  }
+
+  #swal2-title {
+    font-family: "Exo", sans-serif;
   }
 }

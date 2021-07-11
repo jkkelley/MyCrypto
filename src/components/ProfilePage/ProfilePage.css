@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Exo:400,700");
+
 .create-profile-container {
   width: 95%;
   max-width: 850px;
@@ -19,11 +20,27 @@ body {
     justify-items: center;
     justify-content: center;
     width: 350px;
+    font-family: "Exo", sans-serif;
   }
 
   .create-profile-page-form-container {
+    font-family: "Exo", sans-serif;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
+
+  .swal2-input {
+    font-family: "Exo", sans-serif;
+  }
+
+  #swal2-title {
+    font-family: "Exo", sans-serif;
+  }
+
+  .MuiInputBase-input {
+    font-family: "Exo", sans-serif;
+  }
 }
+
+/* font-family: '"Exo", sans-serif', */

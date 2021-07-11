@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams, Redirect } from "react-router-dom";
 
+import "./ProfilePage.css";
+
 // Material-ui Imports
+import { makeStyles, useTheme } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 
 // SweetAlert2
@@ -16,7 +19,27 @@ import { UsersNickName } from "./ProfilePageComponents/profile.users.nickname";
 import { UsersPhoneNumber } from "./ProfilePageComponents/profile.users.phone.number";
 import NavDrawer from "../NavDrawer/NavDrawer";
 
+const useStyles = makeStyles((theme) => ({
+  profilePageWrapper: {
+    margin: "60px auto",
+  },
+  buttonStyling: {
+    backgroundColor: "#3f51b5",
+    color: "white",
+  },
+  textStyling: {
+    margin: "5px auto",
+    fontFamily: '"Exo", sans-serif',
+  },
+  profileForm: {
+    margin: "5px auto",
+  },
+}));
+
 function ProfilePage() {
+  // Custom CSS
+  const classes = useStyles();
+  // Bring in user profileData, gotta keep those lurkers out...
   const profileData = useSelector((store) => store.profileData);
 
   // Bring in params
@@ -68,20 +91,26 @@ function ProfilePage() {
       {!profileData.length ? (
         <Redirect to="/createProfile" />
       ) : (
-        <div className="create-profile-container">
-          <NavDrawer props={true} />
-          <div className="create-form">
-            <p>Profile Page</p>
-            <form className="create-profile-page-form-container">
-              <UsersFirstName />
-              <UsersLastName />
-              <UsersNickName />
-              <UsersEmail />
-              <UsersPhoneNumber />
-              <Button variant="outlined" onClick={handleDeleteProfile}>
+        <div className={classes.profilePageWrapper}>
+          <div className="create-profile-container">
+            <NavDrawer props={true} />
+            <div className="create-form">
+              <h3>Profile Page</h3>
+              <div className={classes.profileForm}>
+                <UsersFirstName useStyles={useStyles} classes={classes} />
+                <UsersLastName useStyles={useStyles} classes={classes} />
+                <UsersNickName useStyles={useStyles} classes={classes} />
+                <UsersEmail useStyles={useStyles} classes={classes} />
+                <UsersPhoneNumber useStyles={useStyles} classes={classes} />
+              </div>
+              <Button
+                className={classes.buttonStyling}
+                variant="outlined"
+                onClick={handleDeleteProfile}
+              >
                 Delete Profile
               </Button>
-            </form>
+            </div>
           </div>
         </div>
       )}

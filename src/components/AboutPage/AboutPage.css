@@ -1,3 +1,16 @@
+@import url("https://fonts.googleapis.com/css?family=Exo:400,700");
+
+html, body {
+  background-color: #e6f7ff;
+  min-height: 100vh;
+}
+
+#react-root {
+  background-color: #e6f7ff;
+  background-size: auto;
+  min-height: 100vh;
+}
+
 .overall-wrapper-about-page {
   width: 95%;
   max-width: 850px;
@@ -14,9 +27,13 @@
     justify-content: center;
     width: 385px;
     text-align: center;
+    font-family: "Exo", sans-serif;
   }
 
-  li.MuiListItem-root.MuiListItem-gutters, a:link, a:visited {
+  li.MuiListItem-root.MuiListItem-gutters,
+  a:link,
+  a:visited {
+    font-family: "Exo", sans-serif;
     width: 250px;
     text-align: center;
     justify-content: space-around;
@@ -32,6 +49,7 @@
   }
 
   .tech-used-container {
+    font-family: "Exo", sans-serif;
     font-size: 20px;
     text-decoration: none;
     color: blue;

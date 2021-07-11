@@ -1,14 +1,15 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-
 import { useParams } from "react-router-dom";
+
+import "../CreateProfilePage.css";
 
 // Material-ui Imports
 import TextField from "@material-ui/core/TextField";
 
 import Swal from "sweetalert2";
 
-export const UsersFirstName = () => {
+export const UsersFirstName = ({ classes }) => {
   const params = useParams();
 
   // Hey store, we need a profile.
@@ -54,6 +55,8 @@ export const UsersFirstName = () => {
   return (
     <>
       <TextField
+        className={classes.textStyling}
+        fullWidth
         required
         placeholder="First Name"
         onClick={handleFirstName}

@@ -29,29 +29,9 @@ import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
 
 const useStyles = makeStyles((theme) => ({
-  // root1: {
-  //   background: "linear-gradient(45deg, #003366 30%, #FF8E53 90%)",
-  //   border: 0,
-  //   borderRadius: 3,
-  //   boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-  //   color: "white",
-  //   height: 30,
-  //   width: 50,
-  //   padding: "0 30px",
-  // },
-  // root2: {
-  //   background: "linear-gradient(45deg, #FF8E53 30%, #003366 90%)",
-  //   border: 0,
-  //   borderRadius: 3,
-  //   boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
-  //   color: "white",
-  //   height: 30,
-  //   width: 50,
-  //   padding: "0 30px",
-  // },
   table: {
     width: 380,
-    boxShadow: "0 3px 5px 2px #3f51b5",
+    boxShadow: "0 1px 2px 1px #3f51b5",
     marginTop: "10px",
     borderColor: "none",
     fontFamily: "'Exo', sans-serif",
