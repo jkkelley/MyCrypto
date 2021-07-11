@@ -9,7 +9,7 @@ const axios = require("axios");
 router.get("/UpdatedAmount/:name/:id", rejectUnauthenticated, (req, res) => {
   console.log(`Got to get coin page`);
   console.log(
-    `/api/CoinPage/UpdatedAmount/:name/:id => Req Params`,
+    `/api/CoinPage//UpdatedAmount/${req.params.name}/${req.params.id} => Req Params`,
     req.params
   );
   const queryText = `
@@ -17,22 +17,26 @@ router.get("/UpdatedAmount/:name/:id", rejectUnauthenticated, (req, res) => {
     WHERE user_profile_id=$1 and crypto_name=$2;
     `;
   const nameUpper = req.params.name.toUpperCase();
-  console.log(nameUpper);
+
   let amount_owned = 0;
-  let name = "";
   let coin_current_market_price = 0;
   if (req.isAuthenticated) {
+    try {
+    } catch (error) {
+      console.log(
+        `Sorry we couldn't complete you're request at /UpdatedAmount/${req.params.name}/${req.params.id}`
+      );
+    } finally {
+    }
     pool
       .query(queryText, [Number(req.params.id), nameUpper])
       .then((results) => {
         // Set amount_owned and name from server to our variable
         amount_owned = Number(results.rows[0].amount_owned);
-        name = results.rows[0].crypto_name.toLowerCase();
-        console.log(name);
         // Need axios to go to coingecko and fetch coin data
         axios
           .get(
-            `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${name}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+            `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${req.params.name}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
           )
           .then((response) => {
             // Set the current price of the coin to our variable
@@ -574,10 +578,6 @@ router.post("/Buy2/:name/:id", rejectUnauthenticated, async (req, res) => {
           Number(purchasePriceAmount).toFixed(2),
           req.body.id,
         ]);
-        // console.log(
-        //   `responseUserProfileBalance =>`,
-        //   responseUserProfileBalance.data
-        // );
         const responseCoinPage = await pool.query(queryPostText, [
           nameUpper,
           Number(req.body.amount),
@@ -593,7 +593,7 @@ router.post("/Buy2/:name/:id", rejectUnauthenticated, async (req, res) => {
       console.log(`We couldn't buy you're coins for you`, error);
       res.sendStatus(500);
     } finally {
-      console.log(`We're done buying this coin!`)
+      console.log(`We're done buying this coin!`);
       client.release();
     }
   } else {
@@ -606,12 +606,56 @@ router.get(
   "/coinPageCoinInfo/v2/:name/:id",
   rejectUnauthenticated,
   async (req, res) => {
-    console.log(`/coinPageCoinInfo/v2/:name/:id`);
+    console.log(
+      `/coinPageCoinInfo/v2/${req.params.name}/${req.params.id} =>`,
+      req.params
+    );
+    const client = await pool.connect();
+    // Database name stored Upper
+    const nameUpper = req.params.name.toUpperCase();
+    // Variables to hold current price of coin from api and
+    // amount owned from coin_page database table
+    let coin_current_market_price = 0;
+    let amount_owned = 0;
+    // Value of coin coin_current_market_price * amount_owned
+    let current_value_of_coins_held = 0;
+    // Query Area for DB
+    const getCoinInfoText = `
+    SELECT * FROM coin_page
+    WHERE user_profile_id=$1 and crypto_name=$2;
+    `;
+
     if (req.isAuthenticated) {
       try {
+        await client.query("BEGIN");
+        const coinGeckoApiReturn = await axios.get(
+          `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${req.params.name}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
+        );
+        coin_current_market_price = Number(
+          coinGeckoApiReturn.data[0].current_price
+        );
+        console.log(`coin_current_market_price => `, coin_current_market_price);
+        const coinPageResponse = await pool.query(getCoinInfoText, [
+          Number(req.params.id),
+          nameUpper,
+        ]);
+        console.log(`coinPageResponse => `, coinPageResponse.rows);
+        amount_owned = Number(coinPageResponse.rows[0].amount_owned);
+        console.log(`amount_owned => `, amount_owned);
+        current_value_of_coins_held = coin_current_market_price * amount_owned;
+        console.log(
+          `current_value_of_coins_held => `,
+          current_value_of_coins_held
+        );
+        await client.query("COMMIT");
+        res.send([coinPageResponse.rows[0], {valueOfCurrentCoin: current_value_of_coins_held}])
       } catch (error) {
-        console.log(``);
+        console.log(
+          `Sorry we couldn't get your /coinPageCoinInfo/v2/${req.params.name}/${req.params.id} info`,
+          error
+        );
       } finally {
+        client.release();
       }
     } else {
       // Forbidden
@@ -629,6 +673,19 @@ router.get(
       req.params
     );
 
+    console.log(`Got to get coin page`);
+    console.log(
+      `/api/CoinPage//UpdatedAmount/${req.params.name}/${req.params.id} => Req Params`,
+      req.params
+    );
+    const queryText = `
+    SELECT * FROM coin_page
+    WHERE user_profile_id=$1 and crypto_name=$2;
+    `;
+    const nameUpper = req.params.name.toUpperCase();
+
+    let amount_owned = 0;
+    let coin_current_market_price = 0;
     if (req.isAuthenticated) {
       try {
       } catch (error) {
