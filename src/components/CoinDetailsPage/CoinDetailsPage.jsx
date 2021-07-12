@@ -7,7 +7,8 @@ import axios from "axios";
 
 // Components import Area
 import ChartData from "../ChartData/ChartData";
-import CoinCardDetails from "./CoinDetailsPageComponents/CoinCardDetails";
+import CoinDetailsCard from "./CoinDetailsPageComponents/CoinDetailsCard";
+// import CoinCardDetails from "./CoinDetailsPageComponents/CoinCardDetails";
 import CoinPageButtonOptions from "./CoinDetailsPageComponents/CoinPageButtonOptions";
 import CoinPageNotes from "./CoinDetailsPageComponents/CoinPageNotes";
 import NavDrawer from "../NavDrawer/NavDrawer";
@@ -146,8 +147,9 @@ function CoinDetailsPage({ coins }) {
         <Redirect to="/createProfile" />
       ) : (
         <>
-          {coinInfoReducer[0] === undefined &&
-          marketChartDataReducer[0] === undefined ? (
+          {coinInfoReducer[0] == undefined ||
+          user.id == undefined ||
+          marketChartDataReducer[0] == undefined ? (
             <CircularProgress className={classes.loadingStill} />
           ) : (
             <>
@@ -174,7 +176,12 @@ function CoinDetailsPage({ coins }) {
                 <>
                   <Grid>
                     <Typography>{params.id.toUpperCase()}</Typography>
-                    <Typography>{coinInfoReducer[0][0]?.no_stock}</Typography>
+                    <Typography>
+                      {coinInfoReducer[0][0]?.no_stock.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </Typography>
                   </Grid>
                 </>
               ) : !coinInfoReducer[0][1]?.current_price_of_coin ? (
@@ -187,7 +194,7 @@ function CoinDetailsPage({ coins }) {
                 />
               )}
 
-              {!marketChartDataReducer[0] ? (
+              {marketChartDataReducer === undefined ? (
                 <CircularProgress className={classes.loadingStill} />
               ) : (
                 <div>
@@ -199,22 +206,27 @@ function CoinDetailsPage({ coins }) {
                 </div>
               )}
 
-              <div className="buy-sell-delete-options-container">
-                <CoinPageButtonOptions
-                  Button={Button}
+              <CoinPageButtonOptions
+                Button={Button}
+                classes={classes}
+                coinInfoReducer={coinInfoReducer}
+                coins={coins}
+                errorMessageReducer={coins}
+              />
+
+              <div className="coin-details-container-1-2">
+                <CoinDetailsCard
                   classes={classes}
                   coinInfoReducer={coinInfoReducer}
-                  coins={coins}
-                  errorMessageReducer={coins}
+                  coinName={params.id}
                 />
               </div>
 
-              
-
-              {!coinInfoReducer[0] ? (
+              {coinInfoReducer[0][0]?.id === undefined && !coinNotes[0] ? (
                 ""
               ) : (
                 <>
+                  {/* <CircularProgress className={classes.loadingStill} /> */}
                   <div className="notes-container">
                     <NotesFromServer
                       classes={classes}
@@ -226,6 +238,7 @@ function CoinDetailsPage({ coins }) {
                     {coinNotes?.map((notes, index) => {
                       return (
                         <CoinPageNotes
+                          coinInfoReducer={coinInfoReducer}
                           key={index}
                           index={index}
                           notes={notes}

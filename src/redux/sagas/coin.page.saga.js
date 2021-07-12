@@ -76,6 +76,14 @@ function* getCoinInfo3(action) {
       type: "SET_ACCOUNT_COIN_AMOUNT",
       payload: coin_page_coin_info.data,
     });
+
+    yield put({
+      type: "FETCH_COIN_NOTE",
+      payload: {
+        crypto_name: action.payload.crypto_name,
+        id: coin_page_coin_info.data[0].id,
+      },
+    });
   } catch (error) {
     console.log(`Sorry we had a problem with GET coin info`, error);
   }
@@ -88,8 +96,6 @@ function* postAmountToBuy(action) {
     amount: action.payload.amount,
     crypto_name: action.payload.crypto_name,
     id: action.payload.id,
-    coin_symbol: action.payload.coin_symbol,
-    coin_image: action.payload.coin_image,
   };
   try {
     // const response = yield axios.post(
@@ -114,7 +120,7 @@ function* postAmountToBuy(action) {
       yield put({ type: "SET_ACCOUNT_COIN_AMOUNT", payload: response.data });
       console.log(`data set, whats fetch coin doing now?`);
       yield put({
-        type: "FETCH_COIN_INFO2",
+        type: "FETCH_COIN_INFO3",
         payload: data,
       });
       // yield put({ type: "GET_COIN_INFO_REDUCER" });
@@ -141,14 +147,14 @@ function* sellCoinAmount(action) {
   };
   try {
     yield axios.put(
-      `/api/CoinPage/sellCoin/${action.payload.crypto_name}/${action.payload.id}`,
+      `/api/CoinPage/sellCoin/v2/${action.payload.crypto_name}/${action.payload.id}`,
       data
     );
-    yield put({ type: "FETCH_COIN_INFO2", payload: action.payload });
+    yield put({ type: "FETCH_COIN_INFO3", payload: action.payload });
     // Updates users coin info
-    yield put({ type: "UPDATE_COIN_INFO", payload: action.payload });
+    // yield put({ type: "UPDATE_COIN_INFO", payload: action.payload });
     // Show updated account_balance by GET request dispatch.
-    yield put({ type: "GET_CREATE_PROFILE" });
+    yield put({ type: "GET_CREATE_PROFILE" })
   } catch (error) {
     console.log(`We had an error Selling that coin amount`, error);
   }
@@ -198,8 +204,8 @@ function* coinPageSaga() {
   // yield takeEvery("FETCH_COIN_INFO", getCoinInfo);
   yield takeLatest("FETCH_COIN_INFO2", getCoinInfo2);
 
-  yield takeLatest("FETCH_COIN_INFO3", getCoinInfo3)
-  
+  yield takeLatest("FETCH_COIN_INFO3", getCoinInfo3);
+
   yield takeLatest("UPDATE_COIN_AMOUNT", updateCoinAmount);
   yield takeLatest("POST_COIN_AMOUNT", postAmountToBuy);
   yield takeLatest("SELL_COIN_AMOUNT", sellCoinAmount);
