@@ -1,6 +1,7 @@
 @import url("https://fonts.googleapis.com/css?family=Exo:400,700");
 
-html, body {
+html,
+body {
   background-color: #e6f7ff;
   min-height: 100vh;
 }
@@ -53,5 +54,11 @@ html, body {
     font-size: 20px;
     text-decoration: none;
     color: blue;
+  }
+
+  .footer-container {
+    margin-top: 390px;
+    margin-left: 143px;
+    position: fixed;
   }
 }

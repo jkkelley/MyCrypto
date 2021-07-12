@@ -14,7 +14,7 @@ function CoinPageButtonOptions({
 }) {
   return (
     <>
-      {!coinInfoReducer[0] ? (
+      {coinInfoReducer[0][1] === undefined ? (
         <BuyCoinButton Button={Button} classes={classes} />
       ) : (
         <>

@@ -50,11 +50,15 @@ router.get("/v1/:name/:id", rejectUnauthenticated, async (req, res) => {
     `;
     const nameUpper = req.params.name.toUpperCase();
     try {
-      const getFromServer = await pool.query(queryGetText, [
-        Number(req.params.id),
-      ]);
-      // console.log(getFromServer.rows);
-      await res.send(getFromServer.rows);
+      if (req.params.id !== "NaN") {
+        const getFromServer = await pool.query(queryGetText, [
+          Number(req.params.id),
+        ]);
+        // console.log(getFromServer.rows);
+        await res.send(getFromServer.rows);
+      } else {
+        res.send([-1]);
+      }
     } catch (error) {
       console.log(`We had a problem GETTING your notes`, error);
       res.sendStatus(500);

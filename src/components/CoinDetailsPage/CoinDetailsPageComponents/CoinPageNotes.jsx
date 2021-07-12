@@ -40,9 +40,9 @@ const useStyles = makeStyles({
   },
 });
 
-function CoinPageNotes({ notes, index }) {
+function CoinPageNotes({ notes, index, coinInfoReducer }) {
   const classes = useStyles();
-  const coinInfoReducer = useSelector((store) => store.coinInfoReducer);
+  // const coinInfoReducer = useSelector((store) => store.coinInfoReducer);
   console.log(`Notes page => `, notes);
   console.log(`index page => `, index);
   const coinNotes = useSelector((store) => store.coinNotes);
@@ -85,8 +85,8 @@ function CoinPageNotes({ notes, index }) {
         dispatch({
           type: "UPDATE_COIN_NOTE",
           payload: {
-            coin_page_id: coinInfoReducer?.amount_owned[0]?.id,
-            id: coinInfoReducer?.amount_owned[0]?.id,
+            coin_page_id: coinInfoReducer[0][0]?.id,
+            id: user.id,
             updated_note: result.value,
             notes_id: notes.notes_id,
             crypto_name: params.id,
@@ -97,10 +97,10 @@ function CoinPageNotes({ notes, index }) {
         dispatch({
           type: "DELETE_COIN_NOTE",
           payload: {
-            id: coinInfoReducer?.amount_owned[0]?.id,
+            id: user.id,
             notes_id: notes.notes_id,
             crypto_name: params.id,
-            coin_page_id: coinInfoReducer?.amount_owned[0]?.id,
+            coin_page_id: coinInfoReducer[0][0]?.id,
           },
         });
       }

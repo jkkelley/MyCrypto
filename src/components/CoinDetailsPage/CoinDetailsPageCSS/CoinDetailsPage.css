@@ -1,10 +1,10 @@
-@import url('https://fonts.googleapis.com/css?family=Exo:400,700');
+@import url("https://fonts.googleapis.com/css?family=Exo:400,700");
 
 .coin-page-container {
   width: 95%;
   max-width: 850px;
   margin: 0 auto;
-  font-family: 'Exo', sans-serif;
+  font-family: "Exo", sans-serif;
 }
 
 @media (max-width: 414px) {
@@ -16,7 +16,6 @@
     justify-items: center;
     justify-content: center;
     width: 385px;
-    
   }
 
   .buy-sell-delete-options-container {
@@ -48,7 +47,12 @@
   .notes-from-server:hover {
     cursor: -webkit-grab;
   }
-  
+/* 
+  .coin-details-container-1-2 {
+    margin-top: 15px auto 0 auto;
+    height: 100px;
+    width: 350px;
+  } */
 }
 
 .value-of-amount-owned-cell {
