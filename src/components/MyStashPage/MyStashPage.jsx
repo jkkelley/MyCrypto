@@ -122,6 +122,7 @@ function MyStashPage() {
                 <MyStashCoinsTable coins={coins} key={coins.id} />
               ))}
             </div>
+            <div className="hide-this">Hello</div>
           </div>
         )}
       </div>

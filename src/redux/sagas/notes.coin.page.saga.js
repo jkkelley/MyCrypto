@@ -41,7 +41,9 @@ function* updateCoinNote(action) {
       `/api/coinNotes/v1/update/note/${action.payload.name}/${action.payload.id}`,
       action.payload
     );
-    yield put({ type: "FETCH_COIN_NOTE", payload: action.payload });
+    // yield put({ type: "FETCH_COIN_NOTE", payload: action.payload });
+    yield put({type: "FETCH_COIN_NOTE", payload: {crypto_name: action.payload.name, id: action.payload.coin_page_id}})
+    // yield put({type: "FETCH_COIN_INFO3", payload: {id: action.payload.id}})
   } catch (error) {
     console.log(`Couldn't Update your note, sorry`, error);
   }

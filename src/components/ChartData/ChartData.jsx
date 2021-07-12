@@ -14,7 +14,6 @@ function ChartData({
   CircularProgress,
 }) {
   const [chartData, setChartData] = useState({});
- 
 
   function addData(chart, data) {
     chart.data.datasets.forEach((dataset) => {
@@ -99,6 +98,24 @@ function ChartData({
           data={chartData}
           options={{
             responsive: true,
+            scales: {
+              yAxes: [
+                {
+                  gridLines: {
+                    color: "rgba(0, 0, 0, 0)",
+                    display: false,
+                  },
+                },
+              ],
+              xAxes: [
+                {
+                  gridLines: {
+                    color: "rgba(0, 0, 0, 0)",
+                    display: false,
+                  },
+                },
+              ],
+            },
           }}
         />
       )}

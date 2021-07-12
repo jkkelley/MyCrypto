@@ -3,6 +3,8 @@ import { useHistory, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 function DeleteCoinButton({ Button, classes, coins }) {
+  // Bringing in History
+  const history = useHistory()
   // Bring in dispatch
   const dispatch = useDispatch();
   // Bring in params
@@ -35,6 +37,7 @@ function DeleteCoinButton({ Button, classes, coins }) {
           };
           console.log(data);
           dispatch({ type: "DELETE_THIS_COIN", payload: data });
+          history.push("/coinMarket")
         });
       } else {
         return;

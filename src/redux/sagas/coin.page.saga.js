@@ -191,7 +191,8 @@ function* deleteCoin(action) {
     yield axios.delete(`/api/CoinPage/v1/${data.crypto_name}/${data.id}`, data);
     yield put({ type: "CLEAR_COIN_INFO" });
     // // Updates users coin info
-    yield put({ type: "GET_CREATE_PROFILE" });
+    // yield put({ type: "GET_CREATE_PROFILE" });
+    yield ({type: "FETCH_COIN_INFO3", payload: data})
   } catch (error) {
     console.log(`Sorry, we couldn't delete your coin.`, error);
   }

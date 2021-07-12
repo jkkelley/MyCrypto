@@ -19,7 +19,7 @@ router.get("/v1/:id", rejectUnauthenticated, async (req, res) => {
   const queryGetText = `
   SELECT * FROM coin_page
   WHERE user_profile_id=$1
-  ORDER BY id DESC;
+  ORDER BY amount_owned DESC;
   `;
 
   if (req.isAuthenticated) {

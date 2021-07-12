@@ -41,7 +41,9 @@
   }
 
   .notes-from-server {
-    margin-top: 20px;
+    max-width: 380px;
+    margin: 0 auto 50px auto;
+    justify-content: space-around;
   }
 
   .notes-from-server:hover {
@@ -58,9 +60,26 @@
     margin: 0 auto;
     justify-content: space-around;
   }
-  /* .coin-details-container-1-2 {
-    margin-top: 15px auto 0 auto;
-  } */
+  .coin-details-container-1-2 {
+    max-width: 380px;
+    margin: 0 auto 0 auto;
+    padding-left: 13px;
+    justify-content: space-around;
+  }
+
+  .notes-container {
+    max-width: 380px;
+    margin: 0 auto;
+    justify-content: space-around;
+  }
+
+  .notes-from-server:nth-child(even) {
+    padding-left: 13px;
+  }
+
+  .hide-this {
+    color: #e6f7ff;;
+  }
 }
 
 .value-of-amount-owned-cell {

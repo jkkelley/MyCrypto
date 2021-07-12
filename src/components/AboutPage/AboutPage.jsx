@@ -19,6 +19,9 @@ function AboutPage() {
               <h2>List of techs used</h2>
               <div className="tech-used-container">
                 <ListItem>
+                  <a href="https://www.postman.com/"> Postman "The Savior"</a>
+                </ListItem>
+                <ListItem>
                   <a href="https://www.javascript.com/">JavaScript</a>
                 </ListItem>
                 <ListItem>
@@ -36,14 +39,16 @@ function AboutPage() {
                 <ListItem>
                   <a href="https://www.coingecko.com/en">CoinGecko API</a>
                 </ListItem>
+                <ListItem>
+                  <a href="https://www.chartjs.org/">Chartjs</a>
+                </ListItem>
                 <ListItem>And the list goes on...</ListItem>
               </div>
-              
             </div>
           </div>
           <footer className="footer-container">
-                &copy; My<i>Crypto</i>
-              </footer>
+            &copy; My<i>Crypto</i>
+          </footer>
         </div>
       )}
     </>

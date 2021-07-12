@@ -100,6 +100,15 @@ const useStyles = makeStyles((theme) => ({
     width: "375px",
     justifyContent: "space-around",
   },
+  buySellDeleteBtn2: {
+    margin: "10px auto 0 auto",
+    marginTop: 10,
+    backgroundColor: "#3f51b5",
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+    color: "white",
+    display: "flex",
+    justifyContent: "space-around",
+  },
   name2: {
     fontFamily: "'Exo', sans-serif",
     fontSize: 20,
@@ -145,6 +154,10 @@ function CoinDetailsPage({ coins }) {
   useEffect(() => {
     dispatch({ type: "FETCH_MARKET_CHART_DATA", payload: params.id });
   }, []);
+
+  // useEffect(() => {
+  //   dispatch({type: "FETCH_COIN_NOTE", payload: {crypto_name: params.id, id: coinInfoReducer[0][0]?.id }})
+  // }, [])
 
   useEffect(() => {
     // Dispatch Location reducer current location
@@ -261,6 +274,8 @@ function CoinDetailsPage({ coins }) {
                       );
                     })}
                   </div>
+
+                  <div className="hide-this">Hello</div>
                 </>
               )}
             </>
