@@ -104,7 +104,7 @@ function MyStashPage() {
 
             <div className="account-balance-container">
               {/* Account Balance */}
-              <h5>User Balance</h5>
+              <h5>User Account Balance</h5>
               <p>
                 {Number(profileData[0]?.account_balance).toLocaleString(
                   "en-US",
