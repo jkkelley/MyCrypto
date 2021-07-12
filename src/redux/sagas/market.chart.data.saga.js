@@ -12,7 +12,7 @@ function* getMarketChartData(action) {
       type: "SET_MARKET_CHART_DATA",
       payload:  marketChartData.data ,
     });
-    // yield put({ type: "SET_MARKET_CHART_DATA_STATUS", payload: true });
+    yield put({ type: "SET_MARKET_CHART_DATA_STATUS", payload: true });
   } catch (error) {
     console.log(`Sorry we couldn't grab your Chart Data =>`, error);
   }

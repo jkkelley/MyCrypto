@@ -6,41 +6,15 @@ import "./ChartData.css";
 import { Line, update } from "react-chartjs-2";
 import { marketChartDataReducer } from "../../redux/reducers/market.chart.data.reducer";
 
-function ChartData({ coinName, coinPrice, marketChartDataReducer }) {
+function ChartData({
+  classes,
+  coinName,
+  coinPrice,
+  marketChartDataReducer,
+  CircularProgress,
+}) {
   const [chartData, setChartData] = useState({});
-  // const [coinLabels, setCoinLabels] = useState();
-
-  const [coinPriceData, setCoinPriceData] = useState([
-    marketChartDataReducer[0],
-    marketChartDataReducer[1],
-    marketChartDataReducer[2],
-    marketChartDataReducer[3],
-
-    marketChartDataReducer[4],
-    marketChartDataReducer[5],
-    marketChartDataReducer[6],
-    marketChartDataReducer[7],
-
-    marketChartDataReducer[8],
-    marketChartDataReducer[9],
-    marketChartDataReducer[10],
-    marketChartDataReducer[11],
-
-    marketChartDataReducer[12],
-    marketChartDataReducer[13],
-    marketChartDataReducer[14],
-    marketChartDataReducer[15],
-
-    marketChartDataReducer[16],
-    marketChartDataReducer[17],
-    marketChartDataReducer[18],
-    marketChartDataReducer[19],
-
-    marketChartDataReducer[20],
-    marketChartDataReducer[21],
-    marketChartDataReducer[22],
-    coinPrice,
-  ]);
+ 
 
   function addData(chart, data) {
     chart.data.datasets.forEach((dataset) => {
@@ -49,14 +23,7 @@ function ChartData({ coinName, coinPrice, marketChartDataReducer }) {
     chart.update();
   }
 
-  function removeData(chart) {
-    chart.data.datasets.forEach((dataset) => {
-      dataset.data.pop();
-    });
-    chart.update();
-  }
-
-  const chart = () => {
+  const Chart = async () => {
     setChartData({
       labels: [
         "23h",
@@ -88,34 +55,30 @@ function ChartData({ coinName, coinPrice, marketChartDataReducer }) {
         {
           label: `${coinName}`,
           data: [
-            marketChartDataReducer[0],
+            marketChartDataReducer[0][0],
             marketChartDataReducer[1],
             marketChartDataReducer[2],
             marketChartDataReducer[3],
-
             marketChartDataReducer[4],
             marketChartDataReducer[5],
             marketChartDataReducer[6],
             marketChartDataReducer[7],
-
             marketChartDataReducer[8],
             marketChartDataReducer[9],
             marketChartDataReducer[10],
             marketChartDataReducer[11],
-
             marketChartDataReducer[12],
             marketChartDataReducer[13],
             marketChartDataReducer[14],
             marketChartDataReducer[15],
-
             marketChartDataReducer[16],
             marketChartDataReducer[17],
             marketChartDataReducer[18],
             marketChartDataReducer[19],
-
             marketChartDataReducer[20],
             marketChartDataReducer[21],
             marketChartDataReducer[22],
+            coinPrice,
           ],
           backgroundColor: [`rgba(75, 192, 192, 0.6)`],
         },
@@ -124,17 +87,21 @@ function ChartData({ coinName, coinPrice, marketChartDataReducer }) {
   };
 
   useEffect(() => {
-    chart();
-  }, []);
+    Chart();
+  }, [marketChartDataReducer[0][0]]);
 
   return (
     <>
-      <Line
-        data={chartData}
-        options={{
-          responsive: true,
-        }}
-      />
+      {chartData.datasets === undefined ? (
+        <CircularProgress className={classes.loadingStill} />
+      ) : (
+        <Line
+          data={chartData}
+          options={{
+            responsive: true,
+          }}
+        />
+      )}
     </>
   );
 }

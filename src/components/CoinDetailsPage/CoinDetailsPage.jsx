@@ -194,14 +194,16 @@ function CoinDetailsPage({ coins }) {
                 />
               )}
 
-              {marketChartDataReducer === undefined ? (
+              {marketChartDataReducer[0] == undefined ? (
                 <CircularProgress className={classes.loadingStill} />
               ) : (
                 <div>
                   <ChartData
+                  classes={classes}
                     coinName={params.id}
                     marketChartDataReducer={marketChartDataReducer}
                     marketChartStatus={marketChartStatus}
+                    CircularProgress={CircularProgress}
                   />
                 </div>
               )}
