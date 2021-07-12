@@ -201,6 +201,7 @@ function CoinDetailsPage({ coins }) {
                   classes={classes}
                   coinName={params.id}
                   coinInfoReducer={coinInfoReducer}
+                  Typography={Typography}
                 />
               )}
 
