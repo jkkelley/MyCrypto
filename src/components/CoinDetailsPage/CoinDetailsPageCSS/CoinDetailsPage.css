@@ -47,11 +47,19 @@
   .notes-from-server:hover {
     cursor: -webkit-grab;
   }
-/* 
-  .coin-details-container-1-2 {
+
+  .chart-js-dynamic {
+    margin: 0 auto;
+    max-width: 380px;
+  }
+
+  .button-options-coin-page-details {
+    max-width: 380px;
+    margin: 0 auto;
+    justify-content: space-around;
+  }
+  /* .coin-details-container-1-2 {
     margin-top: 15px auto 0 auto;
-    height: 100px;
-    width: 350px;
   } */
 }
 

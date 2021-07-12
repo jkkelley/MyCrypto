@@ -59,7 +59,7 @@ function BuyCoinButton({ Button, classes }) {
   };
   return (
     <>
-      <Button className={classes.notesButton} onClick={handleBuy}>
+      <Button className={classes.buySellDeleteBtn} onClick={handleBuy}>
         Buy
       </Button>
     </>

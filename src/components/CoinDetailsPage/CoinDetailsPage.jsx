@@ -73,6 +73,7 @@ const useStyles = makeStyles((theme) => ({
     boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
     color: "white",
     marginTop: 20,
+    justifyContent: "center",
   },
   loadingStill: {
     display: "flex",
@@ -91,9 +92,18 @@ const useStyles = makeStyles((theme) => ({
     visibility: "hidden",
   },
   buySellDeleteBtn: {
+    marginTop: 10,
+    // backgroundColor: "#3f51b5",
+    // boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+    color: "white",
     display: "flex",
     width: "375px",
     justifyContent: "space-around",
+  },
+  name2: {
+    fontFamily: "'Exo', sans-serif",
+    fontSize: 20,
+    fontWeight: 25,
   },
 }));
 
@@ -175,8 +185,8 @@ function CoinDetailsPage({ coins }) {
               {coinInfoReducer[0][0]?.no_stock ? (
                 <>
                   <Grid>
-                    <Typography>{params.id.toUpperCase()}</Typography>
-                    <Typography>
+                    <Typography className={classes.name2}>{params.id.toUpperCase()}</Typography>
+                    <Typography className={classes.name2}>
                       {coinInfoReducer[0][0]?.no_stock.toLocaleString("en-US", {
                         style: "currency",
                         currency: "USD",
@@ -197,9 +207,9 @@ function CoinDetailsPage({ coins }) {
               {marketChartDataReducer[0] == undefined ? (
                 <CircularProgress className={classes.loadingStill} />
               ) : (
-                <div>
+                <div className="chart-js-dynamic">
                   <ChartData
-                  classes={classes}
+                    classes={classes}
                     coinName={params.id}
                     marketChartDataReducer={marketChartDataReducer}
                     marketChartStatus={marketChartStatus}
@@ -208,13 +218,15 @@ function CoinDetailsPage({ coins }) {
                 </div>
               )}
 
-              <CoinPageButtonOptions
-                Button={Button}
-                classes={classes}
-                coinInfoReducer={coinInfoReducer}
-                coins={coins}
-                errorMessageReducer={coins}
-              />
+              <div className="button-options-coin-page-details">
+                <CoinPageButtonOptions
+                  Button={Button}
+                  classes={classes}
+                  coinInfoReducer={coinInfoReducer}
+                  coins={coins}
+                  errorMessageReducer={coins}
+                />
+              </div>
 
               <div className="coin-details-container-1-2">
                 <CoinDetailsCard
