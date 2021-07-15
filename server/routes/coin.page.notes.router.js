@@ -4,7 +4,6 @@ const router = express.Router();
 const {
   rejectUnauthenticated,
 } = require("../modules/authentication-middleware");
-const axios = require("axios");
 
 router.post("/v1/:name/:id", rejectUnauthenticated, async (req, res) => {
   console.log(req.body);

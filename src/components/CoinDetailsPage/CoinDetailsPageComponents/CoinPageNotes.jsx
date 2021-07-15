@@ -5,8 +5,6 @@ import { useParams } from "react-router-dom";
 import "../CoinDetailsPageCSS/CoinDetailsPage.css";
 
 // Material-ui Imports
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import Swal from "sweetalert2";
 
 import Card from "@material-ui/core/Card";

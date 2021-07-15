@@ -3,15 +3,16 @@ import "./CoinMarket.css";
 import React from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch, useSelector  } from "react-redux";
-import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
+
+// Material-ui imports
+import { makeStyles, } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Paper from "@material-ui/core/Paper";
-import createSpacing from "@material-ui/core/styles/createSpacing";
+
 
 const useStyles = makeStyles({
   table: {
@@ -65,18 +66,12 @@ function CoinMarket2({ coins, name, price }) {
   const handleCoinClick = (coins) => {
     console.log(`You clicked handleCoinClick.`);
     console.log(coins);
-    // dispatch({
-    //   type: "CLEAR_COIN_INFO",
-    //   type: "CLEAR_FORM_SUBMISSION",
-    //   type: "COIN_CLICK_INFO_PAGE_2",
-    //   payload: coins,
-    // });
-    // dispatch({
-    //   type: "FETCH_COIN_INFO3",
-    //   payload: { crypto_name: coins.id, id: user.id },
-    // });
     history.push(`/coinDetails/${coins.id}`);
   };
+
+  // Simple table to show our results from coingecko api.
+  // Name, image, and price of coin.
+
   return (
     <>
       <div className="coin-container">
@@ -89,7 +84,7 @@ function CoinMarket2({ coins, name, price }) {
                     <img src={coins.image} />
                   </TableCell>
                   <TableCell
-                    justifyContent="flex-start"
+                    justifycontent="flex-start"
                     className={classes.coinName}
                     align="left"
                   >

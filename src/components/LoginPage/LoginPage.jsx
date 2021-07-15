@@ -8,18 +8,6 @@ function LoginPage() {
   return (
     <div>
       <LoginForm history={history}/>
-{/*       
-      <center>
-        <button
-          type="button"
-          className="btn btn_asLink"
-          onClick={() => {
-            history.push('/registration');
-          }}
-        >
-          Need to Sign Up?
-        </button>
-      </center> */}
     </div>
   );
 }

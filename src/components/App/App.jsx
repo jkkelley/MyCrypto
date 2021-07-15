@@ -6,14 +6,7 @@ import {
   Switch,
 } from "react-router-dom";
 
-// import createBrowserHistory from 'history/createBrowserHistory'
-// const History101 = createBrowserHistory()
-
 import { useDispatch } from "react-redux";
-// import { useLocation } from "react-router";
-
-import Nav from "../Nav/Nav";
-import Footer from "../Footer/Footer";
 
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 
@@ -29,7 +22,7 @@ import ProfilePage from "../ProfilePage/ProfilePage";
 import RegisterPage from "../RegisterPage/RegisterPage";
 import UserPage from "../UserPage/UserPage";
 import userSaga from "../../redux/sagas/user.saga";
-import { useLocation } from "react-router";
+
 
 import "./App.css";
 

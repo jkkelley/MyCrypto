@@ -18,10 +18,6 @@ router.get("/v1/:coin", rejectUnauthenticated, async (req, res) => {
       const coingeckoMarketChartData = await axios.get(
         `https://api.coingecko.com/api/v3/coins/${req.params.coin}/market_chart?vs_currency=usd&days=2`
       );
-      // await console.log(
-      //   `48 Hours prices [Date.now(), Price]=>`,
-      //   coingeckoMarketChartData.data.prices
-      // );
       await console.log(
         `48 Hours prices slice =>`,
         coingeckoMarketChartData.data.prices.slice(25, -1)

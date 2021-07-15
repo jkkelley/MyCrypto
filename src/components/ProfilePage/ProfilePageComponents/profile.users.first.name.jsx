@@ -56,7 +56,7 @@ export const UsersFirstName = ({ useStyles, classes }) => {
         className={classes.textStyling}
         fullWidth
         required
-        placeHolder="First Name"
+        placeholder="First Name"
         onClick={handleFirstName}
         value={profileData[0]?.users_first_name}
       />

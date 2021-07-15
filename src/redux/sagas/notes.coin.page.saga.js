@@ -42,6 +42,7 @@ function* updateCoinNote(action) {
       action.payload
     );
     yield put({ type: "FETCH_COIN_NOTE", payload: action.payload });
+    yield put({type: "FETCH_COIN_INFO3", payload: action.payload})
   } catch (error) {
     console.log(`Couldn't Update your note, sorry`, error);
   }

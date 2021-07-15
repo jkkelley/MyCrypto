@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 import "./ChartData.css";
 
-import { Line, update } from "react-chartjs-2";
-import { marketChartDataReducer } from "../../redux/reducers/market.chart.data.reducer";
+import { Line } from "react-chartjs-2";
 
 function ChartData({
   classes,
@@ -14,7 +12,8 @@ function ChartData({
   CircularProgress,
 }) {
   const [chartData, setChartData] = useState({});
- 
+
+  console.log(`coinPrice => `, coinPrice)
 
   function addData(chart, data) {
     chart.data.datasets.forEach((dataset) => {

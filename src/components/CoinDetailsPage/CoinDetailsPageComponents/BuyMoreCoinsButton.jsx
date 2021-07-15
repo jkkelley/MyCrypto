@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 
 function BuyMoreCoinsButton({ classes, Button }) {
