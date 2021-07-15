@@ -40,8 +40,21 @@
     cursor: -webkit-grab;
   }
 
+  .coin-notes-container {
+    max-width: 315px;
+    margin: 0 auto;
+  }
+
+  .coin-notes-container:nth-child(even) {
+    margin: 0 auto 0 auto;
+  }
+
+  .coin-notes-container:nth-child(odd) {
+    margin: 0 auto 0 30px;
+  }
+
   .notes-from-server {
-    margin-top: 20px;
+    margin-top: 20px auto 0 100px;
   }
 
   .notes-from-server:hover {
@@ -58,9 +71,23 @@
     margin: 0 auto;
     justify-content: space-around;
   }
-  /* .coin-details-container-1-2 {
-    margin-top: 15px auto 0 auto;
-  } */
+
+  .loading-in-coin-details-page {
+    margin: 350px 187px;
+  }
+
+  .coin-details-container-1-2 {
+    margin: 0 auto 0 30px;
+  }
+
+  .notes-container {
+    margin: 0 auto 0 155px;
+  }
+
+  .hidden-gem {
+    margin-top: 50px;
+    color: #e6f7ff;
+  }
 }
 
 .value-of-amount-owned-cell {

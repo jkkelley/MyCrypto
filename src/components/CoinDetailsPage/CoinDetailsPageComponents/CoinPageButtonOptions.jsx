@@ -31,14 +31,4 @@ function CoinPageButtonOptions({
 
 export default CoinPageButtonOptions;
 
-/**
- *           {errorMessageReducer.message ? (
-            <>
-              <div>
-                <p>{errorMessageReducer.message}</p>
-              </div>
-            </>
-          ) : (
-            ""
-          )}
- */
+

@@ -95,7 +95,7 @@ function LoginForm({ history }) {
                 fullWidth
                 label="Username"
                 onChange={(event) => setUsername(event.target.value)}
-                placeHolder="Enter Username"
+                placeholder="Enter Username"
                 required
                 value={username}
                 variant="outlined"
@@ -106,7 +106,7 @@ function LoginForm({ history }) {
                 label="Password"
                 onChange={(event) => setPassword(event.target.value)}
                 type="password"
-                placeHolder="Enter Password"
+                placeholder="Enter Password"
                 required
                 value={password}
                 variant="outlined"

@@ -65,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
     color: "white",
     marginTop: 20,
     justifyContent: "center",
+    width: 100,
   },
   loadingStill: {
     display: "flex",
@@ -93,6 +94,13 @@ const useStyles = makeStyles((theme) => ({
     fontFamily: "'Exo', sans-serif",
     fontSize: 20,
     fontWeight: 25,
+  },
+  buyButton2: {
+    backgroundColor: "#3f51b5",
+    boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
+    color: "white",
+    marginTop: 20,
+    marginLeft: 160,
   },
 }));
 
@@ -146,7 +154,9 @@ function CoinDetailsPage({ coins }) {
           {coinInfoReducer[0] == undefined ||
           user.id == undefined ||
           marketChartDataReducer[0] == undefined ? (
-            <CircularProgress className={classes.loadingStill} />
+            <div className="loading-in-coin-details-page">
+              <CircularProgress className={classes.loadingStill} />
+            </div>
           ) : (
             <>
               <div className="coin-page-container">
@@ -197,7 +207,7 @@ function CoinDetailsPage({ coins }) {
                 <CircularProgress className={classes.loadingStill} />
               ) : (
                 <div className="chart-js-dynamic">
-                  <ChartData                   
+                  <ChartData
                     classes={classes}
                     coinName={params.id}
                     marketChartDataReducer={marketChartDataReducer}
@@ -238,16 +248,19 @@ function CoinDetailsPage({ coins }) {
                   </div>
 
                   <div className="notes-from-server">
-                    {coinNotes?.map((notes, index) => {
-                      return (
-                        <CoinPageNotes
-                          coinInfoReducer={coinInfoReducer}
-                          key={index}
-                          index={index}
-                          notes={notes}
-                        />
-                      );
-                    })}
+                    <>
+                      {coinNotes?.map((notes, index) => {
+                        return (
+                          <CoinPageNotes
+                            coinInfoReducer={coinInfoReducer}
+                            key={index}
+                            index={index}
+                            notes={notes}
+                          />
+                        );
+                      })}
+                      <div className="hidden-gem">hello</div>
+                    </>
                   </div>
                 </>
               )}

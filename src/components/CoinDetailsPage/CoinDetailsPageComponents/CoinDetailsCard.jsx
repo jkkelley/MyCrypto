@@ -1,4 +1,4 @@
-import { Card, Grid, Paper, Typography, CardContent } from "@material-ui/core";
+import { Card, Paper, CardContent } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -36,12 +36,12 @@ function CoinDetailsCard({ coinInfoReducer, coinName }) {
     <>
       <Card className={classes.root2} variant="outlined">
         <CardContent>
-          <Paper className={classes.coinName} justifyContent="flex-start">
+          <Paper className={classes.coinName} justifycontent="flex-start">
             {coinName.toUpperCase()}
           </Paper>
           {coinInfoReducer[0][1]?.valueOfCurrentCoin === undefined ? (
             <CardContent>
-              <Paper className={classes.amountCoin} justifyContent="flex-end">
+              <Paper className={classes.amountCoin} justifycontent="flex-end">
                 $0.00
               </Paper>
             </CardContent>

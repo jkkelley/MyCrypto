@@ -1,7 +1,6 @@
 import Swal from "sweetalert2";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-// import "./CoinDetailsPageCSS/CoinDetailsPage.css"
 
 function BuyCoinButton({ Button, classes }) {
   // Bring in dispatch
@@ -58,7 +57,7 @@ function BuyCoinButton({ Button, classes }) {
   };
   return (
     <>
-      <Button className={classes.buySellDeleteBtn} onClick={handleBuy}>
+      <Button className={classes.buyButton2} onClick={handleBuy}>
         Buy
       </Button>
     </>

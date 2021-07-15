@@ -73,6 +73,7 @@ function CoinMarket() {
               })}
             </div>
           </div>
+          <div className="hidden-gem">hello</div>
         </div>
       )}
     </>
