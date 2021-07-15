@@ -6,12 +6,6 @@ import { useSelector } from "react-redux";
 import { Redirect } from "react-router-dom";
 import NavDrawer from "../NavDrawer/NavDrawer";
 
-import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
-
-const useStyles = makeStyles({ 
-  
-})
-
 function CoinMarket() {
   //#region useState area
   const [coinsFromGecko, setCoinsFromGecko] = useState([]);
@@ -35,19 +29,17 @@ function CoinMarket() {
   );
 
   //#region useEffect Area
-  useEffect(() => {
-    axios
-      .get(
+  useEffect(async () => {
+    try{
+      // Promise me coingecko that you come back
+      const coinGeckoApiFetch = await axios.get(
         "https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=100&page=1&sparkline=false&price_change_percentage='1h%2C%2024h%2C%207d%2C%2030d%2C%201y'"
-      )
-      .then((response) => {
-        console.log(`coingecko says response`, response.data);
-        setCoinsFromGecko(response.data);
-      })
-      .catch((error) => {
-        console.log(`Ohh No, coingecko failed me! ${error}`);
-        alert(`We've had problem, sorry`);
-      });
+      );
+      // Set our coinGeckoApiFetch api data to local state.
+      setCoinsFromGecko(coinGeckoApiFetch.data);
+    } catch(error) {
+      console.log(`Looks like we're having a problem with coingecko api... `, error)
+    }
   }, []);
 
   return (

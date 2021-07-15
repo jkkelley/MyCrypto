@@ -1,5 +1,5 @@
 import Swal from "sweetalert2";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 // import "./CoinDetailsPageCSS/CoinDetailsPage.css"
 
@@ -27,7 +27,6 @@ function BuyCoinButton({ Button, classes }) {
       title: `${params.id}`,
       input: "text",
       inputValue: "",
-      // inputValue: profileData[0]?.users_first_name,
       confirmButtonText: "Buy",
       showCancelButton: true,
       allowOutsideClick: true,

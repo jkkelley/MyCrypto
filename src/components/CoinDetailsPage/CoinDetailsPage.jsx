@@ -1,14 +1,12 @@
 import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams, Redirect, useLocation } from "react-router-dom";
-import React, { useEffect, useState } from "react";
+import { useParams, Redirect, useLocation } from "react-router-dom";
+import React, { useEffect } from "react";
 
 import "./CoinDetailsPageCSS/CoinDetailsPage.css";
-import axios from "axios";
 
 // Components import Area
 import ChartData from "../ChartData/ChartData";
 import CoinDetailsCard from "./CoinDetailsPageComponents/CoinDetailsCard";
-// import CoinCardDetails from "./CoinDetailsPageComponents/CoinCardDetails";
 import CoinPageButtonOptions from "./CoinDetailsPageComponents/CoinPageButtonOptions";
 import CoinPageNotes from "./CoinDetailsPageComponents/CoinPageNotes";
 import NavDrawer from "../NavDrawer/NavDrawer";
@@ -19,13 +17,6 @@ import PriceOfCoin from "./CoinDetailsPageComponents/PriceOfCoin";
 import { Button, Grid } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import CircularProgress from "@material-ui/core/CircularProgress";
-import Paper from "@material-ui/core/Paper";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
-import TableRow from "@material-ui/core/TableRow";
 import Typography from "@material-ui/core/Typography";
 
 const useStyles = makeStyles((theme) => ({
@@ -93,8 +84,6 @@ const useStyles = makeStyles((theme) => ({
   },
   buySellDeleteBtn: {
     marginTop: 10,
-    // backgroundColor: "#3f51b5",
-    // boxShadow: "0 3px 5px 2px rgba(255, 105, 135, .3)",
     color: "white",
     display: "flex",
     width: "375px",
@@ -123,12 +112,9 @@ function CoinDetailsPage({ coins }) {
   );
 
   const errorMessageReducer = useSelector((store) => store.errorMessageReducer);
+
   // Bring Location in
   const location = useLocation();
-
-  // State Holding Area
-  const [loadingData, setLoadingData] = useState(false);
-
   // Bring in params
   const params = useParams();
 
@@ -185,7 +171,9 @@ function CoinDetailsPage({ coins }) {
               {coinInfoReducer[0][0]?.no_stock ? (
                 <>
                   <Grid>
-                    <Typography className={classes.name2}>{params.id.toUpperCase()}</Typography>
+                    <Typography className={classes.name2}>
+                      {params.id.toUpperCase()}
+                    </Typography>
                     <Typography className={classes.name2}>
                       {coinInfoReducer[0][0]?.no_stock.toLocaleString("en-US", {
                         style: "currency",
@@ -209,7 +197,7 @@ function CoinDetailsPage({ coins }) {
                 <CircularProgress className={classes.loadingStill} />
               ) : (
                 <div className="chart-js-dynamic">
-                  <ChartData
+                  <ChartData                   
                     classes={classes}
                     coinName={params.id}
                     marketChartDataReducer={marketChartDataReducer}

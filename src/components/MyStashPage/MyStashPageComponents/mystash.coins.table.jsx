@@ -1,19 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams, Redirect, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import axios from "axios";
 
 // Material-ui imports
-import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
+import { makeStyles } from "@material-ui/core/styles";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
 import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
-import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import Paper from "@material-ui/core/Paper";
-import createSpacing from "@material-ui/core/styles/createSpacing";
-import { CenterFocusStrong } from "@material-ui/icons";
 
 const useStyles = makeStyles({
   table: {
@@ -62,8 +58,9 @@ function MyStashCoinsTable({ coins }) {
   const classes = useStyles();
   // Local State Area
   const [currentCoinPrice, setCurrentCoinPrice] = useState([]);
-  // Coin name lower
+  // Coin name lower to hit our coingecko api endpoint.
   const nameLower = coins?.crypto_name?.toLowerCase();
+  // Set our value of coin to 0 until coingecko comes back with a price for us.
   let valueOfCoin = 0;
 
   // Function to handle clicking a coin
@@ -71,31 +68,28 @@ function MyStashCoinsTable({ coins }) {
     history.push(`/coinDetails/${nameLower}`);
   };
 
+
   useEffect(async () => {
-    // Grab coin info from coingecko api
-    await axios
-      .get(
+    try {
+      // Ask coingecko for a some info, Promise you'll come back
+      const coinGeckoApiFetch = await axios.get(
         `https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&ids=${nameLower}&order=market_cap_desc&per_page=100&page=1&sparkline=false`
-      )
-      .then(async (response) => {
-        // current_price * amount_owned
-        valueOfCoin =
-          (await Number(coins.amount_owned)) *
-          Number(response?.data[0]?.current_price);
-        await setCurrentCoinPrice(valueOfCoin);
-        try {
-          await dispatch({
-            type: "MY_STASH_VALUE",
-            payload: parseFloat(valueOfCoin),
-          });
-        } catch (error) {
-          console.log(`We caught an error Boss, mystash.coins.table`, error);
-        }
-      })
-      .catch((error) => {
-        console.log(`Ohh No, coingecko failed me! ${error}`);
-        alert(`We've had problem, sorry`);
+      );
+
+      // Set our value of the coin based 
+      valueOfCoin =
+        parseFloat(coins.amount_owned) *
+        parseFloat(coinGeckoApiFetch?.data[0]?.current_price);
+      setCurrentCoinPrice(valueOfCoin);
+      
+      // Tell dispatch we got a payload coming in...
+      dispatch({
+        type: "MY_STASH_VALUE",
+        payload: parseFloat(valueOfCoin),
       });
+    } catch (error) {
+      console.log(`Sorry we problem with coingecko api or ...`, error);
+    }
   }, []);
 
   return (

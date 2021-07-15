@@ -1,16 +1,15 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { useHistory, useParams, Redirect } from "react-router-dom";
+import React from "react";
+import {  useSelector } from "react-redux";
+import {  Redirect } from "react-router-dom";
 
 import NavDrawer from "../NavDrawer/NavDrawer";
 
 import "./HomePageCSS/HomePage.css";
 
-// Material-ui Imports
-import Button from "@material-ui/core/Button";
-
-// SweetAlert2
-import Swal from "sweetalert2";
+/**
+ * All pages are gated behind a user having a profile.
+ * If profile doesn't exist, they get the boot!
+ */
 
 function HomePage() {
   const profileData = useSelector((store) => store.profileData);
